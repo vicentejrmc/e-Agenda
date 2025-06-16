@@ -8,4 +8,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Compartilhado\" />
+    <Folder Include="ModuloCategoria\" />
+    <Folder Include="ModuloContato\" />
+    <Folder Include="ModuloDespesa\" />
+    <Folder Include="ModuloTarefa\" />
+  </ItemGroup>
+
 </Project>

@@ -7,4 +7,10 @@
     <RootNamespace>e_Agenda.WebApp</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 </Project>
