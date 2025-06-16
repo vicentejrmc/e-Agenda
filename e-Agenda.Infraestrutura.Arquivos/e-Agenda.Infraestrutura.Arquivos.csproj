@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <Folder Include="Compartilhado\" />
+    <Folder Include="ModuloCompromisso\" />
     <Folder Include="ModuloContato\" />
     <Folder Include="ModuloDespesa\" />
     <Folder Include="ModuloTarefa\" />

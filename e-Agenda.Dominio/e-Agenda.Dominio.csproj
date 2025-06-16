@@ -14,6 +14,7 @@
     <Folder Include="ModuloContato\" />
     <Folder Include="ModuloDespesa\" />
     <Folder Include="ModuloTarefa\" />
+    <Folder Include="ModuloCompromisso\" />
   </ItemGroup>
 
 </Project>
