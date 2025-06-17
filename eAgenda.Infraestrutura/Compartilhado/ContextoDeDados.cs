@@ -1,4 +1,5 @@
-﻿using eAgenda.Dominio.ModuloContato;
+﻿using eAgenda.Dominio.ModuloCompromisso;
+using eAgenda.Dominio.ModuloContato;
 using eAgenda.Dominio.ModuloTarefa;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace eAgenda.Infraestrutura.Compartilhado
         private string arquivoArmazenamento = "dados-eAgenda.json";
 
         public List<Contato> Contatos { get; set; }
-        //public List<Compromisso> Compromissos { get; set; }
+        public List<Compromisso> Compromissos { get; set; }
         //public List<Categoria> Categorias { get; set; }
         //public List<Despesa> Despesas { get; set; }
         public List<Tarefa> Tarefas { get; set; }
@@ -25,7 +26,7 @@ namespace eAgenda.Infraestrutura.Compartilhado
         public ContextoDeDados()
         {
             Contatos = new List<Contato>();
-            //Compromissos = new List<Compromisso>();
+            Compromissos = new List<Compromisso>();
             //Categorias = new List<Categoria>();
             //Despesas = new List<Despesa>();
             Tarefas = new List<Tarefa>();
@@ -73,7 +74,7 @@ namespace eAgenda.Infraestrutura.Compartilhado
             if (contextoArmazenado == null) return;
 
             Contatos = contextoArmazenado.Contatos;
-            //Compromissos = contextoArmazenado.Compromissos;
+            Compromissos = contextoArmazenado.Compromissos;
             //Categorias = contextoArmazenado.Categorias;
             //Despesas = contextoArmazenado.Despesas;
             Tarefas = contextoArmazenado.Tarefas;
