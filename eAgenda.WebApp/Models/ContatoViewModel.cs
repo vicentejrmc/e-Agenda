@@ -72,13 +72,15 @@ namespace eAgenda.WebApp.Models
 
             public VisualizarContatoViewModel(List<Contato> contatos)
             {
-                Registros = [];
+                Registros = new List<DetalhesContatoViewModel>();
 
-                foreach (var m in contatos)
+                if (contatos != null)
                 {
-                    var detalhesVM = m.ParaDetalhesVM();
-
-                    Registros.Add(detalhesVM);
+                    foreach (var m in contatos)
+                    {
+                        var detalhesVM = m.ParaDetalhesVM();
+                        Registros.Add(detalhesVM);
+                    }
                 }
             }
         }
