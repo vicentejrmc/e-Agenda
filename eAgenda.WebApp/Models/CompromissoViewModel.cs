@@ -24,12 +24,19 @@ namespace eAgenda.WebApp.Models
         public TipoCompromissoEnum TipoCompromisso { get; set; }
         public string? Local { get; set; }
         public string? Link { get; set; }
-        public Contato? Contato { get; set; } 
+        public Contato? Contato { get; set; }
+        public Guid? ContatoId { get; set; }
+        public List<Contato> Contatos { get; set; } = new();
     }
 
     public class CadastrarCompromissoViewModel : FormularioCompromissoViewModel
     {
-        public CadastrarCompromissoViewModel() { }
+        public CadastrarCompromissoViewModel()
+        {
+            DataOcorrencia = DateTime.Today;
+            HoraInicio = DateTime.Now.TimeOfDay;
+            HoraTermino = DateTime.Now.AddHours(1).TimeOfDay;
+        }
         public CadastrarCompromissoViewModel
             (string assunto,
             DateTime dataOcorrencia,
