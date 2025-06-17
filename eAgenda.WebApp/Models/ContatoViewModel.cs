@@ -7,7 +7,7 @@ namespace eAgenda.WebApp.Models
     public abstract class FormularioContatoViewModel
     {
         [Required(ErrorMessage = "O campo \"Nome\" é obrigatório.")]
-        [Range(2, 100, ErrorMessage = "O campo \"Nome\" precisa conter um valor entre 2 e 100.")]
+        [StringLength(100, MinimumLength = 2, ErrorMessage = "O campo \"Nome\" precisa conter entre 2 e 100 caracteres.")]
         public string Nome { get; set; }
 
         [Required(ErrorMessage = "O campo \"Email\" é obrigatório.")]

@@ -1,4 +1,5 @@
-﻿@{
+﻿
+@{
     Layout = "_Layout";
     ViewBag.Titulo = "Visualização de Contatos";
 }
@@ -18,13 +19,13 @@
         <div class="col-12 col-md-3">
             <div class="card border-0">
                 <div class="card-body">
-                    <h5 class="card-title">Contato: #@item.Numero</h5>
-                    <p class="card-text"><span class="fw-semibold">Quantidade de Assentos:</span> @item.Capacidade</p>
+                    <h5 class="card-title">Contato: #@item.Nome</h5>
+                    <p class="card-text"><span class="fw-semibold">Email:</span> @item.Email</p>
+                    <p class="card-text"><span class="fw-semibold">Telefone:</span> @item.Telefone</p>
+                    <p class="card-text"><span class="fw-semibold">Cargo:</span> @item.Cargo</p>
+                    <p class="card-text"><span class="fw-semibold">Empresa:</span> @item.Empresa</p>
 
                     <span class="d-flex justify-content-end mt-4 gap-1">
-                        <a href="/contatos/detalhes/@item.Id" class="btn btn-secondary rounded-circle opcao-card">
-                            <i class="bi bi-search"></i>
-                        </a>
                         <a href="/contatos/editar/@item.Id" class="btn btn-primary rounded-circle opcao-card">
                             <i class="bi bi-pencil-square"></i>
                         </a>

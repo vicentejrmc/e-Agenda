@@ -13,7 +13,7 @@ namespace eAgenda.Infraestrutura.Compartilhado
     public class ContextoDeDados
     {
         private string pastaArmazenamento = "C:\\temp";
-        private string arquivoArmazenamento = "dados-controle-bar.json";
+        private string arquivoArmazenamento = "dados-eAgenda.json";
 
         public List<Contato> Contatos { get; set; }
         //public List<Compromisso> Compromissos { get; set; }
@@ -23,7 +23,7 @@ namespace eAgenda.Infraestrutura.Compartilhado
 
         public ContextoDeDados()
         {
-            //Contatos = new List<Contato>();
+            Contatos = new List<Contato>();
             //Compromissos = new List<Compromisso>();
             //Categorias = new List<Categoria>();
             //Despesas = new List<Despesa>();

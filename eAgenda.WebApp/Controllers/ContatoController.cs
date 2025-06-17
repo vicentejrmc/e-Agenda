@@ -42,7 +42,7 @@ namespace eAgenda.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Cadastrar(CadastrarContatoViewModel cadastrarVM)
         {
-            var registros = repositorioContato.SelecionarRegistros();
+            var registros = repositorioContato.SelecionarRegistros() ?? new List<Contato>();
 
             foreach (var item in registros)
             {
