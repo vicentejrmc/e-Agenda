@@ -1,16 +1,22 @@
 ﻿using eAgenda.Dominio.Compartilhado;
 using eAgenda.Dominio.ModuloContato;
 
-
 namespace eAgenda.Dominio.ModuloCompromisso
 {
+    public enum TipoCompromissoEnum
+    {
+        Local,
+        Remoto
+    }
+
     public class Compromisso : EntidadeBase<Compromisso>
     {
+
         public string Assunto { get; set; }
         public DateTime DataOcorrencia { get; set; }
         public TimeSpan HoraInicio { get; set; }
         public TimeSpan HoraTermino { get; set; }
-        public string TipoCompromisso { get; set; } /*remoto ou presencial*/
+        public TipoCompromissoEnum TipoCompromisso { get; set; } /*remoto ou presencial*/
         public string Local { get; set; } /*Caso seja presencial*/
         public string Link { get; set; } /*Caso seja remoto*/
         public Contato Contato { get; set; } /*(Opcional) Contato relacionado ao compromisso*/
@@ -18,7 +24,7 @@ namespace eAgenda.Dominio.ModuloCompromisso
         //não pode haver conflito de horário com outro compromisso
         public Compromisso() { }
 
-        public Compromisso(string assunto, DateTime dataOcorrencia, TimeSpan horaInicio, TimeSpan horaTermino, string tipoCompromisso, string local = null, string link = null, Contato contato = null)
+        public Compromisso(string assunto, DateTime dataOcorrencia, TimeSpan horaInicio, TimeSpan horaTermino, TipoCompromissoEnum tipoCompromisso, string local = null, string link = null, Contato contato = null)
         {
             Id = Guid.NewGuid();
             Assunto = assunto;
