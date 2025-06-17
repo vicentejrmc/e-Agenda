@@ -19,11 +19,10 @@
             <div class="card border-0">
                 <div class="card-body">
                     <h5 class="card-title">Contato: #@item.Titulo</h5>
-                    <p class="card-text"><span class="fw-semibold">Email:</span> @item.Prioridade</p>
-                    <p class="card-text"><span class="fw-semibold">Telefone:</span> @item.DataCriacao</p>
-                    <p class="card-text"><span class="fw-semibold">Cargo:</span> @item.DataConclusao</p>
-                    <p class="card-text"><span class="fw-semibold">Empresa:</span> @item.StatusConcluido</p>
-                    <p class="card-text"><span class="fw-semibold">Empresa:</span> @item.PercenualConcluido</p>
+                    <p class="card-text"><span class="fw-semibold">Prioridade:</span> @item.Prioridade</p>
+                    <p class="card-text"><span class="fw-semibold">Data de Criacao:</span> @item.DataCriacao</p>
+                    <p class="card-text"><span class="fw-semibold">Status:</span> @item.StatusConcluida</p>
+                    <p class="card-text"><span class="fw-semibold">Percentual:</span> @item.PercentualConcluida%</p>
 
                     <span class="d-flex justify-content-end mt-4 gap-1">
                         <a href="/tarefas/editar/@item.Id" class="btn btn-primary rounded-circle opcao-card">

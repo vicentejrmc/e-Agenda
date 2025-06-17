@@ -30,6 +30,12 @@
                         <span asp-validation-for="Prioridade" class="text-danger"></span>
                     </div>
 
+                    <div class="form-group d-grid mt-3 gap-2">
+                        <label asp-for="DataCriacao" class="control-label fs-5">Data de Criacao:</label>
+                        <input asp-for="DataCriacao" class="form-control" type="date" />
+                        <span asp-validation-for="DataCriacao" class="text-danger"></span>
+                    </div>
+
                     <div class="form-group d-flex align-items-center justify-content-end mt-5 gap-3">
                         <a href="/tarefas">Voltar para a listagem</a>
                         <button type="submit" class="btn btn-primary rounded-3 px-5">Confirmar</button>
