@@ -1,4 +1,5 @@
-﻿using System;
+﻿using eAgenda.Dominio.ModuloContato;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace eAgenda.Infraestrutura.Compartilhado
         private string pastaArmazenamento = "C:\\temp";
         private string arquivoArmazenamento = "dados-controle-bar.json";
 
-        //public List<Contato> Contatos { get; set; }
+        public List<Contato> Contatos { get; set; }
         //public List<Compromisso> Compromissos { get; set; }
         //public List<Categoria> Categorias { get; set; }
         //public List<Despesa> Despesas { get; set; }
@@ -70,7 +71,7 @@ namespace eAgenda.Infraestrutura.Compartilhado
 
             if (contextoArmazenado == null) return;
 
-            //Contatos = contextoArmazenado.Contatos;
+            Contatos = contextoArmazenado.Contatos;
             //Compromissos = contextoArmazenado.Compromissos;
             //Categorias = contextoArmazenado.Categorias;
             //Despesas = contextoArmazenado.Despesas;
