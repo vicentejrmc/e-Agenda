@@ -13,6 +13,10 @@ namespace eAgenda.WebApp.Extensions
 
         public static DetalhesTarefaViewModel ParaDetalhesVM(this Tarefa tarefa)
         {
+
+            tarefa.AtualizarPercentual();
+            tarefa.AtualizarStatus();
+
             return new DetalhesTarefaViewModel(
                 tarefa.Id,
                 tarefa.Titulo,
