@@ -2,7 +2,6 @@
 using eAgenda.Dominio.ModuloContato;
 using eAgenda.WebApp.Extensions;
 using System.ComponentModel.DataAnnotations;
-using static eAgenda.WebApp.Models.FormularioContatoViewModel;
 
 namespace eAgenda.WebApp.Models
 {

@@ -1,0 +1,50 @@
+﻿@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Visualização de Compromissos";
+}
+
+<p>
+    <a class="btn btn-primary px-4" href="/compromissos/cadastrar">
+        <i class="bi bi-plus"></i>
+        Cadastrar Novo/a
+    </a>
+</p>
+
+<hr />
+
+<div class="d-flex flex-wrap gap-2">
+    @foreach (var item in Model.Registros)
+    {
+        <div class="col-12 col-md-3">
+            <div class="card border-0">
+                <div class="card-body">
+                    <h5 class="card-title">Compromisso: @item.Assunto</h5>
+                    <p class="card-text"><span class="fw-semibold">Data de Ocorrência:</span> @item.DataOcorrencia.ToString("dd/MM/yyyy")</p>
+                    <p class="card-text"><span class="fw-semibold">Hora de Início:</span> @item.HoraInicio.ToString(@"hh\:mm")</p>
+                    <p class="card-text"><span class="fw-semibold">Hora de Término:</span> @item.HoraTermino.ToString(@"hh\:mm")</p>
+                    <p class="card-text"><span class="fw-semibold">Tipo:</span> @item.TipoCompromisso</p>
+                    @if (!string.IsNullOrWhiteSpace(item.Local))
+                    {
+                        <p class="card-text"><span class="fw-semibold">Local:</span> @item.Local</p>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(item.Link))
+                    {
+                        <p class="card-text"><span class="fw-semibold">Link:</span> <a href="@item.Link" target="_blank">@item.Link</a></p>
+                    }
+                    @if (item.Contato != null)
+                    {
+                        <p class="card-text"><span class="fw-semibold">Contato:</span> @item.Contato.Nome</p>
+                    }
+                    <span class="d-flex justify-content-end mt-4 gap-1">
+                        <a href="/contatos/editar/@item.Id" class="btn btn-primary rounded-circle opcao-card">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <a href="/contatos/excluir/@item.Id" class="btn btn-danger rounded-circle opcao-card">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    }
+</div>
