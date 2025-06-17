@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace eAgenda.Dominio.ModuloCategoria
 {
-    internal interface IRepositorioCategoria : IRepositorio<Categoria>
+    public interface IRepositorioCategoria : IRepositorio<Categoria>
     {
     }
 }
