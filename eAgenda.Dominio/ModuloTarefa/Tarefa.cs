@@ -70,6 +70,7 @@ public class Tarefa : EntidadeBase<Tarefa>
 
         if(PercentualConcluida == 100)
         {
+            DataConclusao = DateTime.Now;
             StatusConcluida = "Concluído";
         }
 

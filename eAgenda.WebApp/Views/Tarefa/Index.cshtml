@@ -25,7 +25,7 @@
                     <p class="card-text"><span class="fw-semibold">Percentual:</span> @item.PercentualConcluida%</p>
                     <p class="card-text">
                         <span class="fw-semibold">Data de Conclusão:</span>
-                        @(item.DataConclusao == default(DateTime) ? "pendente" : item.DataConclusao.ToString("dd/MM/yyyy"))
+                        @(item.DataConclusao == DateTime.MinValue ? "Pendente" : item.DataConclusao.ToString("dd/MM/yyyy"))
                     </p>
 
                     <span class="d-flex justify-content-end mt-4 gap-1">
