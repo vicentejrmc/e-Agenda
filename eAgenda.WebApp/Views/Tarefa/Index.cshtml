@@ -1,0 +1,40 @@
+﻿@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Visualização de Tarefas";
+}
+
+<p>
+    <a class="btn btn-primary px-4" href="/tarefas/cadastrar">
+        <i class="bi bi-plus"></i>
+        Cadastrar Novo/a
+    </a>
+</p>
+
+<hr />
+
+<div class="d-flex flex-wrap gap-2">
+    @foreach (var item in Model.Registros)
+    {
+        <div class="col-12 col-md-3">
+            <div class="card border-0">
+                <div class="card-body">
+                    <h5 class="card-title">Contato: #@item.Titulo</h5>
+                    <p class="card-text"><span class="fw-semibold">Email:</span> @item.Prioridade</p>
+                    <p class="card-text"><span class="fw-semibold">Telefone:</span> @item.DataCriacao</p>
+                    <p class="card-text"><span class="fw-semibold">Cargo:</span> @item.DataConclusao</p>
+                    <p class="card-text"><span class="fw-semibold">Empresa:</span> @item.StatusConcluido</p>
+                    <p class="card-text"><span class="fw-semibold">Empresa:</span> @item.PercenualConcluido</p>
+
+                    <span class="d-flex justify-content-end mt-4 gap-1">
+                        <a href="/tarefas/editar/@item.Id" class="btn btn-primary rounded-circle opcao-card">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <a href="/tarefas/excluir/@item.Id" class="btn btn-danger rounded-circle opcao-card">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    }
+</div>
