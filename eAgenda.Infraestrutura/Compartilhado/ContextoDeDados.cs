@@ -1,4 +1,5 @@
 ﻿using eAgenda.Dominio.ModuloContato;
+using eAgenda.Dominio.ModuloTarefa;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace eAgenda.Infraestrutura.Compartilhado
         //public List<Compromisso> Compromissos { get; set; }
         //public List<Categoria> Categorias { get; set; }
         //public List<Despesa> Despesas { get; set; }
-        //public List<Tarefa> Tarefas { get; set; }
+        public List<Tarefa> Tarefas { get; set; }
 
         public ContextoDeDados()
         {
@@ -27,7 +28,7 @@ namespace eAgenda.Infraestrutura.Compartilhado
             //Compromissos = new List<Compromisso>();
             //Categorias = new List<Categoria>();
             //Despesas = new List<Despesa>();
-            //Tarefas = new List<Tarefa>();
+            Tarefas = new List<Tarefa>();
         }
         public ContextoDeDados(bool carregarDados) : this()
         {
@@ -75,7 +76,7 @@ namespace eAgenda.Infraestrutura.Compartilhado
             //Compromissos = contextoArmazenado.Compromissos;
             //Categorias = contextoArmazenado.Categorias;
             //Despesas = contextoArmazenado.Despesas;
-            //Tarefas = contextoArmazenado.Tarefas;
+            Tarefas = contextoArmazenado.Tarefas;
         }
     }
 }
