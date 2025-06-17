@@ -23,6 +23,10 @@
                     <p class="card-text"><span class="fw-semibold">Data de Criacao:</span> @item.DataCriacao</p>
                     <p class="card-text"><span class="fw-semibold">Status:</span> @item.StatusConcluida</p>
                     <p class="card-text"><span class="fw-semibold">Percentual:</span> @item.PercentualConcluida%</p>
+                    <p class="card-text">
+                        <span class="fw-semibold">Data de Conclusão:</span>
+                        @(item.DataConclusao == default(DateTime) ? "pendente" : item.DataConclusao.ToString("dd/MM/yyyy"))
+                    </p>
 
                     <span class="d-flex justify-content-end mt-4 gap-1">
                         <a href="/tarefas/editar/@item.Id" class="btn btn-primary rounded-circle opcao-card">
