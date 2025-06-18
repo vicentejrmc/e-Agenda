@@ -64,19 +64,6 @@ public class Tarefa : EntidadeBase<Tarefa>
         PercentualConcluida = Math.Round((quantidadeConcluidos * 100.0) / Items.Count, 2);
     }
 
-    public void AtualizarStatus()
-    {
-        if (StatusConcluida == "Concluído") return;
-
-        if(PercentualConcluida == 100)
-        {
-            DataConclusao = DateTime.Now;
-            StatusConcluida = "Concluído";
-        }
-
-        return;
-    }
-
     public override void AtualizarRegistro(Tarefa registro)
     {
         Titulo = registro.Titulo;

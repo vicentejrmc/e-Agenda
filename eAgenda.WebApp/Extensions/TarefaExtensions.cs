@@ -15,7 +15,6 @@ namespace eAgenda.WebApp.Extensions
         {
 
             tarefa.AtualizarPercentual();
-            tarefa.AtualizarStatus();
 
             return new DetalhesTarefaViewModel(
                 tarefa.Id,

@@ -21,9 +21,24 @@ namespace eAgenda.WebApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(string status)
         {
-            var registros = repositorioTarefa.SelecionarRegistros();
+            List<Tarefa> registros;
+
+            List<Tarefa> tarefas = repositorioTarefa.SelecionarTarefas();
+
+            foreach(var tarefa in tarefas)
+            {
+                repositorioTarefa.AtualizarPercentual(tarefa.Id);
+                repositorioTarefa.AtualizarStatus(tarefa.Id);
+            }   
+
+            switch (status)
+            {
+                case "Pendente": registros = repositorioTarefa.SelecionarTarefasPendentes(); break;
+                case "Concluído": registros = repositorioTarefa.SelecionarTarefasConcluidas(); break;
+                default: registros = repositorioTarefa.SelecionarTarefas(); break;
+            }
 
             var visualizarVM = new VisualizarTarefaViewModel(registros);
 
@@ -42,7 +57,7 @@ namespace eAgenda.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Cadastrar(CadastrarTarefaViewModel cadastrarVM)
         {
-            var registros = repositorioTarefa.SelecionarRegistros() ?? new List<Tarefa>();
+            var registros = repositorioTarefa.SelecionarTarefas() ?? new List<Tarefa>();
 
             foreach (var item in registros)
             {
@@ -58,7 +73,7 @@ namespace eAgenda.WebApp.Controllers
 
             var entidade = cadastrarVM.ParaEntidade();
 
-            repositorioTarefa.CadastrarRegistro(entidade);
+            repositorioTarefa.CadastrarTarefa(entidade);
 
             return RedirectToAction(nameof(Index));
         }
@@ -66,7 +81,7 @@ namespace eAgenda.WebApp.Controllers
         [HttpGet("editar/{id:guid}")]
         public IActionResult Editar(Guid id)
         {
-            var registroSelecionado = repositorioTarefa.SelecionarRegistroPorId(id);
+            var registroSelecionado = repositorioTarefa.SelecionarPorId(id);
 
             var editarVM = new EditarTarefaViewModel(
                 id,
@@ -85,7 +100,7 @@ namespace eAgenda.WebApp.Controllers
         [HttpGet("excluir/{id:guid}")]
         public IActionResult Excluir(Guid id)
         {
-            var registroSelecionado = repositorioTarefa.SelecionarRegistroPorId(id);
+            var registroSelecionado = repositorioTarefa.SelecionarPorId(id);
 
             if (registroSelecionado is not Tarefa tarefa)
             {
@@ -100,7 +115,7 @@ namespace eAgenda.WebApp.Controllers
         [HttpPost("excluir/{id:guid}")]
         public IActionResult ExcluirConfirmado(Guid id)
         {
-            repositorioTarefa.ExcluirRegistro(id);
+            //repositorioTarefa.ExcluirTarefa(id);
 
             return RedirectToAction(nameof(Index));
         }
