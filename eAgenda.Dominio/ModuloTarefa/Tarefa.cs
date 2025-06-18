@@ -9,8 +9,7 @@ namespace eAgenda.Dominio.ModuloTarefa;
 
 public class Tarefa : EntidadeBase<Tarefa>
 {
-    private DateTime? dataConclusao;
-
+    public Guid Id { get; set; }
     public string Titulo { get; set; }
     public string Prioridade { get; set; }
     public DateTime DataCriacao { get; set; }
@@ -23,24 +22,16 @@ public class Tarefa : EntidadeBase<Tarefa>
     {
         Items = new List<Item>();
     }
-    public Tarefa(string titulo, string prioridade, DateTime dataCriacao, DateTime dataConclusao, string statusConcluida, double percentualConcluida) : this()
-    {
-        Titulo = titulo;
-        Prioridade = prioridade;
-        DataCriacao = dataCriacao;
-        DataConclusao = dataConclusao;
-        StatusConcluida = statusConcluida;
-        PercentualConcluida = percentualConcluida;
-    }
 
-    public Tarefa(string titulo, string prioridade, DateTime dataCriacao, double percentualConcluida, string statusConcluida, DateTime? dataConclusao) : this()
+    public Tarefa(string titulo, string prioridade, DateTime dataCriacao, double percentualConcluida, string statusConcluida, DateTime dataConclusao) : this()
     {
+        Id = Guid.NewGuid();
         Titulo = titulo;
         Prioridade = prioridade;
         DataCriacao = dataCriacao;
         PercentualConcluida = percentualConcluida;
         StatusConcluida = statusConcluida;
-        this.dataConclusao = dataConclusao;
+        DataConclusao = dataConclusao;
     }
 
     public void AtualizarPercentual()
