@@ -41,7 +41,7 @@ namespace eAgenda.WebApp.Models
 
             public EditarContatoViewModel() { }
 
-            public EditarContatoViewModel(Guid id, string nome, string email, string telefone, string? cargo = null, string? empresa = null) : this()
+            public EditarContatoViewModel(Guid id, string nome, string email, string telefone, string cargo = null, string empresa = null) : this()
             {
                 Id = id;
                 Nome = nome;
