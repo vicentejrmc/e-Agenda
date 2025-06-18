@@ -18,13 +18,16 @@
                         <label asp-for="Titulo" class="control-label fs-5">Titulo:</label>
                         <input asp-for="Titulo" class="form-control" value="@Model.Titulo" />
                         <span asp-validation-for="Titulo" class="text-danger"></span>
-
                     </div>
+
                     <div class="form-group d-grid mt-3 gap-2">
                         <label asp-for="Prioridade" class="control-label fs-5">Prioridade:</label>
-                        <input asp-for="Prioridade" class="form-control" value="@Model.Prioridade" />
+                        <select asp-for="Prioridade" class="form-control">
+                            <option value="Baixa" selected="@("Baixa" == Model.Prioridade)">Baixa</option>
+                            <option value="Média" selected="@("Média" == Model.Prioridade)">Média</option>
+                            <option value="Alta" selected="@("Alta" == Model.Prioridade)">Alta</option>
+                        </select>
                         <span asp-validation-for="Prioridade" class="text-danger"></span>
-
                     </div>
 
                     <div class="form-group d-grid mt-3 gap-2">
