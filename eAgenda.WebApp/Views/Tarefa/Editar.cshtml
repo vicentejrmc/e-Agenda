@@ -1,0 +1,46 @@
+﻿@using static eAgenda.WebApp.Models.FormularioTarefaViewModel
+@model EditarTarefaViewModel
+
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Edição de Tarefa";
+}
+
+<hr />
+<div class="row justify-content-center my-5">
+    <div class="col-md-8">
+        <div class="card rounded-4 border-0">
+            <div class="card-body p-md-5">
+                <form asp-action="Editar" asp-route-id="@Model.Id" method="post">
+                    <h3>Formulário de Edição</h3>
+
+                    <div class="form-group d-grid mt-3 gap-2">
+                        <label asp-for="Titulo" class="control-label fs-5">Titulo:</label>
+                        <input asp-for="Titulo" class="form-control" value="@Model.Titulo" />
+                        <span asp-validation-for="Titulo" class="text-danger"></span>
+
+                    </div>
+                    <div class="form-group d-grid mt-3 gap-2">
+                        <label asp-for="Prioridade" class="control-label fs-5">Prioridade:</label>
+                        <input asp-for="Prioridade" class="form-control" value="@Model.Prioridade" />
+                        <span asp-validation-for="Prioridade" class="text-danger"></span>
+
+                    </div>
+
+                    <div class="form-group d-grid mt-3 gap-2">
+                        <label asp-for="DataCriacao" class="control-label fs-5">Data de Criacao:</label>
+                        <input asp-for="DataCriacao" class="form-control" type="date" value="@Model.DataCriacao.ToString("yyyy-MM-dd")" />
+                        <span asp-validation-for="DataCriacao" class="text-danger"></span>
+                    </div>
+                                        
+                        <a href="/tarefas">Voltar para a listagem</a>
+                        <button type="submit" class="btn btn-primary rounded-3 px-5">Confirmar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
