@@ -6,7 +6,8 @@ public class Item
     public string StatusConclusao { get; set; }
     public Tarefa Tarefa { get; set; }
 
-    Item(string titulo, string statusConclusao, Tarefa tarefa)
+    public Item() { }
+    public Item(string titulo, string statusConclusao, Tarefa tarefa)
     {
         Titulo = titulo;
         StatusConclusao = statusConclusao;

@@ -33,7 +33,7 @@ public class Tarefa : EntidadeBase<Tarefa>
         PercentualConcluida = percentualConcluida;
     }
 
-    public Tarefa(string titulo, string prioridade, DateTime dataCriacao, double percentualConcluida, string statusConcluida, DateTime? dataConclusao)
+    public Tarefa(string titulo, string prioridade, DateTime dataCriacao, double percentualConcluida, string statusConcluida, DateTime? dataConclusao) : this()
     {
         Titulo = titulo;
         Prioridade = prioridade;
@@ -41,6 +41,27 @@ public class Tarefa : EntidadeBase<Tarefa>
         PercentualConcluida = percentualConcluida;
         StatusConcluida = statusConcluida;
         this.dataConclusao = dataConclusao;
+    }
+
+    public void AtualizarPercentual()
+    {
+        if (Items == null || Items.Count == 0)
+        {
+            PercentualConcluida = 0;
+            return;
+        }
+
+        int quantidadeConcluidos = 0;
+
+        foreach (var item in Items)
+        {
+            if (item.StatusConclusao == "Concluído")
+            {
+                quantidadeConcluidos++;
+            }
+        }
+
+        PercentualConcluida = Math.Round((quantidadeConcluidos * 100.0) / Items.Count, 2);
     }
 
     public override void AtualizarRegistro(Tarefa registro)
