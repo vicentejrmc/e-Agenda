@@ -1,0 +1,76 @@
+﻿@model EditarCompromissoViewModel
+
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Edição de Compromisso";
+}
+
+<hr />
+<div class="row justify-content-center my-5">
+    <div class="col-md-8">
+        <div class="card rounded-4 border-0">
+            <div class="card-body p-md-5">
+                <form asp-action="Editar" asp-route-id="@Model.Id" method="post">
+                    <h3>Formulário de Edição</h3>
+
+                    <div class="form-group d-grid mt-3 gap-2">
+                        <label asp-for="Assunto" class="control-label fs-5">Assunto:</label>
+                        <input asp-for="Assunto" class="form-control" value="@Model.Assunto" />
+                        <span asp-validation-for="Assunto" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group d-grid mt-3 gap-2">
+                        <label asp-for="DataOcorrencia" class="control-label fs-5">DataOcorrencia:</label>
+                        <input asp-for="DataOcorrencia" class="form-control" value="@Model.DataOcorrencia" />
+                        <span asp-validation-for="DataOcorrencia" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group d-grid mt-3 gap-2">
+                        <label asp-for="HoraInicio" class="control-label fs-5">HoraInicio:</label>
+                        <input asp-for="HoraInicio" class="form-control" value="@Model.HoraInicio" />
+                        <span asp-validation-for="HoraInicio" class="text-danger"></span>
+                    </div>
+                    <div class="form-group d-grid mt-3 gap-2">
+                        <label asp-for="HoraTermino" class="control-label fs-5">HoraTermino:</label>
+                        <input asp-for="HoraTermino" class="form-control" value="@Model.HoraTermino" />
+                    </div>
+                    <div class="form-group d-grid mt-3 gap-2">
+                        <label asp-for="TipoCompromisso" class="control-label fs-5">TipoCompromisso:</label>
+                        <input asp-for="TipoCompromisso" class="form-control" value="@Model.TipoCompromisso" />
+                    </div>
+                    <div class="form-group d-grid mt-3 gap-2">
+                        <label asp-for="Local" class="control-label fs-5">Local:</label>
+                        <input asp-for="Local" class="form-control" value="@Model.Local" />
+                    </div>
+                        <div class="form-group d-grid mt-3 gap-2">
+                        <label asp-for="Link" class="control-label fs-5">Link:</label>
+                        <input asp-for="Link" class="form-control" value="@Model.Link" />
+                    </div>
+                    <div class="form-group d-grid mt-3 gap-2">
+                        <label asp-for="ContatoId" class="control-label fs-5">Contato (opcional):</label>
+                        <select asp-for="ContatoId" class="form-control">
+                            <option value="">Nenhum...</option>
+                            @if (Model.Contatos != null)
+                            {
+                                foreach (var contato in Model.Contatos)
+                                {
+                                    <option value="@contato.Id">@contato.Nome</option>
+                                }
+                            }
+                        </select>
+                        <span asp-validation-for="ContatoId" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group d-flex align-items-center justify-content-end mt-5 gap-3">
+                        <a href="/compromissos">Voltar para a listagem</a>
+                        <button type="submit" class="btn btn-primary rounded-3 px-5">Confirmar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -107,9 +107,21 @@ namespace eAgenda.Infraestrutura.ModuloTarefa
             return null;
         }
 
-        public List<Tarefa> SelecionarTarefasPorPeriodo(DateTime data)
+        public bool EditarTarefa(Guid id, Tarefa tarefa)
         {
-            throw new NotImplementedException();
+            foreach (var item in registros)
+            {
+                if (item.Id == id)
+                {
+                    item.AtualizarRegistro(tarefa);
+
+                    contexto.Salvar();
+
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

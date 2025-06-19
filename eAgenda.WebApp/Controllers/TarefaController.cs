@@ -57,7 +57,7 @@ namespace eAgenda.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Cadastrar(CadastrarTarefaViewModel cadastrarVM)
         {
-            var registros = repositorioTarefa.SelecionarTarefas() ?? new List<Tarefa>();
+            var registros = repositorioTarefa.SelecionarTarefas();
 
             foreach (var item in registros)
             {
@@ -83,18 +83,33 @@ namespace eAgenda.WebApp.Controllers
         {
             var registroSelecionado = repositorioTarefa.SelecionarPorId(id);
 
+            if (registroSelecionado is not Tarefa tarefa)
+            {
+                return NotFound();
+            }
+
             var editarVM = new EditarTarefaViewModel(
-                id,
+                registroSelecionado.Id,
                 registroSelecionado.Titulo,
                 registroSelecionado.Prioridade,
                 registroSelecionado.DataCriacao,
                 registroSelecionado.StatusConcluida,
                 registroSelecionado.PercentualConcluida,
-                registroSelecionado.Items,
-                registroSelecionado.DataConclusao
+                registroSelecionado.DataConclusao,
+                registroSelecionado.Items
             );
 
             return View(editarVM);
+        }
+
+        [HttpPost("editar/{id:guid}")]
+        public IActionResult EditarConfirmado(Guid id, EditarTarefaViewModel editarVM)
+        {
+            var entidadeEditada = editarVM.ParaEntidade();
+
+            repositorioTarefa.EditarTarefa(id, entidadeEditada);
+
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet("excluir/{id:guid}")]

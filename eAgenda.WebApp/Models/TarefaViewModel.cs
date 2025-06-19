@@ -11,7 +11,7 @@ public abstract class FormularioTarefaViewModel
     public string Titulo { get; set; }
     public string Prioridade { get; set; } = "Baixa"; // Default value
     public DateTime DataCriacao { get; set; } = DateTime.Now;
-    public DateTime? DataConclusao { get; set; }
+    public DateTime DataConclusao { get; set; }
     public string StatusConcluida { get; set; } = "Pendente"; // Default value
     public double PercentualConcluida { get; set; } = 0.0;
     public List<Item>? Itens { get; set; }
@@ -33,7 +33,7 @@ public abstract class FormularioTarefaViewModel
             string statusConcluida,
             double percentualConcluida,
             List<Item> itens,
-            DateTime? dataConclusao = null
+            DateTime dataConclusao
         ) : this()
         {
             Titulo = titulo;
@@ -74,7 +74,7 @@ public abstract class FormularioTarefaViewModel
             Itens = new List<Item>();
         }
 
-        public EditarTarefaViewModel(Guid id, string titulo, string prioridade, DateTime dataCriacao, string statusConcluida, double percentualConcluida, List<Item> itens, DateTime? dataConclusao = null) : this()
+        public EditarTarefaViewModel(Guid id, string titulo, string prioridade, DateTime dataCriacao, string statusConcluida, double percentualConcluida, DateTime dataConclusao, List<Item> itens) : this()
         {
             Id = id;
             Titulo = titulo;
@@ -125,12 +125,12 @@ public abstract class FormularioTarefaViewModel
         public string Titulo { get; }
         public string Prioridade { get; }
         public DateTime DataCriacao { get; }
-        public DateTime? DataConclusao { get; }
+        public DateTime DataConclusao { get; }
         public string StatusConcluida { get; }
         public double PercentualConcluida { get; }
         public List<Item> Itens { get; } = new List<Item>();
 
-        public DetalhesTarefaViewModel(Guid id, string titulo, string prioridade, DateTime dataCriacao, string statusConcluida, double percentualConcluida, List<Item> itens, DateTime? dataConclusao = null)
+        public DetalhesTarefaViewModel(Guid id, string titulo, string prioridade, DateTime dataCriacao, string statusConcluida, double percentualConcluida, List<Item> itens, DateTime dataConclusao)
         {
             Id = id;
             Titulo = titulo;
