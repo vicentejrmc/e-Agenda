@@ -38,7 +38,6 @@ namespace eAgenda.WebApp.Controllers
         public IActionResult Cadastrar()
         {
             var cadastrarVM = new CadastrarDespesaViewModel();
-            var categorias = repositorioCategoria.SelecionarRegistros();
             cadastrarVM.CategoriasDisponiveis = repositorioCategoria.SelecionarRegistros();
             return View(cadastrarVM);
             
@@ -51,10 +50,9 @@ namespace eAgenda.WebApp.Controllers
             var registros = repositorioDespesa.SelecionarRegistros() ?? new List<Despesa>();
 
             if (!ModelState.IsValid)
-                return View(cadastrarVM);
-
+            return View(cadastrarVM);
             foreach (var item in cadastrarVM.categorias)
-            {
+            {                
                 cadastrarVM.categoriasTitulo.Add(repositorioCategoria.SelecionarRegistroPorId(item).Titulo);
             }
             var entidade = cadastrarVM.ParaEntidade();
@@ -67,7 +65,6 @@ namespace eAgenda.WebApp.Controllers
         public IActionResult Editar(Guid id)
         {
             var registroSelecionado = repositorioDespesa.SelecionarRegistroPorId(id);
-
             var editarVM = new EditarDespesaViewModel(
                 id,
                 registroSelecionado.descricao,
@@ -77,22 +74,26 @@ namespace eAgenda.WebApp.Controllers
                 registroSelecionado.categorias,
                 registroSelecionado.categoriasTitulo
             );
+            editarVM.CategoriasDisponiveis = repositorioCategoria.SelecionarRegistros();
 
             return View(editarVM);
         }
-
         [HttpPost("editar/{id:guid}")]
         [ValidateAntiForgeryToken]
         public IActionResult Editar(Guid id, EditarDespesaViewModel editarVM)
         {
-            var registros = repositorioDespesa.SelecionarRegistros();
+            editarVM.categoriasTitulo = new List<string>();
+            foreach (var item in editarVM.categorias)
+            {
+                editarVM.categoriasTitulo.Add(repositorioCategoria.SelecionarRegistroPorId(item).Titulo);
+            }
 
             var entidadeEditada = editarVM.ParaEntidade();
-
             repositorioDespesa.EditarRegistro(id, entidadeEditada);
 
             return RedirectToAction(nameof(Index));
         }
+
 
         [HttpGet("excluir/{id:guid}")]
         public IActionResult Excluir(Guid id)

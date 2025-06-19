@@ -12,15 +12,16 @@ namespace eAgenda.WebApp.Models
         public List<Categoria> CategoriasDisponiveis { get; set; } = new();
         public List<Guid> CategoriasSelecionadas { get; set; } = new();
         public string descricao { get; set; }
-        public DateTime dataOcorrencia = DateTime.Today;
+        public DateTime dataOcorrencia { get; set; }
         public double valor { get; set; }
         public string formaDoPagamento { get; set; }
         public List<Guid> categorias {  get; set; } = new();
-        public List<string> categoriasTitulo {  get; set; }
+        public List<string> categoriasTitulo { get; set; } = new();
 
 
         public class CadastrarDespesaViewModel : FormularioDespesaViewModel
         {
+            public DateTime dataOcorrencia = DateTime.Today;
             public CadastrarDespesaViewModel() { }
 
             public CadastrarDespesaViewModel(string descricao, DateTime dataOcorrencia, double valor, string formaDoPagamento, List<Guid> categorias, List<string> categoriasTitulo)

@@ -16,6 +16,7 @@ namespace eAgenda.Dominio.ModuloCategoria
         public Categoria() { }     
         public Categoria(string titulo, List<Despesa> despesas)
         {
+            Id = Guid.NewGuid();
             Titulo = titulo;
             this.despesas = despesas;
         }
