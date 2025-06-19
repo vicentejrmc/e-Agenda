@@ -5,6 +5,13 @@
     ViewBag.Titulo = "Despesas por Categoria";
 }
 
+<p>
+    <a class="btn btn-primary px-4" href="/despesas/cadastrar">
+        <i class="bi bi-plus"></i>
+        Cadastrar Nova Despesa
+    </a>
+</p>
+
 <div class="d-flex flex-wrap gap-2">
     @foreach (var item in Model.Registro.despesas!)
     {

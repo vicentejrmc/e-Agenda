@@ -1,5 +1,4 @@
 ﻿using eAgenda.Dominio.ModuloCategoria;
-using static eAgenda.Dominio.ModuloCategoria.Categoria;
 using eAgenda.Dominio.ModuloDespesa;
 using eAgenda.WebApp.Extensions;
 
