@@ -17,7 +17,6 @@ namespace eAgenda.WebApp.Models
         [Required(ErrorMessage = "O campo \"Telefone\" é obrigatório.")]
         [RegularExpression(@"^\d{2} \d{4,5}-\d{4}$", ErrorMessage = "O campo \"Telefone\" deve estar no formato \"xx xxxx-xxxx\" ou \"xx xxxxx-xxxx\".")]
         public string Telefone { get; set; }
-
         public string? Cargo { get; set; }
         public string? Empresa { get; set; }
 

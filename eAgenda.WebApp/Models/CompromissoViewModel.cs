@@ -60,6 +60,8 @@ namespace eAgenda.WebApp.Models
 
     public class EditarCompromissoViewModel : FormularioCompromissoViewModel
     {
+        private string nome;
+
         public Guid Id { get; set; }
         public EditarCompromissoViewModel() { }
         public EditarCompromissoViewModel

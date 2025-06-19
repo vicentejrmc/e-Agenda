@@ -71,5 +71,37 @@ namespace eAgenda.WebApp.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet("editar/{id:guid}")]
+        public IActionResult Editar(Guid id)
+        {
+            var compromissoSelecionado = repositorioCompromisso.SelecionarRegistroPorId(id);
+
+            var editarVM = new EditarCompromissoViewModel
+            (
+                compromissoSelecionado.Id,
+                compromissoSelecionado.Assunto,
+                compromissoSelecionado.DataOcorrencia,
+                compromissoSelecionado.HoraInicio,
+                compromissoSelecionado.HoraTermino,
+                compromissoSelecionado.TipoCompromisso,
+                compromissoSelecionado.Local,
+                compromissoSelecionado.Link,
+                compromissoSelecionado.Contato
+            );
+            return View(editarVM);
+        }
+
+        [HttpPost("editar/{id:guid}")]
+        public IActionResult Editar(Guid id, EditarCompromissoViewModel editarVM)
+        {
+            var registros = repositorioCompromisso.SelecionarRegistros();
+
+            var entidadeEditada = editarVM.ParaEntidade();
+
+            repositorioCompromisso.EditarRegistro(id, entidadeEditada);
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
