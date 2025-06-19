@@ -5,6 +5,7 @@ using eAgenda.Infraestrutura.ModuloCompromisso;
 using eAgenda.WebApp.Extensions;
 using eAgenda.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using static eAgenda.WebApp.Models.FormularioContatoViewModel;
 
 namespace eAgenda.WebApp.Controllers
 {
@@ -100,6 +101,24 @@ namespace eAgenda.WebApp.Controllers
             var entidadeEditada = editarVM.ParaEntidade();
 
             repositorioCompromisso.EditarRegistro(id, entidadeEditada);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet("excluir/{id:guid}")]
+        public IActionResult Excluir(Guid id)
+        {
+            var registroSelecionado = repositorioCompromisso.SelecionarRegistroPorId(id);
+
+            var excluirVM = new ExcluirCompromissoViewModel(registroSelecionado.Id, registroSelecionado.Assunto);
+
+            return View(excluirVM);
+        }
+
+        [HttpPost("excluir/{id:guid}")]
+        public IActionResult ExcluirConfirmado(Guid id)
+        {
+            repositorioCompromisso.ExcluirRegistro(id);
 
             return RedirectToAction(nameof(Index));
         }
