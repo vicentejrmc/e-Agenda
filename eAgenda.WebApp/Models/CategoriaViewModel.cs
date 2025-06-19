@@ -105,24 +105,25 @@ namespace eAgenda.WebApp.Models
                 
                 var detalhesVM = categoria.ParaDetalhesVM();
                 Registro = detalhesVM;
-                    
-
+                   
             }
         }
-        public class ExcluirDespesaCategoriaViewModel
+        public class ExcluirCategoriaDespesaViewModel
         {
             public Guid Id { get; set; }
-            public string Titulo {get; set; }
-            public List<Despesa>? despesas;
+            public string Titulo { get; set; }
+            public Despesa despesa { get; set; }
+            public Guid idDespesa { get; set; }
 
-            public ExcluirDespesaCategoriaViewModel(Guid id, string titulo, List<Despesa>? despesas = null)
+            public ExcluirCategoriaDespesaViewModel() { }
+
+            public ExcluirCategoriaDespesaViewModel(Guid id, string Titulo, Despesa despesa, Guid idDespesa) : this()
             {
                 Id = id;
-                Titulo = titulo;
-                this.despesas = despesas;
+                this.Titulo = Titulo;
+                this.despesa = despesa;
+                this.idDespesa = idDespesa;
             }
-
-
         }
     }
 }

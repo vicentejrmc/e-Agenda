@@ -1,11 +1,13 @@
 ﻿using eAgenda.Dominio.ModuloCategoria;
 using eAgenda.Dominio.ModuloDespesa;
+using eAgenda.Dominio.ModuloTarefa;
 using eAgenda.Infraestrutura.Compartilhado;
 using eAgenda.Infraestrutura.ModuloCategoria;
 using eAgenda.Infraestrutura.ModuloDespesa;
 using eAgenda.WebApp.Extensions;
 using eAgenda.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Cryptography.X509Certificates;
 using static eAgenda.WebApp.Models.FormularioDespesaViewModel;
 
 namespace eAgenda.WebApp.Controllers
@@ -48,15 +50,33 @@ namespace eAgenda.WebApp.Controllers
         public IActionResult Cadastrar(CadastrarDespesaViewModel cadastrarVM)
         {
             var registros = repositorioDespesa.SelecionarRegistros() ?? new List<Despesa>();
-
+            var categorias = repositorioCategoria.SelecionarRegistros();
             if (!ModelState.IsValid)
             return View(cadastrarVM);
+
             foreach (var item in cadastrarVM.categorias)
-            {                
+            {
+
                 cadastrarVM.categoriasTitulo.Add(repositorioCategoria.SelecionarRegistroPorId(item).Titulo);
+
             }
-            var entidade = cadastrarVM.ParaEntidade();
+            var entidade = cadastrarVM.ParaEntidade();    
             repositorioDespesa.CadastrarRegistro(entidade);
+            foreach (var item in entidade.categorias)
+            {
+
+                foreach (var item2 in categorias)
+                {
+                    Categoria c = item2;
+                    if (c.despesas == null) c.despesas = new List<Despesa>();
+                    if (c.Id == item)
+                    {
+                        c.despesas.Add(entidade);
+                        repositorioCategoria.EditarRegistro(item, c);
+                    }
+                }
+
+            }
 
             return RedirectToAction(nameof(Index));
         }
@@ -108,8 +128,26 @@ namespace eAgenda.WebApp.Controllers
         [HttpPost("excluir/{id:guid}")]
         public IActionResult ExcluirConfirmado(Guid id)
         {
+            
+            foreach (var item in repositorioCategoria.SelecionarRegistros())
+            {
+                List<Despesa> listaAuxiliar = new List<Despesa>();
+                Categoria c = item;
+                foreach (var item2 in c.despesas)
+                { 
+                    if (item2.Id == id)
+                    {
+                    listaAuxiliar.Add(item2);
+                    
+                    }
+                }
+                foreach (var item2 in listaAuxiliar)
+                {
+                    c.despesas.Remove(item2);
+                    repositorioCategoria.EditarRegistro(item.Id, c);
+                }
+            }
             repositorioDespesa.ExcluirRegistro(id);
-
             return RedirectToAction(nameof(Index));
         }
     }

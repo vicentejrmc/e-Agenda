@@ -5,6 +5,8 @@ using eAgenda.WebApp.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using static eAgenda.WebApp.Models.FormularioCategoriaViewModel;
 using eAgenda.Dominio.ModuloDespesa;
+using Microsoft.Win32;
+using eAgenda.Infraestrutura.ModuloDespesa;
 
 namespace eAgenda.WebApp.Controllers
 {
@@ -19,6 +21,7 @@ namespace eAgenda.WebApp.Controllers
         {
             contextoDados = new ContextoDeDados(true);
             repositorioCategoria = new RepositorioCategoriaEmArquivo(contextoDados);
+            repositorioDespesa = new RepositorioDespesaEmArquivo(contextoDados);
         }
 
         [HttpGet]
@@ -123,7 +126,7 @@ namespace eAgenda.WebApp.Controllers
                     return RedirectToAction("Index");
                 }
             }
-                
+
             repositorioCategoria.ExcluirRegistro(id);
 
             return RedirectToAction(nameof(Index));
@@ -139,33 +142,40 @@ namespace eAgenda.WebApp.Controllers
         }
 
         [HttpGet("despesas/{categoriaId:guid}/excluir/{despesaId:guid}")]
-        public IActionResult Despesas(Guid categoriaId, Guid despesaId)
+        public IActionResult ExcluirDespesa(Guid categoriaId, Guid despesaId)
         {
             var registroSelecionado = repositorioCategoria.SelecionarRegistroPorId(categoriaId);
+            var despesaSelecionada = repositorioDespesa.SelecionarRegistroPorId(despesaId);
 
-            var DespesaVM = new ExcluirDespesaCategoriaViewModel(categoriaId, registroSelecionado.Titulo, registroSelecionado.despesas);
-
-            return View(DespesaVM);
+            var ExcluirVM = new ExcluirCategoriaDespesaViewModel( registroSelecionado.Id, registroSelecionado.Titulo, despesaSelecionada, despesaId);
+            
+            return View(ExcluirVM);
         }
 
         [HttpPost("despesas/{categoriaId:guid}/excluir/{despesaId:guid}")]
-        public IActionResult DespesasPost(Guid categoriaId, Guid despesaId, ExcluirDespesaCategoriaViewModel DespesaVM)
+        public IActionResult ExcluirDespesa(Guid categoriaId, Guid despesaId, ExcluirCategoriaDespesaViewModel ExcluirVM)
         {
             var despesa = repositorioDespesa.SelecionarRegistroPorId(despesaId);
             var categoria = repositorioCategoria.SelecionarRegistroPorId(categoriaId);
-            if (despesa.categorias.Count == 1)
+            //if (despesa.categorias.Count == 1)
+            //{
+            //    ModelState.AddModelError("ExclusaoProibida", "Não é possível existir uma despesa sem uma categoria");
+            //}
+            //if (!ModelState.IsValid)
+            //    return View(ExcluirVM);
+            foreach (var item in repositorioDespesa.SelecionarRegistros())
             {
-                ModelState.AddModelError("ExclusaoProibida", "Não é possível existir uma despesa sem uma categoria");
+                if(item.Id == despesaId)
+                {
+                    item.categorias.Remove(despesaId);
+                    item.categoriasTitulo.Remove(categoria.Titulo);
+                }
             }
-            if (!ModelState.IsValid)
-                return View(DespesaVM);
 
             categoria.despesas.Remove(despesa);
- 
+            repositorioCategoria.EditarRegistro(categoriaId, categoria);
+
             return RedirectToAction(nameof(Index));
         }
     }
 }
-
-
-
