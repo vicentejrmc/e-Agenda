@@ -3,9 +3,16 @@ using eAgenda.Dominio.ModuloCompromisso;
 using eAgenda.Dominio.ModuloContato;
 using eAgenda.Dominio.ModuloDespesa;
 using eAgenda.Dominio.ModuloTarefa;
+using eAgenda.Dominio.ModuloDespesa;
+using eAgenda.Dominio.ModuloCategoria;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-
+using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace eAgenda.Infraestrutura.Compartilhado
 {

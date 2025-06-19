@@ -3,12 +3,28 @@
     ViewBag.Titulo = "Visualização de Tarefas";
 }
 
-<p>
+<div class="d-grid d-lg-flex flex-wrap gap-2 align-items-center">
     <a class="btn btn-primary px-4" href="/tarefas/cadastrar">
         <i class="bi bi-plus"></i>
         Cadastrar Novo/a
     </a>
-</p>
+    <div class="ms-lg-auto d-grid d-lg-flex flex-wrap gap-2">
+        <a class="btn btn-outline-primary px-3 btn-filtro" asp-action="Index">
+            <i class="bi bi-list"></i>
+            Todas as tarefas
+        </a>
+
+        <a class="btn btn-outline-primary px-3 btn-filtro" asp-action="Index" asp-route-status="Pendente">
+            <i class="bi bi-cart"></i>
+            Tarefas pendentes
+        </a>
+
+        <a class="btn btn-outline-primary px-3 btn-filtro" asp-action="Index" asp-route-status="Concluído">
+            <i class="bi bi-cart-check"></i>
+            Tarefas Concluidas
+        </a>
+    </div>
+</div>
 
 <hr />
 
@@ -18,11 +34,15 @@
         <div class="col-12 col-md-3">
             <div class="card border-0">
                 <div class="card-body">
-                    <h5 class="card-title">Contato: @item.Titulo</h5>
+                    <h5 class="card-title">Tarefa: @item.Titulo</h5>
                     <p class="card-text"><span class="fw-semibold">Prioridade:</span> @item.Prioridade</p>
-                    <p class="card-text"><span class="fw-semibold">Data de Criacao:</span> @item.DataCriacao</p>
+                    <p class="card-text"><span class="fw-semibold">Data de Criacao:</span> @item.DataCriacao.ToString("dd/MM/yyyy")</p>
                     <p class="card-text"><span class="fw-semibold">Status:</span> @item.StatusConcluida</p>
                     <p class="card-text"><span class="fw-semibold">Percentual:</span> @item.PercentualConcluida%</p>
+                    <p class="card-text">
+                        <span class="fw-semibold">Data de Conclusão:</span>
+                        @(item.DataConclusao == DateTime.MinValue ? "Pendente" : item.DataConclusao.ToString("dd/MM/yyyy"))
+                    </p>
 
                     <span class="d-flex justify-content-end mt-4 gap-1">
                         <a href="/tarefas/editar/@item.Id" class="btn btn-primary rounded-circle opcao-card">
@@ -37,3 +57,7 @@
         </div>
     }
 </div>
+
+@section Scripts {
+    <script src="~/js/ativacaoFiltrosTarefas.js"></script>
+}

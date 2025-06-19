@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace eAgenda.Dominio.ModuloDespesa
 {
-    internal interface IRepositorioDespesa : IRepositorio<Despesa>
+    public interface IRepositorioDespesa : IRepositorio<Despesa>
     {
     }
 }

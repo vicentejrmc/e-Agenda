@@ -36,6 +36,26 @@
                         <span asp-validation-for="DataCriacao" class="text-danger"></span>
                     </div>
 
+                    <hr />
+                    <div class="form-group d-grid mt-3 gap-2">
+                        <label class="control-label fs-5">Adicionar Itens da Tarefa:</label>
+
+                        <div id="itens-container" class="d-flex flex-column gap-3">
+                            <div class="item-form d-flex gap-2">
+                                <input type="text" name="TitulosItens" class="form-control" placeholder="Título do item" required />
+                                <select name="StatusConclusoesItens" class="form-select" style="max-width: 150px;">
+                                    <option value="Pendente">Pendente</option>
+                                    <option value="Concluído">Concluído</option>
+                                </select>
+                                <button type="button" class="btn btn-danger btn-remover-item">X</button>
+                            </div>
+                        </div>
+
+                        <button type="button" id="btn-adicionar-item" class="btn btn-outline-secondary mt-2 w-auto">
+                            Adicionar outro item
+                        </button>
+                    </div>
+
                     <div class="form-group d-flex align-items-center justify-content-end mt-5 gap-3">
                         <a href="/tarefas">Voltar para a listagem</a>
                         <button type="submit" class="btn btn-primary rounded-3 px-5">Confirmar</button>
@@ -48,4 +68,31 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        document.getElementById("btn-adicionar-item").addEventListener("click", function () {
+            const container = document.getElementById("itens-container");
+
+            const itemForm = document.createElement("div");
+            itemForm.className = "item-form d-flex gap-2";
+
+            itemForm.innerHTML = `
+                <input type="text" name="TitulosItens" class="form-control" placeholder="Título do item" required />
+                <select name="StatusConclusoesItens" class="form-select" style="max-width: 150px;">
+                    <option value="Pendente">Pendente</option>
+                    <option value="Concluído">Concluído</option>
+                </select>
+                <button type="button" class="btn btn-danger btn-remover-item">X</button>
+            `;
+
+            container.appendChild(itemForm);
+        });
+
+        // Remover item
+        document.addEventListener("click", function (e) {
+            if (e.target.classList.contains("btn-remover-item")) {
+                e.target.parentElement.remove();
+            }
+        });
+    </script>
 }

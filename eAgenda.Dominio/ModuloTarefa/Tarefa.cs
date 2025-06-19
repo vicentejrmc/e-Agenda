@@ -9,8 +9,7 @@ namespace eAgenda.Dominio.ModuloTarefa;
 
 public class Tarefa : EntidadeBase<Tarefa>
 {
-    private DateTime? dataConclusao;
-
+    public Guid Id { get; set; }
     public string Titulo { get; set; }
     public string Prioridade { get; set; }
     public DateTime DataCriacao { get; set; }
@@ -23,24 +22,37 @@ public class Tarefa : EntidadeBase<Tarefa>
     {
         Items = new List<Item>();
     }
-    public Tarefa(string titulo, string prioridade, DateTime dataCriacao, DateTime dataConclusao, string statusConcluida, double percentualConcluida) : this()
+
+    public Tarefa(string titulo, string prioridade, DateTime dataCriacao, double percentualConcluida, string statusConcluida, DateTime dataConclusao) : this()
     {
+        Id = Guid.NewGuid();
         Titulo = titulo;
         Prioridade = prioridade;
         DataCriacao = dataCriacao;
-        DataConclusao = dataConclusao;
-        StatusConcluida = statusConcluida;
         PercentualConcluida = percentualConcluida;
+        StatusConcluida = statusConcluida;
+        DataConclusao = dataConclusao;
     }
 
-    public Tarefa(string titulo, string prioridade, DateTime dataCriacao, double percentualConcluida, string statusConcluida, DateTime? dataConclusao)
+    public void AtualizarPercentual()
     {
-        Titulo = titulo;
-        Prioridade = prioridade;
-        DataCriacao = dataCriacao;
-        PercentualConcluida = percentualConcluida;
-        StatusConcluida = statusConcluida;
-        this.dataConclusao = dataConclusao;
+        if (Items == null || Items.Count == 0)
+        {
+            PercentualConcluida = 0;
+            return;
+        }
+
+        int quantidadeConcluidos = 0;
+
+        foreach (var item in Items)
+        {
+            if (item.StatusConclusao == "Concluído")
+            {
+                quantidadeConcluidos++;
+            }
+        }
+
+        PercentualConcluida = Math.Round((quantidadeConcluidos * 100.0) / Items.Count, 2);
     }
 
     public override void AtualizarRegistro(Tarefa registro)
