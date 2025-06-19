@@ -14,18 +14,15 @@ namespace eAgenda.Dominio.ModuloDespesa
         public string descricao {  get; set; }
         public DateTime dataOcorrencia = DateTime.Today;
         public double valor {  get; set; }
-
-        public string[] formasPagamento = { "À Vista", "Crédito", "Débito" };
         public string formaDoPagamento { get; set; }
 
         public List<Categoria> categorias = new List<Categoria>();
         public Despesa() { }
-        public Despesa(string descricao, DateTime dataOcorrencia, double valor, string[] formasPagamento, string formaDoPagamento, List<Categoria> categorias)
+        public Despesa(string descricao, DateTime dataOcorrencia, double valor, string formaDoPagamento, List<Categoria> categorias)
         {
             this.descricao = descricao;
             this.dataOcorrencia = dataOcorrencia;
             this.valor = valor;
-            this.formasPagamento = formasPagamento;
             this.formaDoPagamento = formaDoPagamento;
             this.categorias = categorias;
         }

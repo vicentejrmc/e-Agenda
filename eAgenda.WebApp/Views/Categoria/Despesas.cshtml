@@ -1,0 +1,27 @@
+﻿@using static eAgenda.WebApp.Models.FormularioCategoriaViewModel
+@model VisualizarCategoriaDespesaViewModel
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Despesas por Categoria";
+}
+
+<div class="d-flex flex-wrap gap-2">
+    @foreach (var item in Model.Registro.despesas!)
+    {
+        <div class="col-12 col-md-3">
+            <div class="card border-0">
+                <div class="card-body">
+                    <h5 class="card-title">Despesa: @item.valor R$</h5>
+                    <p class="card-text"><span class="fw-semibold">Descrição:</span> @item.descricao</p>
+                    <p class="card-text"><span class="fw-semibold">Data de Ocorrência:</span> @item.dataOcorrencia</p>         
+                    <p class="card-text"><span class="fw-semibold">Forma de Pagamento:</span> @item.formaDoPagamento</p>
+                    <span class="d-flex justify-content-end mt-4 gap-1">
+                        <a href="/categorias/despesas/@Model.Registro.Id/excluir/@item.Id" class="btn btn-danger rounded-circle opcao-card">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    }
+</div>

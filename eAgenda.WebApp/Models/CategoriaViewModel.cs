@@ -1,8 +1,7 @@
 ﻿using eAgenda.Dominio.ModuloCategoria;
-using eAgenda.Dominio.ModuloContato;
+using static eAgenda.Dominio.ModuloCategoria.Categoria;
 using eAgenda.Dominio.ModuloDespesa;
 using eAgenda.WebApp.Extensions;
-using static eAgenda.WebApp.Models.FormularioContatoViewModel;
 
 namespace eAgenda.WebApp.Models
 {
@@ -37,18 +36,19 @@ namespace eAgenda.WebApp.Models
 
 
         }
-
         public class ExcluirCategoriaViewModel
         {
             public Guid Id { get; set; }
             public string Titulo { get; set; }
+            public List<Despesa>? despesas { get; set; }
 
             public ExcluirCategoriaViewModel() { }
 
-            public ExcluirCategoriaViewModel(Guid id, string titulo) : this()
+            public ExcluirCategoriaViewModel(Guid id, string Titulo, List<Despesa>? despesas = null) : this()
             {
                 Id = id;
-                Titulo = titulo;
+                this.Titulo = Titulo;
+                this.despesas = despesas;
             }   
         }
         public class VisualizarCategoriaViewModel
@@ -69,7 +69,6 @@ namespace eAgenda.WebApp.Models
                 }
             }
         }
-
         public class DetalhesCategoriaViewModel
         {
             public Guid Id { get; }
@@ -88,12 +87,43 @@ namespace eAgenda.WebApp.Models
         {
             public Guid Id { get; set; }
             public string Titulo { get; }
+            public List<Despesa>? despesas { get; set; }
 
-            public SelecionarCategoriaViewModel(Guid id, string titulo)
+            public SelecionarCategoriaViewModel(Guid id, string titulo, List<Despesa>? despesas = null)
             {
                 Id = id;
                 Titulo = titulo;
+                this.despesas = despesas;
             }
+        }
+
+        public class VisualizarCategoriaDespesaViewModel
+        {
+            public DetalhesCategoriaViewModel Registro { get; set; }
+
+            public VisualizarCategoriaDespesaViewModel(Categoria categoria)
+            {    
+                
+                var detalhesVM = categoria.ParaDetalhesVM();
+                Registro = detalhesVM;
+                    
+
+            }
+        }
+        public class ExcluirDespesaCategoriaViewModel
+        {
+            public Guid Id { get; set; }
+            public string Titulo {get; set; }
+            public List<Despesa>? despesas;
+
+            public ExcluirDespesaCategoriaViewModel(Guid id, string titulo, List<Despesa>? despesas = null)
+            {
+                Id = id;
+                Titulo = titulo;
+                this.despesas = despesas;
+            }
+
+
         }
     }
 }
