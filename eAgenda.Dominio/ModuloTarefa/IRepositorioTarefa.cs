@@ -18,4 +18,5 @@ public interface IRepositorioTarefa
     List<Tarefa> SelecionarTarefasConcluidas();
     void AtualizarStatus(Guid id);
     void AtualizarPercentual(Guid id);
+    bool ExcluirTarefa(Guid id);
 }

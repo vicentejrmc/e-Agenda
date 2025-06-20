@@ -117,11 +117,6 @@ namespace eAgenda.WebApp.Controllers
         {
             var registroSelecionado = repositorioTarefa.SelecionarPorId(id);
 
-            if (registroSelecionado is not Tarefa tarefa)
-            {
-                return NotFound();
-            }
-
             var excluirVM = new ExcluirTarefaViewModel(registroSelecionado.Id, registroSelecionado.Titulo);
 
             return View(excluirVM);
@@ -130,7 +125,7 @@ namespace eAgenda.WebApp.Controllers
         [HttpPost("excluir/{id:guid}")]
         public IActionResult ExcluirConfirmado(Guid id)
         {
-            //repositorioTarefa.ExcluirTarefa(id);
+            repositorioTarefa.ExcluirTarefa(id);
 
             return RedirectToAction(nameof(Index));
         }

@@ -123,5 +123,21 @@ namespace eAgenda.Infraestrutura.ModuloTarefa
 
             return false;
         }
+
+        public bool ExcluirTarefa(Guid id)
+        {
+            Tarefa registroSelecionado = SelecionarPorId(id);
+
+            if (registroSelecionado != null)
+            {
+                registros.Remove(registroSelecionado);
+
+                contexto.Salvar();
+
+                return true;
+            }
+
+            return false;
+        }
     }
 }

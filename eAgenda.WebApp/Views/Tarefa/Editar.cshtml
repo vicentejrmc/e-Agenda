@@ -35,9 +35,11 @@
                         <input asp-for="DataCriacao" class="form-control" type="date" value="@Model.DataCriacao.ToString("yyyy-MM-dd")" />
                         <span asp-validation-for="DataCriacao" class="text-danger"></span>
                     </div>
-                                        
+
+                    <div class="form-group d-flex align-items-center justify-content-end gap-3 mt-3">
                         <a href="/tarefas">Voltar para a listagem</a>
                         <button type="submit" class="btn btn-primary rounded-3 px-5">Confirmar</button>
+                    </div>
                 </form>
             </div>
         </div>
