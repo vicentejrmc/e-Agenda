@@ -128,6 +128,3 @@ namespace eAgenda.WebApp.Controllers
         }
     }
 }
-
-
-}
