@@ -8,7 +8,7 @@ namespace eAgenda.WebApp.Extensions
     {
         public static Categoria ParaEntidade(this FormularioCategoriaViewModel formularioVM)
         {
-            return new Categoria(formularioVM.Titulo, formularioVM.despesas!);
+            return new Categoria(formularioVM.Titulo, formularioVM.despesas, formularioVM.despesas1);
         }
 
         public static DetalhesCategoriaViewModel ParaDetalhesVM(this Categoria categoria)
@@ -16,6 +16,7 @@ namespace eAgenda.WebApp.Extensions
             return new DetalhesCategoriaViewModel(
                 categoria.Id,
                 categoria.Titulo,
+                categoria.despesas1,
                 categoria.despesas
             );
         }

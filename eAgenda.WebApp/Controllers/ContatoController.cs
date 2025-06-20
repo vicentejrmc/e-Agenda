@@ -49,12 +49,8 @@ namespace eAgenda.WebApp.Controllers
                 if (item.Email.Equals(cadastrarVM.Email))
                 {
                     ModelState.AddModelError("CadastroUnico", "Já existe um Contato registrado com este Email.");
-                    break;
                 }
-            }
 
-            foreach (var item in registros)
-            {
                 if (item.Telefone.Equals(cadastrarVM.Telefone))
                 {
                     ModelState.AddModelError("CadastroUnico", "Já existe um Contato registrado com este Telefone.");
