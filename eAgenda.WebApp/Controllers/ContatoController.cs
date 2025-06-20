@@ -1,5 +1,7 @@
-﻿using eAgenda.Dominio.ModuloContato;
+﻿using eAgenda.Dominio.ModuloCompromisso;
+using eAgenda.Dominio.ModuloContato;
 using eAgenda.Infraestrutura.Compartilhado;
+using eAgenda.Infraestrutura.ModuloCompromisso;
 using eAgenda.Infraestrutura.ModuloContato;
 using eAgenda.WebApp.Extensions;
 using eAgenda.WebApp.Models;
@@ -13,11 +15,13 @@ namespace eAgenda.WebApp.Controllers
     {
         private readonly ContextoDeDados contextoDados;
         private readonly IRepositorioContato repositorioContato;
+        private readonly IRepositorioCompromisso repoisitorioCompromisso;
 
         public ContatoController()
         {
             contextoDados = new ContextoDeDados(true);
             repositorioContato = new RepositorioContatoEmArquivo(contextoDados);
+            repoisitorioCompromisso = new RepositorioCompromissoEmArquivo(contextoDados);
         }
 
         [HttpGet]
@@ -115,6 +119,16 @@ namespace eAgenda.WebApp.Controllers
         [HttpPost("excluir/{id:guid}")]
         public IActionResult ExcluirConfirmado(Guid id)
         {
+            
+            foreach (var compromisso in contextoDados.Compromissos)
+            {
+                if(compromisso.Contato != null && compromisso.Contato.Id == id && compromisso.DataOcorrencia >= DateTime.Today)
+                {
+                    TempData["MensagemErro"] = "Contato não pode ser excluido pois o mesmo tem um compromisso pendente em aberto!";
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+
             repositorioContato.ExcluirRegistro(id);
 
             return RedirectToAction(nameof(Index));

@@ -1,10 +1,13 @@
 ﻿using eAgenda.Dominio.ModuloCompromisso;
+using eAgenda.Dominio.ModuloContato;
 using eAgenda.WebApp.Models;
 
 namespace eAgenda.WebApp.Extensions
 {
     public static class ComprimissoExtensions
     {
+        private static readonly IRepositorioContato repositorioContato;
+
         public static Compromisso ParaEntidade(this FormularioCompromissoViewModel formularioVM)
         {
             return new Compromisso(

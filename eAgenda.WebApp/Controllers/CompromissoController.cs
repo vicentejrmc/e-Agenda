@@ -2,6 +2,7 @@
 using eAgenda.Dominio.ModuloContato;
 using eAgenda.Infraestrutura.Compartilhado;
 using eAgenda.Infraestrutura.ModuloCompromisso;
+using eAgenda.Infraestrutura.ModuloContato;
 using eAgenda.WebApp.Extensions;
 using eAgenda.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -14,11 +15,13 @@ namespace eAgenda.WebApp.Controllers
     {
         private readonly ContextoDeDados contextoDados;
         private readonly IRepositorioCompromisso repositorioCompromisso;
+        private readonly IRepositorioContato repositorioContato;
 
         public CompromissoController()
         {
             contextoDados = new ContextoDeDados(true);
             repositorioCompromisso = new RepositorioCompromissoEmArquivo(contextoDados);
+            repositorioContato = new RepositorioContatoEmArquivo(contextoDados);
         }
 
         [HttpGet]
@@ -67,6 +70,21 @@ namespace eAgenda.WebApp.Controllers
                 ModelState.AddModelError("ConflitoHorario", "Já existe um compromisso neste horário.");
                 return View(cadastrarVM);
             }
+
+            Contato? contatoSelecionado = null;
+            if (cadastrarVM.ContatoId.HasValue)
+                contatoSelecionado = repositorioContato.SelecionarRegistroPorId(cadastrarVM.ContatoId.Value);
+
+            novoCompromisso = new Compromisso(
+                cadastrarVM.Assunto,
+                cadastrarVM.DataOcorrencia,
+                cadastrarVM.HoraInicio,
+                cadastrarVM.HoraTermino,
+                cadastrarVM.TipoCompromisso,
+                cadastrarVM.Local,
+                cadastrarVM.Link,
+                contatoSelecionado 
+            );
 
             repositorioCompromisso.CadastrarRegistro(novoCompromisso);
 
