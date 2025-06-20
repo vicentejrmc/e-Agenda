@@ -108,6 +108,10 @@ namespace eAgenda.WebApp.Controllers
                 compromissoSelecionado.Link,
                 compromissoSelecionado.Contato
             );
+
+            editarVM.Contatos = contextoDados.Contatos ?? new List<Contato>();
+            editarVM.ContatoId = compromissoSelecionado.Contato?.Id;
+
             return View(editarVM);
         }
 
@@ -116,9 +120,24 @@ namespace eAgenda.WebApp.Controllers
         {
             var registros = repositorioCompromisso.SelecionarRegistros();
 
-            var entidadeEditada = editarVM.ParaEntidade();
+            var compromissoEditado = editarVM.ParaEntidade();
 
-            repositorioCompromisso.EditarRegistro(id, entidadeEditada);
+            Contato? contatoSelecionado = null;
+            if (editarVM.ContatoId.HasValue)
+                contatoSelecionado = repositorioContato.SelecionarRegistroPorId(editarVM.ContatoId.Value);
+
+            compromissoEditado = new Compromisso(
+                editarVM.Assunto,
+                editarVM.DataOcorrencia,
+                editarVM.HoraInicio,
+                editarVM.HoraTermino,
+                editarVM.TipoCompromisso,
+                editarVM.Local,
+                editarVM.Link,
+                contatoSelecionado
+            );
+
+            repositorioCompromisso.EditarRegistro(id, compromissoEditado);
 
             return RedirectToAction(nameof(Index));
         }

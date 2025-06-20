@@ -62,6 +62,7 @@ namespace eAgenda.WebApp.Models
     {
         public Guid Id { get; set; }
         public EditarCompromissoViewModel() { }
+
         public EditarCompromissoViewModel
             (Guid id,
             string assunto,
@@ -71,7 +72,7 @@ namespace eAgenda.WebApp.Models
             TipoCompromissoEnum tipoCompromisso,
             string? local = null,
             string? link = null,
-            Contato? contato = null) : this()
+            Contato? contato = null)
         {
             Id = id;
             Assunto = assunto;
