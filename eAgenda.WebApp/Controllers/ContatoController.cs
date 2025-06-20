@@ -106,6 +106,7 @@ namespace eAgenda.WebApp.Controllers
         {
             var registroSelecionado = repositorioContato.SelecionarRegistroPorId(id);
 
+            if(registroSelecionado is null) return View("Index");
             var excluirVM = new ExcluirContatoViewModel(registroSelecionado.Id, registroSelecionado.Nome);
 
             return View(excluirVM);
@@ -114,23 +115,6 @@ namespace eAgenda.WebApp.Controllers
         [HttpPost("excluir/{id:guid}")]
         public IActionResult ExcluirConfirmado(Guid id)
         {
-            //Substituição do código original que verifica compromissos em aberto a ser implementada posteriormente,
-            //quando a funcionalidade de compromissos estiver completa.
-            //------------------------------------------------------------------------------------------------------
-            
-            //var compromissosEmAberto = repositorioCompromisso.SelecionarCompromissosEmAbertoPorContato(id);
-
-            //if (compromissosEmAberto.Any())
-            //{
-            //    TempData["MensagemErro"] = "Não é possível excluir o contato pois ele possui compromisso(s) em aberto.";
-            //    return RedirectToAction("Index");
-            //}
-
-            //repositorioContato.Excluir(id);
-
-            //TempData["MensagemSucesso"] = "Contato excluído com sucesso!";
-            //return RedirectToAction("Index");
-
             repositorioContato.ExcluirRegistro(id);
 
             return RedirectToAction(nameof(Index));

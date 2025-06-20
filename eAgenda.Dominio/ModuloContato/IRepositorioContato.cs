@@ -7,7 +7,5 @@ using System.Threading.Tasks;
 
 namespace eAgenda.Dominio.ModuloContato
 {
-    public interface IRepositorioContato : IRepositorio<Contato>
-    {
-    }
+    public interface IRepositorioContato : IRepositorio<Contato>;
 }
