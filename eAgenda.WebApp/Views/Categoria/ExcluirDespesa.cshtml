@@ -14,8 +14,11 @@
                 <h3>Formulário de Exclusão</h3>
 
                 <p class="mt-4">Você deseja realmente remover essa despesa da Categoria "@Model.Titulo"?</p>
-
+                @Html.ValidationMessage("ExclusaoProibida", new { @class = "text-danger" })
                 <form action="/categorias/despesas/@Model.Id/excluir/@Model.idDespesa" method="post">
+                    <input name="Titulo" type="hidden" value="@Model.Titulo" />
+                    <input name="Id" type="hidden" value="@Model.Id" />
+                    <input name="idDespesa" type="hidden" value="@Model.idDespesa" />
                     <div class="form-group d-flex align-items-center justify-content-end gap-3">
                         <a href="/categorias/despesas/@Model.Id">Voltar para a listagem</a>
                         <button type="submit" class="btn btn-danger px-5">Confirmar</button>
@@ -26,3 +29,6 @@
         </div>
     </div>
 </div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

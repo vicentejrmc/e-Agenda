@@ -7,7 +7,6 @@ using eAgenda.Infraestrutura.ModuloDespesa;
 using eAgenda.WebApp.Extensions;
 using eAgenda.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Cryptography.X509Certificates;
 using static eAgenda.WebApp.Models.FormularioDespesaViewModel;
 
 namespace eAgenda.WebApp.Controllers
@@ -68,10 +67,10 @@ namespace eAgenda.WebApp.Controllers
                 foreach (var item2 in categorias)
                 {
                     Categoria c = item2;
-                    if (c.despesas == null) c.despesas = new List<Despesa>();
+                    if (c.despesas == null) c.despesas = new List<Guid>();
                     if (c.Id == item)
                     {
-                        c.despesas.Add(entidade);
+                        c.despesas.Add(entidade.Id);
                         repositorioCategoria.EditarRegistro(item, c);
                     }
                 }
@@ -103,6 +102,7 @@ namespace eAgenda.WebApp.Controllers
         public IActionResult Editar(Guid id, EditarDespesaViewModel editarVM)
         {
             editarVM.categoriasTitulo = new List<string>();
+            var categorias = repositorioCategoria.SelecionarRegistros();
             foreach (var item in editarVM.categorias)
             {
                 editarVM.categoriasTitulo.Add(repositorioCategoria.SelecionarRegistroPorId(item).Titulo);
@@ -110,6 +110,32 @@ namespace eAgenda.WebApp.Controllers
 
             var entidadeEditada = editarVM.ParaEntidade();
             repositorioDespesa.EditarRegistro(id, entidadeEditada);
+            foreach (var item in entidadeEditada.categorias)
+            {
+
+                foreach (var item2 in categorias)
+                {
+                    Categoria c = item2;
+                    bool jaTem = false;
+                    if (c.despesas == null) c.despesas = new List<Guid>();
+                    if (c.Id == item)
+                    {
+                        foreach(var item3 in c.despesas)
+                        {
+                            if(!(item3 == entidadeEditada.Id))
+                            {
+                                 jaTem = true;
+                            }
+                        }
+                        if(!jaTem)
+                        {
+                            c.despesas.Add(entidadeEditada.Id);
+                            repositorioCategoria.EditarRegistro(item, c);
+                        }       
+                    }
+                }
+
+            }
 
             return RedirectToAction(nameof(Index));
         }
@@ -131,11 +157,11 @@ namespace eAgenda.WebApp.Controllers
             
             foreach (var item in repositorioCategoria.SelecionarRegistros())
             {
-                List<Despesa> listaAuxiliar = new List<Despesa>();
+                List<Guid> listaAuxiliar = new List<Guid>();
                 Categoria c = item;
                 foreach (var item2 in c.despesas)
                 { 
-                    if (item2.Id == id)
+                    if (item2 == id)
                     {
                     listaAuxiliar.Add(item2);
                     
