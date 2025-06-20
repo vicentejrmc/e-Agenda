@@ -36,6 +36,22 @@
                         <span asp-validation-for="DataCriacao" class="text-danger"></span>
                     </div>
 
+                    <div class="form-group">
+                        <label>Itens da Tarefa:</label>
+                        <div id="itens-container">
+                            @for (int i = 0; i < Model.TitulosItens.Count; i++)
+                            {
+                                <div class="item-form d-flex gap-2 mb-2">
+                                    <input type="text" name="TitulosItens" class="form-control" value="@Model.TitulosItens[i]" placeholder="Título do item" required />
+                                    <select name="StatusConclusoesItens" class="form-control">
+                                        <option value="Pendente" selected="@(Model.StatusConclusoesItens[i] == "Pendente")">Pendente</option>
+                                        <option value="Concluído" selected="@(Model.StatusConclusoesItens[i] == "Concluído")">Concluído</option>
+                                    </select>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
                     <div class="form-group d-flex align-items-center justify-content-end gap-3 mt-3">
                         <a href="/tarefas">Voltar para a listagem</a>
                         <button type="submit" class="btn btn-primary rounded-3 px-5">Confirmar</button>

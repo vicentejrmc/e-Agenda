@@ -63,5 +63,16 @@ public class Tarefa : EntidadeBase<Tarefa>
         DataConclusao = registro.DataConclusao;
         StatusConcluida = registro.StatusConcluida;
         PercentualConcluida = registro.PercentualConcluida;
+
+        // Atualiza os itens: limpa e adiciona os novos
+        Items.Clear();
+        if (registro.Items != null)
+        {
+            foreach (var item in registro.Items)
+            {
+                Items.Add(item);
+            }
+        }
     }
+
 }
