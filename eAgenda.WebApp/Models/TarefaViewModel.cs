@@ -104,6 +104,8 @@ public abstract class FormularioTarefaViewModel
     {
         public List<DetalhesTarefaViewModel> Registros { get; }
 
+        public Dictionary<string, List<DetalhesTarefaViewModel>> TarefasAgrupadasPorPrioridade { get; }
+
         public VisualizarTarefaViewModel(List<Tarefa> tarefas)
         {
             Registros = new List<DetalhesTarefaViewModel>();
@@ -116,6 +118,10 @@ public abstract class FormularioTarefaViewModel
                     Registros.Add(detalhesVM);
                 }
             }
+
+            TarefasAgrupadasPorPrioridade = Registros
+                .GroupBy(t => t.Prioridade.ToString())
+                .ToDictionary(g => g.Key, g => g.ToList());
         }
     }
 
