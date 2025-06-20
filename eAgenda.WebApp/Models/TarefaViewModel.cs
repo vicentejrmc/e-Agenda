@@ -69,22 +69,59 @@ public abstract class FormularioTarefaViewModel
     {
         public Guid Id { get; set; }
 
+        public List<string> TitulosItens { get; set; } = new();
+        public List<string> StatusConclusoesItens { get; set; } = new();
+
         public EditarTarefaViewModel()
         {
-            Itens = new List<Item>();
+            // Inicializa as listas para evitar null
+            TitulosItens = new List<string>();
+            StatusConclusoesItens = new List<string>();
         }
 
-        public EditarTarefaViewModel(Guid id, string titulo, string prioridade, DateTime dataCriacao, string statusConcluida, double percentualConcluida, DateTime dataConclusao, List<Item> itens) : this()
+        public EditarTarefaViewModel(Guid id, string titulo, string prioridade, DateTime dataCriacao,
+            string statusConcluida, double percentualConcluida, DateTime dataConclusao, List<Item> itens)
+            : this() // chama o construtor padrão
         {
             Id = id;
             Titulo = titulo;
             Prioridade = prioridade;
             DataCriacao = dataCriacao;
-            DataConclusao = dataConclusao;
             StatusConcluida = statusConcluida;
             PercentualConcluida = percentualConcluida;
+            DataConclusao = dataConclusao;
+
+            if (itens != null)
+            {
+                foreach (var item in itens)
+                {
+                    TitulosItens.Add(item.Titulo);
+                    StatusConclusoesItens.Add(item.StatusConclusao);
+                }
+            }
+        }
+
+        public Tarefa ParaEntidade()
+        {
+            var tarefa = new Tarefa(
+                Titulo,
+                Prioridade,
+                DataCriacao,
+                PercentualConcluida,
+                StatusConcluida,
+                DataConclusao
+            );
+
+            for (int i = 0; i < TitulosItens?.Count; i++)
+            {
+                var item = new Item(TitulosItens[i], StatusConclusoesItens[i], tarefa);
+                tarefa.Items.Add(item);
+            }
+
+            return tarefa;
         }
     }
+
 
     public class ExcluirTarefaViewModel
     {
@@ -104,6 +141,8 @@ public abstract class FormularioTarefaViewModel
     {
         public List<DetalhesTarefaViewModel> Registros { get; }
 
+        public Dictionary<string, List<DetalhesTarefaViewModel>> TarefasAgrupadasPorPrioridade { get; }
+
         public VisualizarTarefaViewModel(List<Tarefa> tarefas)
         {
             Registros = new List<DetalhesTarefaViewModel>();
@@ -116,6 +155,10 @@ public abstract class FormularioTarefaViewModel
                     Registros.Add(detalhesVM);
                 }
             }
+
+            TarefasAgrupadasPorPrioridade = Registros
+                .GroupBy(t => t.Prioridade.ToString())
+                .ToDictionary(g => g.Key, g => g.ToList());
         }
     }
 

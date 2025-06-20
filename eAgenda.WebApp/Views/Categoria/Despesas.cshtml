@@ -1,4 +1,5 @@
-﻿@using static eAgenda.WebApp.Models.FormularioCategoriaViewModel
+﻿@using eAgenda.Dominio.ModuloDespesa
+@using static eAgenda.WebApp.Models.FormularioCategoriaViewModel
 @model VisualizarCategoriaDespesaViewModel
 @{
     Layout = "_Layout";
@@ -11,9 +12,11 @@
         Cadastrar Nova Despesa
     </a>
 </p>
-
+<form action="/categorias/despesas/@Model.Registro.Id" method="post">
+    <input asp-for="Registro" type="hidden" />
+</form>
 <div class="d-flex flex-wrap gap-2">
-    @foreach (var item in Model.Registro.despesas!)
+    @foreach (var item in Model.Registro.despesas1)
     {
         <div class="col-12 col-md-3">
             <div class="card border-0">
