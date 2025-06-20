@@ -119,13 +119,15 @@ namespace eAgenda.WebApp.Controllers
         [HttpPost("excluir/{id:guid}")]
         public IActionResult ExcluirConfirmado(Guid id)
         {
-            
-            foreach (var compromisso in contextoDados.Compromissos)
+
+            foreach (var compromisso in repoisitorioCompromisso.SelecionarRegistros())
             {
-                if(compromisso.Contato != null && compromisso.Contato.Id == id && compromisso.DataOcorrencia >= DateTime.Today)
+                if (compromisso.Contato != null &&
+                    compromisso.Contato.Id == id &&
+                    compromisso.DataOcorrencia >= DateTime.Today)
                 {
-                    TempData["MensagemErro"] = "Contato não pode ser excluido pois o mesmo tem um compromisso pendente em aberto!";
-                    return RedirectToAction(nameof(Index));
+                    TempData["MensagemErro"] = "Contato não pode ser excluído pois possui compromisso em aberto!";
+                    return RedirectToAction(nameof(Excluir), new { id });
                 }
             }
 

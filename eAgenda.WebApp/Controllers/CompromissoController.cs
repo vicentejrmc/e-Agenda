@@ -6,7 +6,6 @@ using eAgenda.Infraestrutura.ModuloContato;
 using eAgenda.WebApp.Extensions;
 using eAgenda.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
-using static eAgenda.WebApp.Models.FormularioContatoViewModel;
 
 namespace eAgenda.WebApp.Controllers
 {
