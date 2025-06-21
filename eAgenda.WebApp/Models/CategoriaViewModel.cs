@@ -42,7 +42,6 @@ namespace eAgenda.WebApp.Models
         {
             public Guid Id { get; set; }
             public string Titulo { get; set; }
-            public List<Guid>? despesas { get; set; }
 
             public ExcluirCategoriaViewModel() { }
 
@@ -50,7 +49,6 @@ namespace eAgenda.WebApp.Models
             {
                 Id = id;
                 this.Titulo = Titulo;
-                this.despesas = despesas;
             }   
         }
         public class VisualizarCategoriaViewModel
@@ -117,16 +115,14 @@ namespace eAgenda.WebApp.Models
         {
             public Guid Id { get; set; }
             public string Titulo { get; set; }
-            public Despesa despesa { get; set; }
             public Guid idDespesa { get; set; }
 
             public ExcluirCategoriaDespesaViewModel() { }
 
-            public ExcluirCategoriaDespesaViewModel(Guid id, string Titulo, Despesa despesa, Guid idDespesa) : this()
+            public ExcluirCategoriaDespesaViewModel(Guid id, string Titulo, Guid idDespesa) : this()
             {
                 Id = id;
                 this.Titulo = Titulo;
-                this.despesa = despesa;
                 this.idDespesa = idDespesa;
             }
         }

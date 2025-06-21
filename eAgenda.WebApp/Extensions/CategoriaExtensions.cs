@@ -16,8 +16,8 @@ namespace eAgenda.WebApp.Extensions
             return new DetalhesCategoriaViewModel(
                 categoria.Id,
                 categoria.Titulo,
-                categoria.despesas1,
-                categoria.despesas
+                categoria.despesas,
+                categoria.idDespesas
             );
         }
     }

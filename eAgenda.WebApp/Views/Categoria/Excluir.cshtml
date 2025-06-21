@@ -16,9 +16,8 @@
                 <p class="mt-4">Você deseja realmente excluir a Categoria "@Model.Titulo"?</p>
                 @Html.ValidationMessage("ExclusaoProibida", new { @class = "text-danger" })
                 <form action="/categorias/excluir/@Model.Id" method="post">
-                    <input asp-for="Titulo" type="hidden" />
-                    <input asp-for="Id" type="hidden" />
-                    <input asp-for="despesas" type="hidden" />
+                    <input name="Titulo" type="hidden" value="@Model.Titulo" />
+                    <input name="Id" type="hidden" value="@Model.Id" />
                     <div class="form-group d-flex align-items-center justify-content-end gap-3">
                         <a href="/categorias">Voltar para a listagem</a>
                         <button type="submit" class="btn btn-danger px-5">Confirmar</button>

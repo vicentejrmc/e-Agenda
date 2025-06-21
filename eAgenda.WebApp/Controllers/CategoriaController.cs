@@ -5,7 +5,6 @@ using eAgenda.WebApp.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using static eAgenda.WebApp.Models.FormularioCategoriaViewModel;
 using eAgenda.Dominio.ModuloDespesa;
-using Microsoft.Win32;
 using eAgenda.Infraestrutura.ModuloDespesa;
 
 namespace eAgenda.WebApp.Controllers
@@ -74,7 +73,7 @@ namespace eAgenda.WebApp.Controllers
             var editarVM = new EditarCategoriaViewModel(
                 id,
                 registroSelecionado.Titulo,
-                registroSelecionado.despesas
+                registroSelecionado.idDespesas
             );
 
             return View(editarVM);
@@ -110,8 +109,7 @@ namespace eAgenda.WebApp.Controllers
 
             var excluirVM = new ExcluirCategoriaViewModel(
                 id,
-                registroSelecionado.Titulo,
-                registroSelecionado.despesas
+                registroSelecionado.Titulo
                 );
 
             return View(excluirVM);
@@ -124,12 +122,12 @@ namespace eAgenda.WebApp.Controllers
 
             foreach (var item in registros)
             {
-                if (item.despesas == null)
+                if (item.idDespesas == null)
                 {
-                    item.despesas = new List<Guid>();
+                    item.idDespesas = new List<Guid>();
                     continue;
                 }
-                else if (item.Id.Equals(id) && item.despesas.Count > 0)
+                else if (item.Id.Equals(id) && item.idDespesas.Count > 0)
                 {
                     ModelState.AddModelError("ExclusaoProibida", "Não é possível excluir uma categoria que possui despesas associadas");
                     break;
@@ -146,15 +144,15 @@ namespace eAgenda.WebApp.Controllers
         public IActionResult Despesas(Guid id)
         {
             var registro = repositorioCategoria.SelecionarRegistroPorId(id);
-            if (registro.despesas == null)
+            if (registro.idDespesas == null)
             {
-                registro.despesas1 = new List<Despesa>();
-                registro.despesas = new List<Guid>();
+                registro.despesas = new List<Despesa>();
+                registro.idDespesas = new List<Guid>();
             }  
-            foreach (var item in registro.despesas)
+            foreach (var item in registro.idDespesas)
             {
                 
-                registro.despesas1!.Add(repositorioDespesa.SelecionarRegistroPorId(item));
+                registro.despesas!.Add(repositorioDespesa.SelecionarRegistroPorId(item));
             }
 
             var visualizarVM = new VisualizarCategoriaDespesaViewModel(registro);
@@ -173,7 +171,7 @@ namespace eAgenda.WebApp.Controllers
             var registroSelecionado = repositorioCategoria.SelecionarRegistroPorId(categoriaId);
             var despesaSelecionada = repositorioDespesa.SelecionarRegistroPorId(despesaId);
 
-            var ExcluirVM = new ExcluirCategoriaDespesaViewModel( registroSelecionado.Id, registroSelecionado.Titulo, despesaSelecionada, despesaId);
+            var ExcluirVM = new ExcluirCategoriaDespesaViewModel( registroSelecionado.Id, registroSelecionado.Titulo, despesaId);
             
             return View(ExcluirVM);
         }
@@ -193,12 +191,13 @@ namespace eAgenda.WebApp.Controllers
             {
                 if(item.Id == despesaId)
                 {
-                    item.categorias.Remove(despesaId);
+                    item.categorias.Remove(categoriaId);
                     item.categoriasTitulo.Remove(categoria.Titulo);
+                    repositorioDespesa.EditarRegistro(despesaId, item);
                 }
             }
 
-            categoria.despesas.Remove(despesa.Id);
+            categoria.idDespesas.Remove(despesa.Id);
             repositorioCategoria.EditarRegistro(categoriaId, categoria);
 
             return RedirectToAction(nameof(Index));

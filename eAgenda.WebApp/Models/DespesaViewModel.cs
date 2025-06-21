@@ -2,6 +2,7 @@
 using eAgenda.Dominio.ModuloDespesa;
 using eAgenda.WebApp.Extensions;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 
 namespace eAgenda.WebApp.Models
@@ -11,7 +12,12 @@ namespace eAgenda.WebApp.Models
     {
         public List<Categoria> CategoriasDisponiveis { get; set; } = new();
         public List<Guid> CategoriasSelecionadas { get; set; } = new();
+
+        [Required(ErrorMessage = "O campo \"Descrição\" é obrigatório.")]
+        [StringLength(100, MinimumLength = 2, ErrorMessage = "O campo \"Descrição\" precisa conter entre 2 e 100 caracteres.")]
         public string descricao { get; set; }
+
+
         public DateTime dataOcorrencia { get; set; }
         public double valor { get; set; }
         public string formaDoPagamento { get; set; }

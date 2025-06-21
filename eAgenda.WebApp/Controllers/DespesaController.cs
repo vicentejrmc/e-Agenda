@@ -1,12 +1,12 @@
 ﻿using eAgenda.Dominio.ModuloCategoria;
 using eAgenda.Dominio.ModuloDespesa;
-using eAgenda.Dominio.ModuloTarefa;
 using eAgenda.Infraestrutura.Compartilhado;
 using eAgenda.Infraestrutura.ModuloCategoria;
 using eAgenda.Infraestrutura.ModuloDespesa;
 using eAgenda.WebApp.Extensions;
 using eAgenda.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 using static eAgenda.WebApp.Models.FormularioDespesaViewModel;
 
 namespace eAgenda.WebApp.Controllers
@@ -50,6 +50,12 @@ namespace eAgenda.WebApp.Controllers
         {
             var registros = repositorioDespesa.SelecionarRegistros() ?? new List<Despesa>();
             var categorias = repositorioCategoria.SelecionarRegistros();
+            if (cadastrarVM.categorias == null || !cadastrarVM.categorias.Any())
+            {
+                ModelState.AddModelError("categorias", "Selecione pelo menos uma categoria.");
+                cadastrarVM.CategoriasDisponiveis = repositorioCategoria.SelecionarRegistros();
+            }
+
             if (!ModelState.IsValid)
             return View(cadastrarVM);
 
@@ -67,10 +73,10 @@ namespace eAgenda.WebApp.Controllers
                 foreach (var item2 in categorias)
                 {
                     Categoria c = item2;
-                    if (c.despesas == null) c.despesas = new List<Guid>();
+                    if (c.idDespesas == null) c.idDespesas = new List<Guid>();
                     if (c.Id == item)
                     {
-                        c.despesas.Add(entidade.Id);
+                        c.idDespesas.Add(entidade.Id);
                         repositorioCategoria.EditarRegistro(item, c);
                     }
                 }
@@ -101,42 +107,39 @@ namespace eAgenda.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Editar(Guid id, EditarDespesaViewModel editarVM)
         {
-            editarVM.categoriasTitulo = new List<string>();
             var categorias = repositorioCategoria.SelecionarRegistros();
+            
             foreach (var item in editarVM.categorias)
             {
-                editarVM.categoriasTitulo.Add(repositorioCategoria.SelecionarRegistroPorId(item).Titulo);
+                if(!editarVM.categoriasTitulo.Contains(repositorioCategoria.SelecionarRegistroPorId(item).Titulo))
+                {
+                    editarVM.categoriasTitulo.Add(repositorioCategoria.SelecionarRegistroPorId(item).Titulo);
+                }
             }
 
             var entidadeEditada = editarVM.ParaEntidade();
+            entidadeEditada.Id = id;
             repositorioDespesa.EditarRegistro(id, entidadeEditada);
-            foreach (var item in entidadeEditada.categorias)
-            {
 
                 foreach (var item2 in categorias)
                 {
-                    Categoria c = item2;
-                    bool jaTem = false;
-                    if (c.despesas == null) c.despesas = new List<Guid>();
-                    if (c.Id == item)
+                    Categoria categoria = item2;
+                    if (categoria.idDespesas == null) categoria.idDespesas = new List<Guid>();
+                    if (categoria.idDespesas.Contains(entidadeEditada.Id) && !(entidadeEditada.categorias.Contains(categoria.Id)))
                     {
-                        foreach(var item3 in c.despesas)
+                        categoria.idDespesas.Remove(entidadeEditada.Id);
+                        categoria.despesas.Remove(entidadeEditada);
+                        repositorioCategoria.EditarRegistro(categoria.Id, categoria);
+                    }
+                    else if (entidadeEditada.categorias.Contains(categoria.Id))
+                    {
+                       if(!categoria.idDespesas.Contains(entidadeEditada.Id))
                         {
-                            if(!(item3 == entidadeEditada.Id))
-                            {
-                                 jaTem = true;
-                            }
+                            categoria.idDespesas.Add(entidadeEditada.Id);
+                            repositorioCategoria.EditarRegistro(categoria.Id, categoria);
                         }
-                        if(!jaTem)
-                        {
-                            c.despesas.Add(entidadeEditada.Id);
-                            repositorioCategoria.EditarRegistro(item, c);
-                        }       
                     }
                 }
-
-            }
-
             return RedirectToAction(nameof(Index));
         }
 
@@ -159,7 +162,7 @@ namespace eAgenda.WebApp.Controllers
             {
                 List<Guid> listaAuxiliar = new List<Guid>();
                 Categoria c = item;
-                foreach (var item2 in c.despesas)
+                foreach (var item2 in c.idDespesas)
                 { 
                     if (item2 == id)
                     {
@@ -169,7 +172,7 @@ namespace eAgenda.WebApp.Controllers
                 }
                 foreach (var item2 in listaAuxiliar)
                 {
-                    c.despesas.Remove(item2);
+                    c.idDespesas.Remove(item2);
                     repositorioCategoria.EditarRegistro(item.Id, c);
                 }
             }
