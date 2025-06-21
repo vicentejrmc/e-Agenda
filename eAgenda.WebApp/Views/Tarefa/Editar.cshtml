@@ -36,6 +36,25 @@
                         <span asp-validation-for="DataCriacao" class="text-danger"></span>
                     </div>
 
+                    <div id="itens-container">
+                        @for (int i = 0; i < Model.TitulosItens.Count; i++)
+                        {
+                            <div class="item-form d-flex gap-2 mb-2">
+                                <input type="text" name="TitulosItens" class="form-control" value="@Model.TitulosItens[i]" placeholder="Título do item" required />
+                                <select name="StatusConclusoesItens" class="form-control">
+                                    <option value="Pendente" selected="@(Model.StatusConclusoesItens[i] == "Pendente")">Pendente</option>
+                                    <option value="Concluído" selected="@(Model.StatusConclusoesItens[i] == "Concluído")">Concluído</option>
+                                </select>
+                                <button type="button" class="btn btn-danger btn-remover-item">Remover</button>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <button type="button" id="btnAdicionarItem" class="btn btn-secondary">Adicionar Item</button>
+                    </div>
+
+
                     <div class="form-group d-flex align-items-center justify-content-end gap-3 mt-3">
                         <a href="/tarefas">Voltar para a listagem</a>
                         <button type="submit" class="btn btn-primary rounded-3 px-5">Confirmar</button>
@@ -48,4 +67,57 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.getElementById('btnAdicionarItem').addEventListener('click', function () {
+            var container = document.getElementById('itens-container');
+
+            var divItem = document.createElement('div');
+            divItem.className = 'item-form d-flex gap-2 mb-2';
+
+            var inputTitulo = document.createElement('input');
+            inputTitulo.type = 'text';
+            inputTitulo.name = 'TitulosItens';
+            inputTitulo.className = 'form-control';
+            inputTitulo.placeholder = 'Título do item';
+            inputTitulo.required = true;
+
+            var selectStatus = document.createElement('select');
+            selectStatus.name = 'StatusConclusoesItens';
+            selectStatus.className = 'form-control';
+
+            var optionPendente = document.createElement('option');
+            optionPendente.value = 'Pendente';
+            optionPendente.text = 'Pendente';
+
+            var optionConcluido = document.createElement('option');
+            optionConcluido.value = 'Concluído';
+            optionConcluido.text = 'Concluído';
+
+            selectStatus.appendChild(optionPendente);
+            selectStatus.appendChild(optionConcluido);
+
+            var btnRemover = document.createElement('button');
+            btnRemover.type = 'button';
+            btnRemover.className = 'btn btn-danger btn-remover-item';
+            btnRemover.textContent = 'Remover';
+
+            btnRemover.addEventListener('click', function () {
+                container.removeChild(divItem);
+            });
+
+            divItem.appendChild(inputTitulo);
+            divItem.appendChild(selectStatus);
+            divItem.appendChild(btnRemover);
+
+            container.appendChild(divItem);
+        });
+
+        // Remove itens existentes se clicar no botão remover
+        document.querySelectorAll('.btn-remover-item').forEach(function (btn) {
+            btn.addEventListener('click', function (e) {
+                var itemDiv = e.target.parentNode;
+                itemDiv.parentNode.removeChild(itemDiv);
+            });
+        });
+    </script>
 }

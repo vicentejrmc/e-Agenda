@@ -81,25 +81,25 @@ namespace eAgenda.WebApp.Controllers
         [HttpGet("editar/{id:guid}")]
         public IActionResult Editar(Guid id)
         {
-            var registroSelecionado = repositorioTarefa.SelecionarPorId(id);
+            var tarefa = repositorioTarefa.SelecionarPorId(id);
 
-            if (registroSelecionado is not Tarefa tarefa)
-            {
+            if (tarefa == null)
                 return NotFound();
-            }
 
             var editarVM = new EditarTarefaViewModel(
-                registroSelecionado.Id,
-                registroSelecionado.Titulo,
-                registroSelecionado.Prioridade,
-                registroSelecionado.DataCriacao,
-                registroSelecionado.StatusConcluida,
-                registroSelecionado.PercentualConcluida,
-                registroSelecionado.DataConclusao,
-                registroSelecionado.Items
+                tarefa.Id,
+                tarefa.Titulo,
+                tarefa.Prioridade,
+                tarefa.DataCriacao,
+                tarefa.StatusConcluida,
+                tarefa.PercentualConcluida,
+                tarefa.DataConclusao,
+                tarefa.Items
             );
 
             return View(editarVM);
+
+
         }
 
         [HttpPost("editar/{id:guid}")]
@@ -128,6 +128,28 @@ namespace eAgenda.WebApp.Controllers
             repositorioTarefa.ExcluirTarefa(id);
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet("detalhes/{id:guid}")]
+        public IActionResult Detalhes(Guid id)
+        {
+            var tarefa = repositorioTarefa.SelecionarPorId(id);
+
+            if (tarefa == null)
+                return NotFound();
+
+            var detalhesVM = new DetalhesTarefaViewModel(
+                tarefa.Id,
+                tarefa.Titulo,
+                tarefa.Prioridade,
+                tarefa.DataCriacao,
+                tarefa.StatusConcluida,
+                tarefa.PercentualConcluida,
+                tarefa.Items,
+                tarefa.DataConclusao
+            );
+
+            return View(detalhesVM);
         }
     }
 }
