@@ -129,5 +129,27 @@ namespace eAgenda.WebApp.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpGet("detalhes/{id:guid}")]
+        public IActionResult Detalhes(Guid id)
+        {
+            var tarefa = repositorioTarefa.SelecionarPorId(id);
+
+            if (tarefa == null)
+                return NotFound();
+
+            var detalhesVM = new DetalhesTarefaViewModel(
+                tarefa.Id,
+                tarefa.Titulo,
+                tarefa.Prioridade,
+                tarefa.DataCriacao,
+                tarefa.StatusConcluida,
+                tarefa.PercentualConcluida,
+                tarefa.Items,
+                tarefa.DataConclusao
+            );
+
+            return View(detalhesVM);
+        }
     }
 }

@@ -182,6 +182,7 @@ public abstract class FormularioTarefaViewModel
             DataConclusao = dataConclusao;
             StatusConcluida = statusConcluida;
             PercentualConcluida = percentualConcluida;
+            Itens = itens ?? new List<Item>(); // <-- ESSA LINHA É ESSENCIAL
         }
     }
 
