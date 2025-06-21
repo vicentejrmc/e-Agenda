@@ -1,25 +1,29 @@
 ﻿﻿﻿@{
-    Layout = "_Layout";
-    ViewBag.Titulo = "Sua Agenda Digital, fácil e pratica!";
-    var itensAgenda = ViewBag.ItensDaAgenda as IEnumerable<dynamic>;
+Layout = "_Layout";
+ViewBag.Titulo = "";
+var itensAgenda = ViewBag.ItensDaAgenda as IEnumerable<dynamic>;
 }
 
 <hr />
 <div class="d-flex gap-lg-5 flex-wrap gap-2">
-	<div class="col order-lg-0 py-lg-5 order-1">
-		<h2 class="text-primary fs-1 fw-bold">Pagina Inicial!</h2>
+    <div class="col order-lg-0 py-lg-5 order-1">
 
-		<p class="fs-4 text-secondary-emphasis mt-4">clique em uma das opções abaixo para prosseguir:</p>
+        <div class="d-grid d-lg-flex flex-wrap gap-2">
+            <a href="/contatos" class="btn btn-outline-primary fw-semibold rounded-3 px-5 d-none d-sm-inline">contatos</a>
+            <a href="/compromissos" class="btn btn-outline-primary fw-semibold rounded-3 px-5 d-none d-sm-inline">compromissos</a>
+            <a href="/categorias" class="btn btn-outline-primary fw-semibold rounded-3 px-5 d-none d-sm-inline">categorias</a>
+            <a href="/despesas" class="btn btn-outline-primary fw-semibold rounded-3 px-5 d-none d-sm-inline">despesas</a>
+            <a href="/tarefas" class="btn btn-outline-primary fw-semibold rounded-3 px-5 d-none d-sm-inline">tarefas</a>
 
-		<div class="d-grid d-lg-flex flex-wrap gap-2">
-			<a href="/contatos" class="btn btn-outline-primary fw-semibold rounded-3 px-5">contatos</a>
-			<a href="/compromissos" class="btn btn-outline-primary fw-semibold rounded-3 px-5">compromissos</a>
-			<a href="/categorias" class="btn btn-outline-primary fw-semibold rounded-3 px-5">categorias</a>
-			<a href="/despesas" class="btn btn-outline-primary fw-semibold rounded-3 px-5">despesas</a>
-			<a href="/tarefas" class="btn btn-outline-primary fw-semibold rounded-3 px-5">tarefas</a>
-		</div>
+            <!-- Versão menor dos botões para telas pequenas -->
+            <a href="/contatos" class="btn btn-outline-primary fw-semibold rounded-3 btn-sm px-3 d-sm-none">contatos</a>
+            <a href="/compromissos" class="btn btn-outline-primary fw-semibold rounded-3 btn-sm px-3 d-sm-none">compromissos</a>
+            <a href="/categorias" class="btn btn-outline-primary fw-semibold rounded-3 btn-sm px-3 d-sm-none">categorias</a>
+            <a href="/despesas" class="btn btn-outline-primary fw-semibold rounded-3 btn-sm px-3 d-sm-none">despesas</a>
+            <a href="/tarefas" class="btn btn-outline-primary fw-semibold rounded-3 btn-sm px-3 d-sm-none">tarefas</a>
+        </div>
 
-		<hr />
+        <hr />
 
         <h4 class="mt-5">Próximos Compromissos e Tarefas</h4>
         <ul class="list-group mt-3">
@@ -27,14 +31,11 @@
             {
                 foreach (var item in itensAgenda)
                 {
-                    string url = item.Tipo == "Compromisso" ? $"/compromissos/index"
-                    : "$/tarefas/index";
-
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <span>
                             <strong>@item.Tipo:</strong> @item.Titulo
-                            <a href="@url">@item.Titulo</a>
                         </span>
+
                         <span class="badge bg-primary rounded-pill">
                             @item.Data.ToString("dd/MM/yyyy")
                         </span>
@@ -47,8 +48,5 @@
             }
         </ul>
 
-	</div>
-	<div class="col-lg-4 order-0 order-lg-1">
-		<img src="" alt="" class="img-fluid" />
-	</div>
+    </div>
 </div>
