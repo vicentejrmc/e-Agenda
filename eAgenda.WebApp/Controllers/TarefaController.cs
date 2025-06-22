@@ -68,8 +68,19 @@ namespace eAgenda.WebApp.Controllers
                 }
             }
 
+            for (int i = 0; i < cadastrarVM.TitulosItens.Count; i++)
+            {
+                var tituloItem = cadastrarVM.TitulosItens[i];
+
+                if (string.IsNullOrWhiteSpace(tituloItem) || tituloItem.Length < 2 || tituloItem.Length > 100)
+                {
+                    ModelState.AddModelError($"TitulosItens[{i}]", $"O título do item {i + 1} deve ter entre 2 e 100 caracteres.");
+                }
+            }
+
             if (!ModelState.IsValid)
                 return View(cadastrarVM);
+
 
             var entidade = cadastrarVM.ParaEntidade();
 
@@ -105,12 +116,26 @@ namespace eAgenda.WebApp.Controllers
         [HttpPost("editar/{id:guid}")]
         public IActionResult EditarConfirmado(Guid id, EditarTarefaViewModel editarVM)
         {
+            for (int i = 0; i < editarVM.TitulosItens.Count; i++)
+            {
+                var tituloItem = editarVM.TitulosItens[i];
+
+                if (string.IsNullOrWhiteSpace(tituloItem) || tituloItem.Length < 2 || tituloItem.Length > 100)
+                {
+                    ModelState.AddModelError($"TitulosItens[{i}]", $"O título do item {i + 1} deve ter entre 2 e 100 caracteres.");
+                }
+            }
+
+            if (!ModelState.IsValid)
+                return View("Editar", editarVM);
+
             var entidadeEditada = editarVM.ParaEntidade();
 
             repositorioTarefa.EditarTarefa(id, entidadeEditada);
 
             return RedirectToAction(nameof(Index));
         }
+
 
         [HttpGet("excluir/{id:guid}")]
         public IActionResult Excluir(Guid id)
