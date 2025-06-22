@@ -31,6 +31,17 @@ namespace eAgenda.WebApp.Controllers
             var registros = repositorioDespesa.SelecionarRegistros();
 
             var visualizarVM = new VisualizarDespesaViewModel(registros);
+            
+            foreach (var item in registros)
+            {
+                item.categoriasTitulo = new List<string>();
+                foreach (var idCategoria in item.categorias)
+                {
+                    
+                    item.categoriasTitulo.Add(repositorioCategoria.SelecionarRegistroPorId(idCategoria).Titulo);
+                }
+                repositorioDespesa.EditarRegistro(item.Id, item);
+            }
 
             return View(visualizarVM);
         }

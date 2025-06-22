@@ -15,41 +15,47 @@
 
                     <div class="form-group d-grid mt-3 gap-2">
                         <label asp-for="Assunto" class="control-label fs-5">Assunto:</label>
-                        <input asp-for="Assunto" class="form-control" value="@Model.Assunto" />
+                        <input asp-for="Assunto" class="form-control" />
                         <span asp-validation-for="Assunto" class="text-danger"></span>
                     </div>
-
                     <div class="form-group d-grid mt-3 gap-2">
-                        <label asp-for="DataOcorrencia" class="control-label fs-5">DataOcorrencia:</label>
+                        <label asp-for="DataOcorrencia" class="control-label fs-5">Data de Ocorrência:</label>
                         <input asp-for="DataOcorrencia" type="date" class="form-control" />
                         <span asp-validation-for="DataOcorrencia" class="text-danger"></span>
                     </div>
-
                     <div class="form-group d-grid mt-3 gap-2">
-                        <label asp-for="HoraInicio" class="control-label fs-5">HoraInicio:</label>
-                        <input asp-for="HoraInicio" class="form-control" value="@Model.HoraInicio" />
+                        <label asp-for="HoraInicio" class="control-label fs-5">Hora de Início:</label>
+                        <input asp-for="HoraInicio" type="time" class="form-control" />
                         <span asp-validation-for="HoraInicio" class="text-danger"></span>
                     </div>
                     <div class="form-group d-grid mt-3 gap-2">
-                        <label asp-for="HoraTermino" class="control-label fs-5">HoraTermino:</label>
-                        <input asp-for="HoraTermino" class="form-control" value="@Model.HoraTermino" />
+                        <label asp-for="HoraTermino" class="control-label fs-5">Hora de Término:</label>
+                        <input asp-for="HoraTermino" type="time" class="form-control" />
+                        <span asp-validation-for="HoraTermino" class="text-danger"></span>
                     </div>
                     <div class="form-group d-grid mt-3 gap-2">
-                        <label asp-for="TipoCompromisso" class="control-label fs-5">TipoCompromisso:</label>
-                        <input asp-for="TipoCompromisso" class="form-control" value="@Model.TipoCompromisso" />
+                        <label asp-for="TipoCompromisso" class="control-label fs-5">Tipo de Compromisso:</label>
+                        <select asp-for="TipoCompromisso" class="form-control">
+                            <option value="">Selecione...</option>
+                            <option value="Local">Local</option>
+                            <option value="Remoto">Remoto</option>
+                        </select>
+                        <span asp-validation-for="TipoCompromisso" class="text-danger"></span>
                     </div>
                     <div class="form-group d-grid mt-3 gap-2">
-                        <label asp-for="Local" class="control-label fs-5">Local:</label>
-                        <input asp-for="Local" class="form-control" value="@Model.Local" />
+                        <label asp-for="Local" class="control-label fs-5">Local (se presencial):</label>
+                        <input asp-for="Local" class="form-control" />
+                        <span asp-validation-for="Local" class="text-danger"></span>
                     </div>
-                        <div class="form-group d-grid mt-3 gap-2">
-                        <label asp-for="Link" class="control-label fs-5">Link:</label>
-                        <input asp-for="Link" class="form-control" value="@Model.Link" />
+                    <div class="form-group d-grid mt-3 gap-2">
+                        <label asp-for="Link" class="control-label fs-5">Link (se remoto):</label>
+                        <input asp-for="Link" class="form-control" />
+                        <span asp-validation-for="Link" class="text-danger"></span>
                     </div>
                     <div class="form-group d-grid mt-3 gap-2">
                         <label asp-for="ContatoId" class="control-label fs-5">Contato (opcional):</label>
                         <select asp-for="ContatoId" class="form-control">
-                            <option value="">Nenhum...</option>
+                            <option value="">Nenhum</option>
                             @if (Model.Contatos != null)
                             {
                                 foreach (var contato in Model.Contatos)

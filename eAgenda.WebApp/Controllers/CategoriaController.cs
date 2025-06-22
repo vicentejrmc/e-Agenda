@@ -72,8 +72,7 @@ namespace eAgenda.WebApp.Controllers
 
             var editarVM = new EditarCategoriaViewModel(
                 id,
-                registroSelecionado.Titulo,
-                registroSelecionado.idDespesas
+                registroSelecionado.Titulo
             );
 
             return View(editarVM);
@@ -84,7 +83,7 @@ namespace eAgenda.WebApp.Controllers
         public IActionResult Editar(Guid id, EditarCategoriaViewModel editarVM)
         {
             var registros = repositorioCategoria.SelecionarRegistros();
-
+            Categoria c = repositorioCategoria.SelecionarRegistroPorId(id);
             foreach (var item in registros)
             {
                 if (!item.Id.Equals(id) && item.Titulo.Equals(editarVM.Titulo))
@@ -93,10 +92,23 @@ namespace eAgenda.WebApp.Controllers
                     break;
                 }
             }
+            if (c.idDespesas == null) c.idDespesas = new List<Guid>();
+            else if(c.idDespesas.Count > 0)
+            {
+                foreach (var item in c.idDespesas)    
+                {
+                    Despesa d = repositorioDespesa.SelecionarRegistroPorId(item);
+                    d.categoriasTitulo.Remove(repositorioCategoria.SelecionarRegistroPorId(c.Id).Titulo);
+                    d.categoriasTitulo.Add(editarVM.Titulo);
+                    repositorioDespesa.EditarRegistro(d.Id, d);
+                }
+            }
+            editarVM.despesas = c.despesas;
+            editarVM.idDespesas = c.idDespesas;
             if (!ModelState.IsValid)
                 return View(editarVM);
             var entidadeEditada = editarVM.ParaEntidade();
-
+            entidadeEditada.Id = id;
             repositorioCategoria.EditarRegistro(id, entidadeEditada);
 
             return RedirectToAction(nameof(Index));
