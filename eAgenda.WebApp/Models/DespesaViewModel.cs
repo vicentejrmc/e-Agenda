@@ -27,7 +27,7 @@ namespace eAgenda.WebApp.Models
 
         public class CadastrarDespesaViewModel : FormularioDespesaViewModel
         {
-            public DateTime dataOcorrencia = DateTime.Today;
+            public DateTime dataOcorrencia = DateTime.Now;
             public CadastrarDespesaViewModel() { }
 
             public CadastrarDespesaViewModel(string descricao, DateTime dataOcorrencia, double valor, string formaDoPagamento, List<Guid> categorias, List<string> categoriasTitulo)
@@ -97,7 +97,7 @@ namespace eAgenda.WebApp.Models
         {
             public Guid Id { get; }
             public string descricao { get; set; }
-            public DateTime dataOcorrencia = DateTime.Today;
+            public DateTime dataOcorrencia = DateTime.Now;
             public double valor { get; set; }
             public string formaDoPagamento { get; set; }
             public List<Guid> categorias {  get; set; }
