@@ -1,0 +1,83 @@
+﻿@model CadastrarCompromissoViewModel
+
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Cadastro de Compromisso";
+}
+
+<hr />
+<div class="row justify-content-center my-5">
+    <div class="col-md-8">
+        <div class="card rounded-4 border-0">
+            <div class="card-body p-md-5">
+                <form asp-action="Cadastrar" method="post">
+                    <h3>Formulário de Cadastro de Compromisso</h3>
+                    <div>
+                        <p class="mt-4">Preencha os campos abaixo para cadastrar um novo Compromisso.</p>
+                    </div>
+                    <div class="form-group d-grid mt-3 gap-2">
+                        <label asp-for="Assunto" class="control-label fs-5">Assunto:</label>
+                        <input asp-for="Assunto" class="form-control" />
+                        <span asp-validation-for="Assunto" class="text-danger"></span>
+                    </div>
+                    <div class="form-group d-grid mt-3 gap-2">
+                        <label asp-for="DataOcorrencia" class="control-label fs-5">Data de Ocorrência:</label>
+                        <input asp-for="DataOcorrencia" type="date" class="form-control" />
+                        <span asp-validation-for="DataOcorrencia" class="text-danger"></span>
+                    </div>
+                    <div class="form-group d-grid mt-3 gap-2">
+                        <label asp-for="HoraInicio" class="control-label fs-5">Hora de Início:</label>
+                        <input asp-for="HoraInicio" type="time" class="form-control" />
+                        <span asp-validation-for="HoraInicio" class="text-danger"></span>
+                    </div>
+                    <div class="form-group d-grid mt-3 gap-2">
+                        <label asp-for="HoraTermino" class="control-label fs-5">Hora de Término:</label>
+                        <input asp-for="HoraTermino" type="time" class="form-control" />
+                        <span asp-validation-for="HoraTermino" class="text-danger"></span>
+                    </div>
+                    <div class="form-group d-grid mt-3 gap-2">
+                        <label asp-for="TipoCompromisso" class="control-label fs-5">Tipo de Compromisso:</label>
+                        <select asp-for="TipoCompromisso" class="form-control">
+                            <option value="">Selecione...</option>
+                            <option value="Local">Local</option>
+                            <option value="Remoto">Remoto</option>
+                        </select>
+                        <span asp-validation-for="TipoCompromisso" class="text-danger"></span>
+                    </div>
+                    <div class="form-group d-grid mt-3 gap-2">
+                        <label asp-for="Local" class="control-label fs-5">Local (se presencial):</label>
+                        <input asp-for="Local" class="form-control" />
+                        <span asp-validation-for="Local" class="text-danger"></span>
+                    </div>
+                    <div class="form-group d-grid mt-3 gap-2">
+                        <label asp-for="Link" class="control-label fs-5">Link (se remoto):</label>
+                        <input asp-for="Link" class="form-control" />
+                        <span asp-validation-for="Link" class="text-danger"></span>
+                    </div>
+                    <div class="form-group d-grid mt-3 gap-2">
+                        <label asp-for="ContatoId" class="control-label fs-5">Contato (opcional):</label>
+                        <select asp-for="ContatoId" class="form-control">
+                            <option value="">Nenhum</option>
+                            @if (Model.Contatos != null)
+                            {
+                                foreach (var contato in Model.Contatos)
+                                {
+                                    <option value="@contato.Id">@contato.Nome</option>
+                                }
+                            }
+                        </select>
+                        <span asp-validation-for="ContatoId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group d-flex align-items-center justify-content-end mt-5 gap-3">
+                        <a href="/compromissos">Voltar para a listagem</a>
+                        <button type="submit" class="btn btn-primary rounded-3 px-5">Confirmar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,109 @@
+﻿@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "";
+    var itensAgenda = ViewBag.ItensDaAgenda as IEnumerable<dynamic>;
+}
+
+<hr />
+<div class="d-flex gap-lg-5 flex-wrap gap-2">
+    <div class="col order-lg-0 py-lg-5 order-1">
+
+        <div class="d-grid d-lg-flex flex-wrap gap-2">
+            <a href="/contatos" class="btn btn-outline-primary fw-semibold rounded-3 px-5 d-none d-sm-inline">contatos</a>
+            <a href="/compromissos" class="btn btn-outline-primary fw-semibold rounded-3 px-5 d-none d-sm-inline">compromissos</a>
+            <a href="/categorias" class="btn btn-outline-primary fw-semibold rounded-3 px-5 d-none d-sm-inline">categorias</a>
+            <a href="/despesas" class="btn btn-outline-primary fw-semibold rounded-3 px-5 d-none d-sm-inline">despesas</a>
+            <a href="/tarefas" class="btn btn-outline-primary fw-semibold rounded-3 px-5 d-none d-sm-inline">tarefas</a>
+
+            <!-- Versão menor dos botões para telas pequenas -->
+            <a href="/contatos" class="btn btn-outline-primary fw-semibold rounded-3 btn-sm px-3 d-sm-none">contatos</a>
+            <a href="/compromissos" class="btn btn-outline-primary fw-semibold rounded-3 btn-sm px-3 d-sm-none">compromissos</a>
+            <a href="/categorias" class="btn btn-outline-primary fw-semibold rounded-3 btn-sm px-3 d-sm-none">categorias</a>
+            <a href="/despesas" class="btn btn-outline-primary fw-semibold rounded-3 btn-sm px-3 d-sm-none">despesas</a>
+            <a href="/tarefas" class="btn btn-outline-primary fw-semibold rounded-3 btn-sm px-3 d-sm-none">tarefas</a>
+        </div>
+
+        <hr />
+
+        <div class="mb-3 d-flex align-items-end gap-2">
+            <div class="flex-grow-1">
+                <label for="filtroData" class="form-label fw-semibold">Filtrar por data:</label>
+                <input type="date" id="filtroData" class="form-control w-70"/>
+            </div>
+            <button type="button" id="btnMostrarTodos" class="btn btn-primary btn-sm py-2 w-30" >Mostrar todos</button>
+        </div>
+
+        <h5 id="tituloFiltrados" style="display:none;">Compromissos e Tarefas na data selecionada</h5>
+        <ul class="list-group mt-3" id="listaFiltrada" style="display:none;">
+            <li class="list-group-item" id="msgNenhumFiltrado" style="display:none;">Nenhum compromisso ou tarefa encontrada para a data selecionada.</li>
+        </ul>
+
+        <h5 id="tituloTodos">Todos os Compromissos e Tarefas</h5>
+        <ul class="list-group mt-3" id="listaAgenda">
+        @if (itensAgenda != null && itensAgenda.Any())
+        {
+            foreach (var item in itensAgenda)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center"
+                    data-data="@item.Data.ToString("yyyy-MM-dd")">
+                    <span>
+                        <strong>@item.Tipo:</strong> @item.Titulo
+                    </span>
+                    <span class="badge bg-primary rounded-pill">
+                        @item.Data.ToString("dd/MM/yyyy")
+                    </span>
+                </li>
+            }
+        }
+            <li class="list-group-item" id="msgNenhum" style="display:none;">Nenhum compromisso ou tarefa encontrada.</li>
+        </ul>
+
+@section Scripts {
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const filtroData = document.getElementById("filtroData");
+    const btnMostrarTodos = document.getElementById("btnMostrarTodos")
+    const listaTodos = document.getElementById("listaAgenda");
+    const listaFiltrada = document.getElementById("listaFiltrada");
+    const itensTodos = listaTodos.querySelectorAll("li[data-data]");
+    const tituloFiltrados = document.getElementById("tituloFiltrados");
+    const tituloTodos = document.getElementById("tituloTodos");
+    const msgNenhumFiltrado = document.getElementById("msgNenhumFiltrado");
+
+filtroData.addEventListener("change", function () {
+    const dataSelecionada = this.value;
+    listaFiltrada.innerHTML = '';
+    let algumFiltrado = false;
+
+if (dataSelecionada) {
+    tituloFiltrados.style.display = "";
+    listaFiltrada.style.display = "";
+    tituloTodos.style.display = "none";
+    listaTodos.style.display = "none";
+    itensTodos.forEach(function (item) {
+        if (item.getAttribute("data-data") === dataSelecionada) {
+            listaFiltrada.appendChild(item.cloneNode(true));
+            algumFiltrado = true;
+        }
+    });
+
+        if (!algumFiltrado) {
+            msgNenhumFiltrado.style.display = "";
+            listaFiltrada.appendChild(msgNenhumFiltrado);
+        }
+    } else {
+        tituloFiltrados.style.display = "none";
+        listaFiltrada.style.display = "none";
+        tituloTodos.style.display = "";
+        listaTodos.style.display = "";
+    }
+   });
+
+   btnMostrarTodos.addEventListener("click", function(){
+       filtroData.value = "";
+       filtroData.dispatchEvent(new Event('change'));
+   });
+
+});
+</script>
+}
