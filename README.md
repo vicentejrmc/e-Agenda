@@ -1,6 +1,6 @@
 # Trabalho e-Agenda
 
-![]()
+![](https://i.imgur.com/cAuC5j0.gif)
 
 ## Introdução
 
