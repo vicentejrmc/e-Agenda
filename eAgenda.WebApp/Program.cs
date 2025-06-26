@@ -9,6 +9,7 @@ using eAgenda.Infraestrutura.ModuloCompromisso;
 using eAgenda.Infraestrutura.ModuloContato;
 using eAgenda.Infraestrutura.ModuloDespesa;
 using eAgenda.Infraestrutura.ModuloTarefa;
+using eAgenda.WebApp.DependencyInjection;
 
 
 namespace eAgenda.WebApp
@@ -28,6 +29,7 @@ namespace eAgenda.WebApp
             builder.Services.AddScoped<IRepositorioContato, RepositorioContatoEmArquivo>();
             builder.Services.AddScoped<IRepositorioDespesa, RepositorioDespesaEmArquivo>();
             builder.Services.AddScoped<IRepositorioTarefa, RepositorioTarefaEmArquivo>();
+            builder.Services.AddSerilogConfig(builder.Logging);
             
             var app = builder.Build();
 

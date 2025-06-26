@@ -9,6 +9,7 @@ namespace eAgenda.WebApp.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ILogger<HomeController> logger;
         private readonly ContextoDeDados contextodados;
         private readonly IRepositorioCompromisso repositorioCompromisso;
         private readonly IRepositorioTarefa repositorioTarefa;
@@ -19,9 +20,9 @@ namespace eAgenda.WebApp.Controllers
             repositorioCompromisso = new RepositorioCompromissoEmArquivo(contextodados);
             repositorioTarefa = new RepositorioTarefaEmArquivo(contextodados);
         }
-
         public IActionResult Index()
         {
+
             var compromissos = repositorioCompromisso.SelecionarRegistros().Select
                 (c => new {Id = c.Id, Tipo = "Compromisso", Titulo = c.Assunto, Data = c.DataOcorrencia });
 
