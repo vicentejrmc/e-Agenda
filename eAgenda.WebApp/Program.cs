@@ -29,6 +29,7 @@ namespace eAgenda.WebApp
             builder.Services.AddScoped<IRepositorioContato, RepositorioContatoEmArquivo>();
             builder.Services.AddScoped<IRepositorioDespesa, RepositorioDespesaEmArquivo>();
             builder.Services.AddScoped<IRepositorioTarefa, RepositorioTarefaEmArquivo>();
+            
             builder.Services.AddSerilogConfig(builder.Logging);
             
             var app = builder.Build();
