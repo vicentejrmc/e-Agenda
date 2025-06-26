@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ActionFilters\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
