@@ -16,6 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Serilog" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\eAgenda.Infraestrutura\eAgenda.Infraestrutura.csproj" />
   </ItemGroup>
 

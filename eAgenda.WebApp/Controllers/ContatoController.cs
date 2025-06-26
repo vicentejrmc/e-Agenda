@@ -13,15 +13,19 @@ namespace eAgenda.WebApp.Controllers
     [Route("contatos")]
     public class ContatoController : Controller
     {
-        private readonly ContextoDeDados contextoDados;
+        private readonly ContextoDeDados contextoDeDados;
         private readonly IRepositorioContato repositorioContato;
         private readonly IRepositorioCompromisso repoisitorioCompromisso;
 
-        public ContatoController()
+        public ContatoController(
+            ContextoDeDados contextoDeDados,
+            IRepositorioContato repositorioContato,
+            IRepositorioCompromisso repositorioCompromisso
+            )
         {
-            contextoDados = new ContextoDeDados(true);
-            repositorioContato = new RepositorioContatoEmArquivo(contextoDados);
-            repoisitorioCompromisso = new RepositorioCompromissoEmArquivo(contextoDados);
+            this.contextoDeDados = contextoDeDados;
+            this.repositorioContato = repositorioContato;
+            this.repoisitorioCompromisso = repositorioCompromisso;
         }
 
         [HttpGet]

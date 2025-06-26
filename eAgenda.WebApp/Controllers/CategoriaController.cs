@@ -12,15 +12,19 @@ namespace eAgenda.WebApp.Controllers
     [Route("categorias")]
     public class CategoriaController : Controller
     {
-        private readonly ContextoDeDados contextoDados;
+        private readonly ContextoDeDados contextoDeDados;
         private readonly IRepositorioCategoria repositorioCategoria;
         private readonly IRepositorioDespesa repositorioDespesa;
 
-        public CategoriaController()
+        public CategoriaController(
+            ContextoDeDados contextoDeDados,
+            IRepositorioCategoria repositorioCategoria,
+            IRepositorioDespesa repositorioDespesa
+            )
         {
-            contextoDados = new ContextoDeDados(true);
-            repositorioCategoria = new RepositorioCategoriaEmArquivo(contextoDados);
-            repositorioDespesa = new RepositorioDespesaEmArquivo(contextoDados);
+            this.contextoDeDados = contextoDeDados;
+            this.repositorioCategoria = repositorioCategoria;
+            this.repositorioDespesa = repositorioDespesa;
         }
 
         [HttpGet]

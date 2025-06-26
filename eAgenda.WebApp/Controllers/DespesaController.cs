@@ -14,15 +14,19 @@ namespace eAgenda.WebApp.Controllers
     [Route("despesas")]
     public class DespesaController : Controller
     {
-        private readonly ContextoDeDados contextoDados;
+        private readonly ContextoDeDados contextoDeDados;
         private readonly IRepositorioDespesa repositorioDespesa;
         private readonly IRepositorioCategoria repositorioCategoria;
 
-        public DespesaController()
+        public DespesaController(
+            ContextoDeDados contextoDeDados, 
+            IRepositorioDespesa repositorioDespesa,
+            IRepositorioCategoria repositorioCategoria
+            )
         {
-            contextoDados = new ContextoDeDados(true);
-            repositorioDespesa = new RepositorioDespesaEmArquivo(contextoDados);
-            repositorioCategoria = new RepositorioCategoriaEmArquivo(contextoDados);
+            this.contextoDeDados = contextoDeDados;
+            this.repositorioDespesa = repositorioDespesa;
+            this.repositorioCategoria = repositorioCategoria;
         }
 
         [HttpGet]

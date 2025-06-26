@@ -34,5 +34,11 @@ namespace eAgenda.WebApp.Controllers
 
             return View();
         }
+
+        [HttpGet("erro")]
+        public IActionResult Erro()
+        {
+            return View();
+        }
     }
 }

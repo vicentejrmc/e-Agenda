@@ -12,15 +12,19 @@ namespace eAgenda.WebApp.Controllers
     [Route("compromissos")]
     public class CompromissoController : Controller
     {
-        private readonly ContextoDeDados contextoDados;
+        private readonly ContextoDeDados contextoDeDados;
         private readonly IRepositorioCompromisso repositorioCompromisso;
         private readonly IRepositorioContato repositorioContato;
 
-        public CompromissoController()
+        public CompromissoController(
+            ContextoDeDados contextoDeDados,
+            IRepositorioCompromisso repositorioCompromisso,
+            IRepositorioContato repositorioContato
+            )
         {
-            contextoDados = new ContextoDeDados(true);
-            repositorioCompromisso = new RepositorioCompromissoEmArquivo(contextoDados);
-            repositorioContato = new RepositorioContatoEmArquivo(contextoDados);
+            this.contextoDeDados = contextoDeDados;
+            this.repositorioCompromisso = repositorioCompromisso;
+            this.repositorioContato = repositorioContato;
         }
 
         [HttpGet]
@@ -37,7 +41,7 @@ namespace eAgenda.WebApp.Controllers
         public IActionResult Cadastrar()
         {
             var cadastrarVM = new CadastrarCompromissoViewModel();
-            cadastrarVM.Contatos = contextoDados.Contatos ?? new List<Contato>();
+            cadastrarVM.Contatos = contextoDeDados.Contatos ?? new List<Contato>();
 
             return View(cadastrarVM);
         }
@@ -108,7 +112,7 @@ namespace eAgenda.WebApp.Controllers
                 compromissoSelecionado.Contato
             );
 
-            editarVM.Contatos = contextoDados.Contatos ?? new List<Contato>();
+            editarVM.Contatos = contextoDeDados.Contatos ?? new List<Contato>();
             editarVM.ContatoId = compromissoSelecionado.Contato?.Id;
 
             return View(editarVM);
