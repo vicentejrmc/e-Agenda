@@ -9,7 +9,37 @@ namespace eAgenda.Infraestrutura.SqlServer
             "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=eAgendaDb;Integrated Security=True";
         public void CadastrarRegistro(Contato novoRegistro)
         {
-            throw new NotImplementedException();
+            var sqlInserir =
+                @"INSERT INTO [TBCONTATO]
+                (
+                    [Id],
+                    [Nome],
+                    [Email],
+                    [Telefone],
+                    [Cargo],
+                    [Empresa]
+                )
+                VALUES
+                (
+                    @ID,   
+                    @NOME,   
+                    @EMAIL,
+                    @TELEFONE,
+                    @CARGO,
+                    @EMPRESA
+                );";
+
+            SqlConnection coneccaoCombanco = new SqlConnection(connectionString);
+            SqlCommand comandoInserir = new SqlCommand(sqlInserir, coneccaoCombanco);
+
+            ConfigurarParametrosContato(novoRegistro, comandoInserir);
+
+            coneccaoCombanco.Open();
+
+            comandoInserir.ExecuteNonQuery();
+
+            coneccaoCombanco.Close();
+
         }
 
         public bool EditarRegistro(Guid idRegistro, Contato registroEditado)
@@ -29,8 +59,6 @@ namespace eAgenda.Infraestrutura.SqlServer
 
         public List<Contato> SelecionarRegistros()
         {
-            //configuração 
-
             var sqlSelecionarTodos =
                 @"SELECT
                     [Id],
@@ -49,7 +77,6 @@ namespace eAgenda.Infraestrutura.SqlServer
 
             SqlCommand comandoSelecao = new SqlCommand(sqlSelecionarTodos, coneccaoCombanco);
 
-            //Execução
             SqlDataReader leitor = comandoSelecao.ExecuteReader();
 
             var contatos = new List<Contato>();
@@ -77,6 +104,16 @@ namespace eAgenda.Infraestrutura.SqlServer
             contato.Id = Guid.Parse(leitor["ID"].ToString());
 
             return contato;
+        }
+
+        private void ConfigurarParametrosContato(Contato contato, SqlCommand comando)
+        {
+            comando.Parameters.AddWithValue("ID", contato.Id);
+            comando.Parameters.AddWithValue("NOME", contato.Nome);
+            comando.Parameters.AddWithValue("EMAIL", contato.Email);
+            comando.Parameters.AddWithValue("TELEFONE", contato.Telefone);
+            comando.Parameters.AddWithValue("CARGO", contato.Cargo);
+            comando.Parameters.AddWithValue("EMPRESA", contato.Empresa);
         }
     }
 }
