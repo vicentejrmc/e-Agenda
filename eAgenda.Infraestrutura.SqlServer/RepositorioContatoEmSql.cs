@@ -44,17 +44,88 @@ namespace eAgenda.Infraestrutura.SqlServer
 
         public bool EditarRegistro(Guid idRegistro, Contato registroEditado)
         {
-            throw new NotImplementedException();
+            var sqlEditar =
+            @"UPDATE [TBCONTATO]	
+		    SET
+			    [NOME] = @NOME,
+			    [EMAIL] = @EMAIL,
+			    [TELEFONE] = @TELEFONE,
+			    [CARGO] = @CARGO,
+			    [EMPRESA] = @EMPRESA
+		    WHERE
+			    [ID] = @ID";
+
+            SqlConnection conexaoComBanco = new SqlConnection(connectionString);
+
+            SqlCommand comandoEdicao = new SqlCommand(sqlEditar, conexaoComBanco);
+
+            registroEditado.Id = idRegistro;
+
+            ConfigurarParametrosContato(registroEditado, comandoEdicao);
+
+            conexaoComBanco.Open();
+
+            var linhasAfetadas = comandoEdicao.ExecuteNonQuery();
+
+            conexaoComBanco.Close();
+
+            return linhasAfetadas > 0;
         }
 
         public bool ExcluirRegistro(Guid idRegistro)
         {
-            throw new NotImplementedException();
+            var sqlExcluir =
+            @"DELETE FROM [TBCONTATO]
+		    WHERE
+			    [ID] = @ID";
+
+            SqlConnection conexaoComBanco = new SqlConnection(connectionString);
+
+            SqlCommand comandoExclusao = new SqlCommand(sqlExcluir, conexaoComBanco);
+
+            comandoExclusao.Parameters.AddWithValue("ID", idRegistro);
+
+            conexaoComBanco.Open();
+
+            var linhasAfetadas = comandoExclusao.ExecuteNonQuery();
+
+            conexaoComBanco.Close();
+
+            return linhasAfetadas > 0;
         }
 
         public Contato SelecionarRegistroPorId(Guid idRegistro)
         {
-            throw new NotImplementedException();
+            var sqlSelecionarPorId =
+           @"SELECT 
+		        [ID], 
+		        [NOME], 
+		        [EMAIL],
+		        [TELEFONE],
+		        [CARGO],
+		        [EMPRESA]
+	        FROM 
+		        [TBCONTATO]
+            WHERE
+                [ID] = @ID";
+
+            SqlConnection conexaoComBanco = new SqlConnection(connectionString);
+
+            SqlCommand comandoSelecao =
+                new SqlCommand(sqlSelecionarPorId, conexaoComBanco);
+
+            comandoSelecao.Parameters.AddWithValue("ID", idRegistro);
+
+            conexaoComBanco.Open();
+
+            SqlDataReader leitor = comandoSelecao.ExecuteReader();
+
+            Contato? contato = null;
+
+            if (leitor.Read())
+                contato = ConverterParaContato(leitor);
+
+            return contato;
         }
 
         public List<Contato> SelecionarRegistros()
