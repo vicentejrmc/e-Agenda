@@ -10,7 +10,7 @@ namespace eAgenda.Dominio.ModuloContato
         public string Cargo { get; set; }
         public string Empresa { get; set; }
         public Contato(){}   
-        public Contato(string nome, string email, string telefone, string cargo, string empresa)
+        public Contato(string nome, string email, string telefone, string cargo, string empresa) : this()
         {
             Id = Guid.NewGuid();
             Nome = nome;
