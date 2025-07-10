@@ -6,9 +6,9 @@ namespace eAgenda.Infraestrutura.Orm.Compartilhado
 {
     public class eAgendaDbContext : DbContext
     {
-        public DbSet<Contato> Contatos { get; set; }
+// DbSet é uma coleção(lista) de entidades do tipo Contato que serão mapeadas para a tabela Contatos no banco de dados
+        public DbSet<Contato> Contatos { get; set; } 
 
-        
         public eAgendaDbContext(DbContextOptions options) : base(options)
         {
 // o Construtor aqui é necessário para o Entity Framework Core reconhecer o DbContext (Conecções externas)

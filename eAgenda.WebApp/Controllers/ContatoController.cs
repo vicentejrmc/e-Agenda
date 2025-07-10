@@ -2,7 +2,7 @@
 using eAgenda.Dominio.ModuloContato;
 using eAgenda.Infraestrutura.Compartilhado;
 using eAgenda.Infraestrutura.ModuloCompromisso;
-using eAgenda.Infraestrutura.ModuloContato;
+using eAgenda.Infraestrutura.Orm.Compartilhado;
 using eAgenda.WebApp.Extensions;
 using eAgenda.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -13,19 +13,18 @@ namespace eAgenda.WebApp.Controllers
     [Route("contatos")]
     public class ContatoController : Controller
     {
-        private readonly ContextoDeDados contextoDeDados;
+        private readonly eAgendaDbContext contexto;
         private readonly IRepositorioContato repositorioContato;
         private readonly IRepositorioCompromisso repoisitorioCompromisso;
 
         public ContatoController(
-            ContextoDeDados contextoDeDados,
             IRepositorioContato repositorioContato,
-            IRepositorioCompromisso repositorioCompromisso
-            )
+            IRepositorioCompromisso repositorioCompromisso,
+            eAgendaDbContext contexto)
         {
-            this.contextoDeDados = contextoDeDados;
             this.repositorioContato = repositorioContato;
             this.repoisitorioCompromisso = repositorioCompromisso;
+            this.contexto = contexto;
         }
 
         [HttpGet]
@@ -70,6 +69,21 @@ namespace eAgenda.WebApp.Controllers
 
             var entidade = cadastrarVM.ParaEntidade();
 
+            var transacao = contexto.Database.BeginTransaction();
+
+            try
+            {
+                repositorioContato.CadastrarRegistro(entidade);
+                contexto.SaveChanges();
+                transacao.Commit();
+                // Commit da transação para salvar as alterações no banco de dados
+            }
+            catch
+            {
+                transacao.Rollback(); // Em caso de erro, desfaz as alterações
+                throw;
+            }
+
             repositorioContato.CadastrarRegistro(entidade);
 
             return RedirectToAction(nameof(Index));
@@ -110,7 +124,7 @@ namespace eAgenda.WebApp.Controllers
         {
             var registroSelecionado = repositorioContato.SelecionarRegistroPorId(id);
 
-            if(registroSelecionado is null) return View("Index");
+            if (registroSelecionado is null) return View("Index");
             var excluirVM = new ExcluirContatoViewModel(registroSelecionado.Id, registroSelecionado.Nome);
 
             return View(excluirVM);
