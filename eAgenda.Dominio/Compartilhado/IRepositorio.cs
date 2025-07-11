@@ -7,6 +7,7 @@ namespace eAgenda.Dominio.Compartilhado
         public bool EditarRegistro(Guid idRegistro, T registroEditado);
         public bool ExcluirRegistro(Guid idRegistro);
         public List<T> SelecionarRegistros();
-        public T SelecionarRegistroPorId(Guid idRegistro);
+        public T? SelecionarRegistroPorId(Guid idRegistro); 
+        // 'T?' = tipo nllable para permitir a possibilidade de não encontrar um registro
     }
 }

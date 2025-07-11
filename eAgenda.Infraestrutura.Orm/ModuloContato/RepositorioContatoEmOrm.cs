@@ -39,23 +39,48 @@ namespace eAgenda.Infraestrutura.Orm.ModuloContato
 
         public bool EditarRegistro(Guid idRegistro, Contato registroEditado)
         {
-            throw new NotImplementedException("Método EditarRegistro não implementado.");
+            // Busca o registro pelo ID na tabela Contatos do banco de dados
+            var registro = SelecionarRegistroPorId(idRegistro);
+           
+            // Se o registro não for encontrado, retorna false
+            if (registro == null)
+                return false;
+           
+            // Atualiza os dados do registro encontrado com os dados do registro editado
+            registro.AtualizarRegistro(registroEditado);
+           
+            // Retorna true indicando que a edição foi bem-sucedida
+            return true;
+
         }
 
         public bool ExcluirRegistro(Guid idRegistro)
         {
-            throw new NotImplementedException("Método EditarRegistro não implementado.");
+            // Busca o registro pelo ID na tabela Contatos do banco de dados
+            var registro = SelecionarRegistroPorId(idRegistro);
 
+            // Se o registro não for encontrado, retorna false
+            if (registro == null)
+                return false;
+
+            // Remove o registro encontrado da tabela Contatos do banco de dados
+            contexto.Contatos.Remove(registro);
+
+            return true;
         }
 
-        public Contato SelecionarRegistroPorId(Guid idRegistro)
+        public Contato? SelecionarRegistroPorId(Guid idRegistro)
         {
             // Busca o registro pelo ID na tabela Contatos do banco de dados
-            return contexto.Contatos.FirstOrDefault(c => c.Id == idRegistro)!;
+            return contexto.Contatos.FirstOrDefault(c => c.Id.Equals(idRegistro))!;
+            // Método FirstOrDefault retorna o primeiro elemento que satisfaz a condição especificada
+            // ou null se nenhum elemento for encontrado. por isso o uso do operador '?' na assinatura do método
+            // o que deve ser replicado e tratado na Interface
         }
 
         public List<Contato> SelecionarRegistros()
         {
+            // Retorna todos os registros da tabela Contatos do banco de dados
             return contexto.Contatos.ToList();
         }
     }

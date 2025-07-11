@@ -114,7 +114,20 @@ namespace eAgenda.WebApp.Controllers
 
             var entidadeEditada = editarVM.ParaEntidade();
 
-            repositorioContato.EditarRegistro(id, entidadeEditada);
+            var transacao = contexto.Database.BeginTransaction();
+
+            try
+            {
+                repositorioContato.EditarRegistro(id, entidadeEditada);
+                contexto.SaveChanges();
+                transacao.Commit();
+            }
+            catch (Exception)
+            {
+                // Em caso de erro, desfaz as alterações
+                transacao.Rollback();
+                throw;
+            }
 
             return RedirectToAction(nameof(Index));
         }
@@ -145,7 +158,19 @@ namespace eAgenda.WebApp.Controllers
                 }
             }
 
-            repositorioContato.ExcluirRegistro(id);
+            var transacao = contexto.Database.BeginTransaction();
+            try
+            {
+                repositorioContato.ExcluirRegistro(id);
+                contexto.SaveChanges();
+                transacao.Commit();
+            }
+            catch (Exception)
+            {
+                // Em caso de erro, desfaz as alterações
+                transacao.Rollback();
+                throw;
+            }
 
             return RedirectToAction(nameof(Index));
         }
