@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace eAgenda.Infraestrutura.Orm.Migrations
 {
     /// <inheritdoc />
-    public partial class Add_TBMesa : Migration
+    public partial class Add_TBContato : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

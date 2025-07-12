@@ -31,12 +31,6 @@ namespace eAgenda.WebApp
 
             builder.Services.AddSerilogConfig(builder.Logging);
 
-            builder.Services.AddDbContext<eAgendaDbContext>(options =>
-            {
-                var connectionString = builder.Configuration["SQL_CONNECTION_STRING"];
-                options.UseSqlServer(connectionString);
-            });
-
             builder.Services.AddEntityFrameworkConfig(builder.Configuration);
             builder.Services.AddControllersWithViews();
 

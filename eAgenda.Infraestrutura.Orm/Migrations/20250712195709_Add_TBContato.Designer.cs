@@ -12,8 +12,8 @@ using eAgenda.Infraestrutura.Orm.Compartilhado;
 namespace eAgenda.Infraestrutura.Orm.Migrations
 {
     [DbContext(typeof(eAgendaDbContext))]
-    [Migration("20250710204947_Add_TBMesa")]
-    partial class Add_TBMesa
+    [Migration("20250712195709_Add_TBContato")]
+    partial class Add_TBContato
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
