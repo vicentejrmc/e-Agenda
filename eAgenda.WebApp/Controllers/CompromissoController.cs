@@ -1,8 +1,6 @@
 ﻿using eAgenda.Dominio.ModuloCompromisso;
 using eAgenda.Dominio.ModuloContato;
-using eAgenda.Infraestrutura.Compartilhado;
-using eAgenda.Infraestrutura.ModuloCompromisso;
-using eAgenda.Infraestrutura.ModuloContato;
+using eAgenda.Infraestrutura.Orm.Compartilhado;
 using eAgenda.WebApp.Extensions;
 using eAgenda.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -12,17 +10,17 @@ namespace eAgenda.WebApp.Controllers
     [Route("compromissos")]
     public class CompromissoController : Controller
     {
-        private readonly ContextoDeDados contextoDeDados;
+        private readonly eAgendaDbContext contexto;
         private readonly IRepositorioCompromisso repositorioCompromisso;
         private readonly IRepositorioContato repositorioContato;
 
         public CompromissoController(
-            ContextoDeDados contextoDeDados,
+            eAgendaDbContext contextoDeDados,
             IRepositorioCompromisso repositorioCompromisso,
             IRepositorioContato repositorioContato
             )
         {
-            this.contextoDeDados = contextoDeDados;
+            this.contexto = contextoDeDados;
             this.repositorioCompromisso = repositorioCompromisso;
             this.repositorioContato = repositorioContato;
         }
@@ -41,7 +39,9 @@ namespace eAgenda.WebApp.Controllers
         public IActionResult Cadastrar()
         {
             var cadastrarVM = new CadastrarCompromissoViewModel();
-            cadastrarVM.Contatos = contextoDeDados.Contatos ?? new List<Contato>();
+
+            cadastrarVM.Contatos = contexto.Contatos.ToList() ?? new List<Contato>();
+
 
             return View(cadastrarVM);
         }
@@ -112,7 +112,7 @@ namespace eAgenda.WebApp.Controllers
                 compromissoSelecionado.Contato
             );
 
-            editarVM.Contatos = contextoDeDados.Contatos ?? new List<Contato>();
+            editarVM.Contatos = contexto.Contatos.ToList() ?? new List<Contato>();
             editarVM.ContatoId = compromissoSelecionado.Contato?.Id;
 
             return View(editarVM);

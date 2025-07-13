@@ -5,13 +5,11 @@ using eAgenda.Dominio.ModuloDespesa;
 using eAgenda.Dominio.ModuloTarefa;
 using eAgenda.Infraestrutura.Compartilhado;
 using eAgenda.Infraestrutura.ModuloCategoria;
-using eAgenda.Infraestrutura.ModuloCompromisso;
 using eAgenda.Infraestrutura.ModuloDespesa;
 using eAgenda.Infraestrutura.ModuloTarefa;
-using eAgenda.Infraestrutura.Orm.Compartilhado;
+using eAgenda.Infraestrutura.Orm.ModuloCompromisso;
 using eAgenda.Infraestrutura.Orm.ModuloContato;
 using eAgenda.WebApp.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
 
 
 namespace eAgenda.WebApp
@@ -24,7 +22,7 @@ namespace eAgenda.WebApp
 
             builder.Services.AddScoped<ContextoDeDados>((_) => new ContextoDeDados(true));
             builder.Services.AddScoped<IRepositorioCategoria, RepositorioCategoriaEmArquivo>();
-            builder.Services.AddScoped<IRepositorioCompromisso, RepositorioCompromissoEmArquivo>();
+            builder.Services.AddScoped<IRepositorioCompromisso, RepositorioCompromissoEmOrm>();
             builder.Services.AddScoped<IRepositorioContato, RepositorioContatoEmOrm>();
             builder.Services.AddScoped<IRepositorioDespesa, RepositorioDespesaEmArquivo>();
             builder.Services.AddScoped<IRepositorioTarefa, RepositorioTarefaEmArquivo>();

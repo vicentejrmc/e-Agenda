@@ -9,6 +9,8 @@ namespace eAgenda.Infraestrutura.Orm.Compartilhado
     {
 // DbSet é uma coleção(lista) de entidades do tipo Contato que serão mapeadas para a tabela Contatos no banco de dados
         public DbSet<Contato> Contatos { get; set; } 
+        public DbSet<Compromisso> Compromissos { get; set; } 
+
 
         public eAgendaDbContext(DbContextOptions options) : base(options)
         {

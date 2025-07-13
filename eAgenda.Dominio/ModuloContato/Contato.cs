@@ -1,4 +1,5 @@
 ﻿using eAgenda.Dominio.Compartilhado;
+using eAgenda.Dominio.ModuloCompromisso;
 
 namespace eAgenda.Dominio.ModuloContato
 {
@@ -9,7 +10,11 @@ namespace eAgenda.Dominio.ModuloContato
         public string Telefone { get; set; }
         public string Cargo { get; set; }
         public string Empresa { get; set; }
-        public Contato(){}   
+        public List<Compromisso> Compromissos { get; set; }
+        public Contato()
+        {
+            Compromissos = new List<Compromisso>();
+        }   
         public Contato(string nome, string email, string telefone, string cargo, string empresa) : this()
         {
             Id = Guid.NewGuid();
