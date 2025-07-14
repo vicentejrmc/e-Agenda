@@ -31,6 +31,10 @@ namespace eAgenda.Infraestrutura.Orm.ModuloContato
             builder.Property(c => c.Empresa)
                 .IsRequired()
                 .HasMaxLength(100);
+
+            builder.HasMany(c => c.Compromissos)
+                .WithOne(co => co.Contato)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -89,7 +89,20 @@ namespace eAgenda.WebApp.Controllers
                 contatoSelecionado 
             );
 
-            repositorioCompromisso.CadastrarRegistro(novoCompromisso);
+            var transacao = contexto.Database.BeginTransaction();
+
+            try
+            {
+                repositorioCompromisso.CadastrarRegistro(novoCompromisso);
+                contexto.SaveChanges();
+                transacao.Commit();
+                // Commit da transação para salvar as alterações no banco de dados
+            }
+            catch
+            {
+                transacao.Rollback(); // Em caso de erro, desfaz as alterações
+                throw;
+            }
 
             return RedirectToAction(nameof(Index));
         }
@@ -140,7 +153,19 @@ namespace eAgenda.WebApp.Controllers
                 contatoSelecionado
             );
 
-            repositorioCompromisso.EditarRegistro(id, compromissoEditado);
+            var transacao = contexto.Database.BeginTransaction();
+
+            try
+            {
+                repositorioCompromisso.EditarRegistro(id, compromissoEditado);
+                contexto.SaveChanges();
+                transacao.Commit();
+            }
+            catch (Exception)
+            {
+                transacao.Rollback();
+                throw;
+            }
 
             return RedirectToAction(nameof(Index));
         }
@@ -158,7 +183,19 @@ namespace eAgenda.WebApp.Controllers
         [HttpPost("excluir/{id:guid}")]
         public IActionResult ExcluirConfirmado(Guid id)
         {
-            repositorioCompromisso.ExcluirRegistro(id);
+            var transacao = contexto.Database.BeginTransaction();
+            try
+            {
+                repositorioCompromisso.ExcluirRegistro(id);
+                contexto.SaveChanges();
+                transacao.Commit();
+            }
+            catch (Exception)
+            {
+                // Em caso de erro, desfaz as alterações
+                transacao.Rollback();
+                throw;
+            }
 
             return RedirectToAction(nameof(Index));
         }
