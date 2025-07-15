@@ -8,6 +8,7 @@ public class Item
     public Tarefa Tarefa { get; set; }
 
     public Item() { }
+
     public Item(string titulo, string statusConclusao, Tarefa tarefa)
     {
         Id = Guid.NewGuid();

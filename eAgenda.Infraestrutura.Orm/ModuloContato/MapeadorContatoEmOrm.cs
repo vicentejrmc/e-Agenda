@@ -35,6 +35,8 @@ namespace eAgenda.Infraestrutura.Orm.ModuloContato
             builder.HasMany(c => c.Compromissos)
                 .WithOne(co => co.Contato)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            //minuto 22 video4 aula 94 
         }
     }
 }

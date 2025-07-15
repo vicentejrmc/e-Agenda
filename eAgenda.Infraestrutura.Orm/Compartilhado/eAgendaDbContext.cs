@@ -1,5 +1,6 @@
 ﻿using eAgenda.Dominio.ModuloCompromisso;
 using eAgenda.Dominio.ModuloContato;
+using eAgenda.Dominio.ModuloTarefa;
 using eAgenda.Infraestrutura.Orm.ModuloContato;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,7 +11,8 @@ namespace eAgenda.Infraestrutura.Orm.Compartilhado
 // DbSet é uma coleção(lista) de entidades do tipo Contato que serão mapeadas para a tabela Contatos no banco de dados
         public DbSet<Contato> Contatos { get; set; } 
         public DbSet<Compromisso> Compromissos { get; set; } 
-
+        public DbSet<Tarefa> Tarefas { get; set; } 
+        //public DbSet<Item> Items { get; set; } 
 
         public eAgendaDbContext(DbContextOptions options) : base(options)
         {

@@ -1,6 +1,9 @@
-﻿using eAgenda.Dominio.ModuloTarefa;
+﻿using eAgenda.Dominio.ModuloCompromisso;
+using eAgenda.Dominio.ModuloContato;
+using eAgenda.Dominio.ModuloTarefa;
 using eAgenda.Infraestrutura.Compartilhado;
 using eAgenda.Infraestrutura.ModuloTarefa;
+using eAgenda.Infraestrutura.Orm.Compartilhado;
 using eAgenda.WebApp.Extensions;
 using eAgenda.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -11,12 +14,12 @@ namespace eAgenda.WebApp.Controllers
     [Route("tarefas")]
     public class TarefaController : Controller
     {
-        private readonly ContextoDeDados contextoDeDados;
+        private readonly eAgendaDbContext contexto;
         private readonly IRepositorioTarefa repositorioTarefa;
 
-        public TarefaController(ContextoDeDados contextoDeDados, IRepositorioTarefa repositorioTarefa )
+        public TarefaController(eAgendaDbContext contexto, IRepositorioTarefa repositorioTarefa )
         {
-            this.contextoDeDados = contextoDeDados;
+            this.contexto = contexto;
             this.repositorioTarefa = repositorioTarefa;
         }
 
@@ -81,8 +84,21 @@ namespace eAgenda.WebApp.Controllers
             if (!ModelState.IsValid)
                 return View(cadastrarVM);
 
-
             var entidade = cadastrarVM.ParaEntidade();
+            var transacao = contexto.Database.BeginTransaction();
+
+            try
+            {
+                repositorioTarefa.CadastrarTarefa(entidade);
+                contexto.SaveChanges();
+                transacao.Commit();
+                // Commit da transação para salvar as alterações no banco de dados
+            }
+            catch
+            {
+                transacao.Rollback(); // Em caso de erro, desfaz as alterações
+                throw;
+            }
 
             repositorioTarefa.CadastrarTarefa(entidade);
 
@@ -131,7 +147,19 @@ namespace eAgenda.WebApp.Controllers
 
             var entidadeEditada = editarVM.ParaEntidade();
 
-            repositorioTarefa.EditarTarefa(id, entidadeEditada);
+            var transacao = contexto.Database.BeginTransaction();
+            try
+            {
+                repositorioTarefa.EditarTarefa(id, entidadeEditada);
+                contexto.SaveChanges();
+                transacao.Commit();
+            }
+            catch (Exception)
+            {
+                // Em caso de erro, desfaz as alterações
+                transacao.Rollback();
+                throw;
+            }
 
             return RedirectToAction(nameof(Index));
         }
@@ -150,7 +178,19 @@ namespace eAgenda.WebApp.Controllers
         [HttpPost("excluir/{id:guid}")]
         public IActionResult ExcluirConfirmado(Guid id)
         {
-            repositorioTarefa.ExcluirTarefa(id);
+            var transacao = contexto.Database.BeginTransaction();
+            try
+            {
+                repositorioTarefa.ExcluirTarefa(id);
+                contexto.SaveChanges();
+                transacao.Commit();
+            }
+            catch (Exception)
+            {
+                // Em caso de erro, desfaz as alterações
+                transacao.Rollback();
+                throw;
+            }
 
             return RedirectToAction(nameof(Index));
         }
