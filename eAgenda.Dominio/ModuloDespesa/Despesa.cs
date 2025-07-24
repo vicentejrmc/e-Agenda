@@ -10,15 +10,17 @@ namespace eAgenda.Dominio.ModuloDespesa
         public double Valor {  get; set; }
         public FormaDoPagamento FormaDoPagamento { get; set; }
         public List<Categoria> Categorias { get; set; }
-        public Despesa() { }
-        public Despesa(string descricao, DateTime dataOcorrencia, double valor, FormaDoPagamento formaDoPagamento, List<Categoria> categorias)
+        public Despesa()
+        {
+            Categorias = new List<Categoria>();
+        }
+        public Despesa(string descricao, DateTime dataOcorrencia, double valor, FormaDoPagamento formaDoPagamento) : this()
         {
             Id = Guid.NewGuid();
             this.Descricao = descricao;
             this.DataOcorrencia = dataOcorrencia;
             this.Valor = valor;
             this.FormaDoPagamento = formaDoPagamento;
-            this.Categorias = categorias;
         }
 
         public override void AtualizarRegistro(Despesa registroEditado)

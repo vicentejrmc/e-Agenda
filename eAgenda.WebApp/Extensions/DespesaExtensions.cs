@@ -8,7 +8,12 @@ namespace eAgenda.WebApp.Extensions
     {
         public static Despesa ParaEntidade(this FormularioDespesaViewModel formularioVM)
         {
-            return new Despesa(formularioVM.Descricao, formularioVM.DataOcorrencia, formularioVM.valor, formularioVM.FormaDoPagamento, formularioVM.CategoriaSelecionadas, formularioVM.CategoriasDisponiveis);
+            return new Despesa(
+                formularioVM.Descricao, 
+                formularioVM.DataOcorrencia,
+                formularioVM.Valor,
+                formularioVM.FormaDoPagamento
+                );
         }
 
         public static DetalhesDespesaViewModel ParaDetalhesVM(this Despesa despesa)
@@ -19,8 +24,7 @@ namespace eAgenda.WebApp.Extensions
                 despesa.DataOcorrencia,
                 despesa.Valor,
                 despesa.FormaDoPagamento,
-                despesa.Categorias,
-                despesa.CategoriasTitulo
+                despesa.Categorias
             );
         }
     }

@@ -85,8 +85,7 @@ namespace eAgenda.WebApp.Models
                         d.DataOcorrencia,
                         d.Valor,
                         d.FormaDoPagamento,
-                        d.Categorias,
-                        d.CategoriasTitulo
+                        d.Categorias
                         );
                 }
             }

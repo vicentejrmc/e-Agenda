@@ -65,7 +65,7 @@ namespace eAgenda.WebApp.Controllers
 
             var despesa = cadastrarVM.ParaEntidade();
 
-            var categoriasSelecionadas = cadastrarVM.CategoriaSelecionadas;
+            var categoriasSelecionadas = cadastrarVM.CategoriasSelecionadas;
 
             if (categoriasSelecionadas is not null)
             {
@@ -125,7 +125,7 @@ namespace eAgenda.WebApp.Controllers
             }
 
             var despesaEditada = editarVM.ParaEntidade();
-            var categoriasSelecionadas = editarVM.CategoriaSelecionadas;
+            var categoriasSelecionadas = editarVM.CategoriasSelecionadas;
 
             if (categoriasSelecionadas is not null)
             {
@@ -171,7 +171,6 @@ namespace eAgenda.WebApp.Controllers
             repositorioDespesa.ExcluirRegistro(id);
             return RedirectToAction(nameof(Index));
         }
-    }
 
         public IActionResult Detalhes(Guid id)
         {
@@ -192,3 +191,4 @@ namespace eAgenda.WebApp.Controllers
             return View(detalhesVM);
         }
     }
+}

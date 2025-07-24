@@ -25,7 +25,7 @@ namespace eAgenda.WebApp.Models
         public FormaDoPagamento FormaDoPagamento { get; set; }
 
         [Required(ErrorMessage = "O campo \"Categorias Selecionadas\" é necessita de ao menos um valor preenchido.")]
-        public List<Guid>? CategoriaSelecionadas { get; set; }
+        public List<Guid>? CategoriasSelecionadas { get; set; }
         public List<SelectListItem>? CategoriasDisponiveis { get; set; }
     }
 
@@ -33,7 +33,7 @@ namespace eAgenda.WebApp.Models
     {
         public CadastrarDespesaViewModel()
         {
-            CategoriaSelecionadas = new List<Guid>();
+            CategoriasSelecionadas = new List<Guid>();
             CategoriasDisponiveis = new List<SelectListItem>();
         }
 
@@ -53,7 +53,7 @@ namespace eAgenda.WebApp.Models
 
         public EditarDespesaViewModel()
         {
-            CategoriaSelecionadas = new List<Guid>();
+            CategoriasSelecionadas = new List<Guid>();
             CategoriasDisponiveis = new List<SelectListItem>();
         }
 
@@ -74,7 +74,7 @@ namespace eAgenda.WebApp.Models
             FormaDoPagamento = formaDoPagamento;
 
             foreach (var c in categoriasSelecionadas)
-                CategoriaSelecionadas?.Add(c.Id);
+                CategoriasSelecionadas?.Add(c.Id);
 
             foreach (var cd in categoriasDisponiveis)
             {
