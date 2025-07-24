@@ -72,6 +72,7 @@ namespace eAgenda.WebApp.Models
             DataOcorrencia = dataOcorrencia;
             Valor = valor;
             FormaDoPagamento = formaDoPagamento;
+
             foreach (var c in categoriasSelecionadas)
                 CategoriaSelecionadas?.Add(c.Id);
 

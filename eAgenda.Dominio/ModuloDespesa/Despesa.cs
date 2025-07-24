@@ -8,10 +8,10 @@ namespace eAgenda.Dominio.ModuloDespesa
         public string Descricao {  get; set; }
         public DateTime DataOcorrencia { get; set; }
         public double Valor {  get; set; }
-        public string FormaDoPagamento { get; set; }
+        public FormaDoPagamento FormaDoPagamento { get; set; }
         public List<Categoria> Categorias { get; set; }
         public Despesa() { }
-        public Despesa(string descricao, DateTime dataOcorrencia, double valor, string formaDoPagamento, List<Categoria> categorias)
+        public Despesa(string descricao, DateTime dataOcorrencia, double valor, FormaDoPagamento formaDoPagamento, List<Categoria> categorias)
         {
             Id = Guid.NewGuid();
             this.Descricao = descricao;

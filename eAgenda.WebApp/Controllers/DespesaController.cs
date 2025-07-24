@@ -90,7 +90,12 @@ namespace eAgenda.WebApp.Controllers
         [HttpGet("editar/{id:guid}")]
         public IActionResult Editar(Guid id)
         {
+            var categoriaDisponiveis = repositorioCategoria.SelecionarRegistros();
             var registroSelecionado = repositorioDespesa.SelecionarRegistroPorId(id);
+
+            if (registroSelecionado == null)
+                return RedirectToAction(nameof(Index));
+
             var editarVM = new EditarDespesaViewModel(
                 id,
                 registroSelecionado.Descricao,
@@ -98,9 +103,8 @@ namespace eAgenda.WebApp.Controllers
                 registroSelecionado.Valor,
                 registroSelecionado.FormaDoPagamento,
                 registroSelecionado.Categorias,
-                registroSelecionado.CategoriasTitulo
+                categoriaDisponiveis
             );
-            editarVM.CategoriasDisponiveis = repositorioCategoria.SelecionarRegistros();
 
             return View(editarVM);
         }
