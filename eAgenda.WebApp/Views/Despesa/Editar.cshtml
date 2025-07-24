@@ -15,9 +15,9 @@
                     <h3>Formulário de Edição</h3>
 
                     <div class="form-group d-grid mt-3 gap-2">
-                        <label asp-for="descricao" class="control-label fs-5">Descrição:</label>
-                        <input asp-for="descricao" class="form-control" value="@Model.descricao" />
-                        <span asp-validation-for="descricao" class="text-danger"></span>
+                        <label asp-for="Descricao" class="control-label fs-5">Descrição:</label>
+                        <input asp-for="Descricao" class="form-control" value="@Model.Descricao" />
+                        <span asp-validation-for="Descricao" class="text-danger"></span>
                     </div>
 
                     <div class="form-group d-grid mt-3 gap-2">
@@ -27,19 +27,19 @@
                     </div>
 
                     <div class="form-group d-grid mt-3 gap-2">
-                        <label asp-for="dataOcorrencia" class="control-label fs-5">Data De Ocorrência:</label>
-                        <input asp-for="dataOcorrencia" class="form-control" type="date" value="@Model.dataOcorrencia.ToString("yyyy-MM-dd")" />
-                        <span asp-validation-for="dataOcorrencia" class="text-danger"></span>
+                        <label asp-for="DataOcorrencia" class="control-label fs-5">Data De Ocorrência:</label>
+                        <input asp-for="DataOcorrencia" class="form-control" type="date" value="@Model.DataOcorrencia.ToString("yyyy-MM-dd")" />
+                        <span asp-validation-for="DataOcorrencia" class="text-danger"></span>
                     </div>
 
                     <div class="form-group d-grid mt-3 gap-2">
-                        <label asp-for="formaDoPagamento" class="control-label fs-5">Forma do Pagamento:</label>
-                        <select asp-for="formaDoPagamento" class="form-control">
-                            <option value="À Vista" selected="@("À Vista" == Model.formaDoPagamento)">À Vista</option>
-                            <option value="Débito" selected="@("Débito" == Model.formaDoPagamento)">Débito</option>
-                            <option value="Crédito" selected="@("Crédito" == Model.formaDoPagamento)">Crédito</option>
+                        <label asp-for="FormaDoPagamento" class="control-label fs-5">Forma do Pagamento:</label>
+                        <select asp-for="FormaDoPagamento" class="form-control">
+                            <option value="À Vista" selected="@("À Vista" == Model.FormaDoPagamento)">À Vista</option>
+                            <option value="Débito" selected="@("Débito" == Model.FormaDoPagamento)">Débito</option>
+                            <option value="Crédito" selected="@("Crédito" == Model.FormaDoPagamento)">Crédito</option>
                         </select>
-                        <span asp-validation-for="formaDoPagamento" class="text-danger"></span>
+                        <span asp-validation-for="FormaDoPagamento" class="text-danger"></span>
                     </div>
 
                     <div class="form-group d-grid mt-3 gap-2">
@@ -52,7 +52,7 @@
                                            type="checkbox"
                                            name="categorias"
                                            value="@categoria.Id"
-                                    @(Model.categorias != null && Model.categorias.Contains(categoria.Id) ? "checked" : "") />
+                                    @(Model.CategoriaSelecionadas != null && Model.CategoriaSelecionadas.Contains(categoria.Id) ? "checked" : "") />
                                     <label class="form-check-label">@categoria.Titulo</label>
 
                                 </div>
@@ -60,7 +60,7 @@
 
 
                         </div>
-                        <span asp-validation-for="categorias" class="text-danger"></span>
+                        <span asp-validation-for="CategoriaSelecionadas" class="text-danger"></span>
                     </div>
                     <div class="form-group d-flex align-items-center justify-content-end mt-5 gap-3">
                         <a href="/despesas">Voltar para a listagem</a>

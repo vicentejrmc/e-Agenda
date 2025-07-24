@@ -14,17 +14,14 @@ namespace eAgenda.WebApp.Controllers
     [Route("despesas")]
     public class DespesaController : Controller
     {
-        private readonly ContextoDeDados contextoDeDados;
         private readonly IRepositorioDespesa repositorioDespesa;
         private readonly IRepositorioCategoria repositorioCategoria;
 
         public DespesaController(
-            ContextoDeDados contextoDeDados, 
             IRepositorioDespesa repositorioDespesa,
             IRepositorioCategoria repositorioCategoria
             )
         {
-            this.contextoDeDados = contextoDeDados;
             this.repositorioDespesa = repositorioDespesa;
             this.repositorioCategoria = repositorioCategoria;
         }
@@ -65,7 +62,7 @@ namespace eAgenda.WebApp.Controllers
         {
             var registros = repositorioDespesa.SelecionarRegistros() ?? new List<Despesa>();
             var categorias = repositorioCategoria.SelecionarRegistros();
-            if (cadastrarVM.categorias == null || !cadastrarVM.categorias.Any())
+            if (cadastrarVM.CategoriaSelecionadas == null || !cadastrarVM.CategoriaSelecionadas.Any())
             {
                 ModelState.AddModelError("categorias", "Selecione pelo menos uma categoria.");
                 cadastrarVM.CategoriasDisponiveis = repositorioCategoria.SelecionarRegistros();
@@ -74,10 +71,10 @@ namespace eAgenda.WebApp.Controllers
             if (!ModelState.IsValid)
             return View(cadastrarVM);
 
-            foreach (var item in cadastrarVM.categorias)
+            foreach (var item in cadastrarVM.CategoriaSelecionadas)
             {
 
-                cadastrarVM.categoriasTitulo.Add(repositorioCategoria.SelecionarRegistroPorId(item).Titulo);
+                cadastrarVM.CategoriasDisponiveis.Add(repositorioCategoria.SelecionarRegistroPorId(item).Titulo);
 
             }
             var entidade = cadastrarVM.ParaEntidade();    
@@ -124,11 +121,11 @@ namespace eAgenda.WebApp.Controllers
         {
             var categorias = repositorioCategoria.SelecionarRegistros();
             
-            foreach (var item in editarVM.categorias)
+            foreach (var item in editarVM.CategoriaSelecionadas)
             {
-                if(!editarVM.categoriasTitulo.Contains(repositorioCategoria.SelecionarRegistroPorId(item).Titulo))
+                if(!editarVM.CategoriasDisponiveis.Contains(repositorioCategoria.SelecionarRegistroPorId(item).Titulo))
                 {
-                    editarVM.categoriasTitulo.Add(repositorioCategoria.SelecionarRegistroPorId(item).Titulo);
+                    editarVM.CategoriasDisponiveis.Add(repositorioCategoria.SelecionarRegistroPorId(item).Titulo);
                 }
             }
 

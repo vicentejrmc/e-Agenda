@@ -21,7 +21,7 @@ namespace eAgenda.WebApp
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddScoped<ContextoDeDados>((_) => new ContextoDeDados(true));
-            builder.Services.AddScoped<IRepositorioCategoria, RepositorioCategoriaEmOrm>();
+            builder.Services.AddScoped<IRepositorioCategoria, RepositorioCategoriaEmArquivo>();
             builder.Services.AddScoped<IRepositorioCompromisso, RepositorioCompromissoEmOrm>();
             builder.Services.AddScoped<IRepositorioContato, RepositorioContatoEmOrm>();
             builder.Services.AddScoped<IRepositorioDespesa, RepositorioDespesaEmArquivo>();
