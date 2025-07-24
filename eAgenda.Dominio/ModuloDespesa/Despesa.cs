@@ -1,4 +1,5 @@
 ﻿using eAgenda.Dominio.Compartilhado;
+using eAgenda.Dominio.ModuloCategoria;
 
 namespace eAgenda.Dominio.ModuloDespesa
 {
@@ -8,10 +9,9 @@ namespace eAgenda.Dominio.ModuloDespesa
         public DateTime DataOcorrencia { get; set; }
         public double Valor {  get; set; }
         public string FormaDoPagamento { get; set; }
-        public List<Guid> Categorias { get; set; }
-        public List<string> CategoriasTitulo {  get; set; }
+        public List<Categoria> Categorias { get; set; }
         public Despesa() { }
-        public Despesa(string descricao, DateTime dataOcorrencia, double valor, string formaDoPagamento, List<Guid> categorias, List<string> categoriasTitulo)
+        public Despesa(string descricao, DateTime dataOcorrencia, double valor, string formaDoPagamento, List<Categoria> categorias)
         {
             Id = Guid.NewGuid();
             this.Descricao = descricao;
@@ -19,7 +19,6 @@ namespace eAgenda.Dominio.ModuloDespesa
             this.Valor = valor;
             this.FormaDoPagamento = formaDoPagamento;
             this.Categorias = categorias;
-            this.CategoriasTitulo = categoriasTitulo;
         }
 
         public override void AtualizarRegistro(Despesa registroEditado)
@@ -29,7 +28,24 @@ namespace eAgenda.Dominio.ModuloDespesa
             Valor = registroEditado.Valor;
             FormaDoPagamento = registroEditado.FormaDoPagamento;
             Categorias = registroEditado.Categorias;
-            CategoriasTitulo = registroEditado.CategoriasTitulo;
+        }
+
+        public void RegistarCategoria(Categoria categoria)
+        {
+            if (Categorias.Contains(categoria))
+                return;
+
+            categoria.Despesas.Add(this);
+            Categorias.Add(categoria);
+        }
+
+        public void RemoverCategoria(Categoria categoria)
+        {
+            if (!Categorias.Contains(categoria))
+                return;
+
+            categoria.Despesas.Remove(this);
+            Categorias.Remove(categoria);
         }
     }
 }

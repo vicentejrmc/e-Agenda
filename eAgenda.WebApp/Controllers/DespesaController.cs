@@ -6,6 +6,7 @@ using eAgenda.Infraestrutura.ModuloDespesa;
 using eAgenda.WebApp.Extensions;
 using eAgenda.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Reflection;
 using static eAgenda.WebApp.Models.FormularioDespesaViewModel;
 
@@ -32,17 +33,6 @@ namespace eAgenda.WebApp.Controllers
             var registros = repositorioDespesa.SelecionarRegistros();
 
             var visualizarVM = new VisualizarDespesaViewModel(registros);
-            
-            foreach (var item in registros)
-            {
-                item.CategoriasTitulo = new List<string>();
-                foreach (var idCategoria in item.Categorias)
-                {
-                    
-                    item.CategoriasTitulo.Add(repositorioCategoria.SelecionarRegistroPorId(idCategoria).Titulo);
-                }
-                repositorioDespesa.EditarRegistro(item.Id, item);
-            }
 
             return View(visualizarVM);
         }
@@ -50,50 +40,49 @@ namespace eAgenda.WebApp.Controllers
         [HttpGet("cadastrar")]
         public IActionResult Cadastrar()
         {
-            var cadastrarVM = new CadastrarDespesaViewModel();
-            cadastrarVM.CategoriasDisponiveis = repositorioCategoria.SelecionarRegistros();
+            var categoriasDisponiveis = repositorioCategoria.SelecionarRegistros();
+            var cadastrarVM = new CadastrarDespesaViewModel(categoriasDisponiveis);
             return View(cadastrarVM);
-            
         }
 
         [HttpPost("cadastrar")]
         [ValidateAntiForgeryToken]
         public IActionResult Cadastrar(CadastrarDespesaViewModel cadastrarVM)
         {
-            var registros = repositorioDespesa.SelecionarRegistros() ?? new List<Despesa>();
-            var categorias = repositorioCategoria.SelecionarRegistros();
-            if (cadastrarVM.CategoriaSelecionadas == null || !cadastrarVM.CategoriaSelecionadas.Any())
-            {
-                ModelState.AddModelError("categorias", "Selecione pelo menos uma categoria.");
-                cadastrarVM.CategoriasDisponiveis = repositorioCategoria.SelecionarRegistros();
-            }
+            var categoriasDisponiveis = repositorioCategoria.SelecionarRegistros();
 
             if (!ModelState.IsValid)
-            return View(cadastrarVM);
-
-            foreach (var item in cadastrarVM.CategoriaSelecionadas)
             {
-
-                cadastrarVM.CategoriasDisponiveis.Add(repositorioCategoria.SelecionarRegistroPorId(item).Titulo);
-
-            }
-            var entidade = cadastrarVM.ParaEntidade();    
-            repositorioDespesa.CadastrarRegistro(entidade);
-            foreach (var item in entidade.Categorias)
-            {
-
-                foreach (var item2 in categorias)
+                foreach (var cd in categoriasDisponiveis)
                 {
-                    Categoria c = item2;
-                    if (c.idDespesas == null) c.idDespesas = new List<Guid>();
-                    if (c.Id == item)
-                    {
-                        c.idDespesas.Add(entidade.Id);
-                        repositorioCategoria.EditarRegistro(item, c);
-                    }
+                    var selecionarVM = new SelectListItem(cd.Titulo, cd.Id.ToString());
+
+                    cadastrarVM.CategoriasDisponiveis?.Add(selecionarVM);
                 }
 
+                return View(cadastrarVM);
             }
+
+            var despesa = cadastrarVM.ParaEntidade();
+
+            var categoriasSelecionadas = cadastrarVM.CategoriaSelecionadas;
+
+            if (categoriasSelecionadas is not null)
+            {
+                foreach (var cs in categoriasSelecionadas)
+                {
+                    foreach (var cd in categoriasDisponiveis)
+                    {
+                        if (cs.Equals(cd.Id))
+                        {
+                            despesa.RegistarCategoria(cd);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            repositorioDespesa.CadastrarRegistro(despesa);
 
             return RedirectToAction(nameof(Index));
         }
