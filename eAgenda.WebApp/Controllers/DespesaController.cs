@@ -38,11 +38,11 @@ namespace eAgenda.WebApp.Controllers
             
             foreach (var item in registros)
             {
-                item.categoriasTitulo = new List<string>();
-                foreach (var idCategoria in item.categorias)
+                item.CategoriasTitulo = new List<string>();
+                foreach (var idCategoria in item.Categorias)
                 {
                     
-                    item.categoriasTitulo.Add(repositorioCategoria.SelecionarRegistroPorId(idCategoria).Titulo);
+                    item.CategoriasTitulo.Add(repositorioCategoria.SelecionarRegistroPorId(idCategoria).Titulo);
                 }
                 repositorioDespesa.EditarRegistro(item.Id, item);
             }
@@ -82,7 +82,7 @@ namespace eAgenda.WebApp.Controllers
             }
             var entidade = cadastrarVM.ParaEntidade();    
             repositorioDespesa.CadastrarRegistro(entidade);
-            foreach (var item in entidade.categorias)
+            foreach (var item in entidade.Categorias)
             {
 
                 foreach (var item2 in categorias)
@@ -107,12 +107,12 @@ namespace eAgenda.WebApp.Controllers
             var registroSelecionado = repositorioDespesa.SelecionarRegistroPorId(id);
             var editarVM = new EditarDespesaViewModel(
                 id,
-                registroSelecionado.descricao,
-                registroSelecionado.dataOcorrencia,
-                registroSelecionado.valor,
-                registroSelecionado.formaDoPagamento,
-                registroSelecionado.categorias,
-                registroSelecionado.categoriasTitulo
+                registroSelecionado.Descricao,
+                registroSelecionado.DataOcorrencia,
+                registroSelecionado.Valor,
+                registroSelecionado.FormaDoPagamento,
+                registroSelecionado.Categorias,
+                registroSelecionado.CategoriasTitulo
             );
             editarVM.CategoriasDisponiveis = repositorioCategoria.SelecionarRegistros();
 
@@ -140,13 +140,13 @@ namespace eAgenda.WebApp.Controllers
                 {
                     Categoria categoria = item2;
                     if (categoria.idDespesas == null) categoria.idDespesas = new List<Guid>();
-                    if (categoria.idDespesas.Contains(entidadeEditada.Id) && !(entidadeEditada.categorias.Contains(categoria.Id)))
+                    if (categoria.idDespesas.Contains(entidadeEditada.Id) && !(entidadeEditada.Categorias.Contains(categoria.Id)))
                     {
                         categoria.idDespesas.Remove(entidadeEditada.Id);
                         categoria.despesas.Remove(entidadeEditada);
                         repositorioCategoria.EditarRegistro(categoria.Id, categoria);
                     }
-                    else if (entidadeEditada.categorias.Contains(categoria.Id))
+                    else if (entidadeEditada.Categorias.Contains(categoria.Id))
                     {
                        if(!categoria.idDespesas.Contains(entidadeEditada.Id))
                         {
@@ -164,7 +164,7 @@ namespace eAgenda.WebApp.Controllers
         {
             var registroSelecionado = repositorioDespesa.SelecionarRegistroPorId(id);
 
-            var excluirVM = new ExcluirDespesaViewModel(registroSelecionado.Id, registroSelecionado.descricao);
+            var excluirVM = new ExcluirDespesaViewModel(registroSelecionado.Id, registroSelecionado.Descricao);
 
             return View(excluirVM);
         }

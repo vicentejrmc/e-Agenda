@@ -6,23 +6,23 @@ namespace eAgenda.Dominio.ModuloCategoria
     public class Categoria : EntidadeBase<Categoria>
     {
         public string Titulo { get; set; }
-        public List<Guid> idDespesas { get; set; } = new List<Guid>();
-        public List<Despesa> despesas { get; set; } = new List<Despesa> { };
+        public List<Despesa> Despesas { get; set; }
 
-        public Categoria() { }     
-        public Categoria(string titulo, List<Guid> despesas, List<Despesa> despesas1)
+        public Categoria()
+        {
+            Despesas = new List<Despesa>();
+        }
+
+        public Categoria(string titulo) : this()
         {
             Id = Guid.NewGuid();
             Titulo = titulo;
-            this.idDespesas = despesas;
-            this.despesas = despesas1;
         }
 
         public override void AtualizarRegistro(Categoria registroEditado)
         {
             Titulo = registroEditado.Titulo;
-            idDespesas = registroEditado.idDespesas;
         }
-    
+
     }
 }

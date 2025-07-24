@@ -15,12 +15,12 @@ namespace eAgenda.WebApp.Extensions
         {
             return new DetalhesDespesaViewModel(
                 despesa.Id,
-                despesa.descricao,
-                despesa.dataOcorrencia,
-                despesa.valor,
-                despesa.formaDoPagamento,
-                despesa.categorias,
-                despesa.categoriasTitulo
+                despesa.Descricao,
+                despesa.DataOcorrencia,
+                despesa.Valor,
+                despesa.FormaDoPagamento,
+                despesa.Categorias,
+                despesa.CategoriasTitulo
             );
         }
     }

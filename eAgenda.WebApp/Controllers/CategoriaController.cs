@@ -3,9 +3,10 @@ using eAgenda.Infraestrutura.ModuloCategoria;
 using eAgenda.Infraestrutura.Compartilhado;
 using eAgenda.WebApp.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using static eAgenda.WebApp.Models.FormularioCategoriaViewModel;
+using eAgenda.WebApp.Models;
 using eAgenda.Dominio.ModuloDespesa;
 using eAgenda.Infraestrutura.ModuloDespesa;
+using static eAgenda.WebApp.Models.FormularioCategoriaViewModel;
 
 namespace eAgenda.WebApp.Controllers
 {
@@ -102,8 +103,8 @@ namespace eAgenda.WebApp.Controllers
                 foreach (var item in c.idDespesas)    
                 {
                     Despesa d = repositorioDespesa.SelecionarRegistroPorId(item);
-                    d.categoriasTitulo.Remove(repositorioCategoria.SelecionarRegistroPorId(c.Id).Titulo);
-                    d.categoriasTitulo.Add(editarVM.Titulo);
+                    d.CategoriasTitulo.Remove(repositorioCategoria.SelecionarRegistroPorId(c.Id).Titulo);
+                    d.CategoriasTitulo.Add(editarVM.Titulo);
                     repositorioDespesa.EditarRegistro(d.Id, d);
                 }
             }
@@ -197,7 +198,7 @@ namespace eAgenda.WebApp.Controllers
         {
             var despesa = repositorioDespesa.SelecionarRegistroPorId(despesaId);
             var categoria = repositorioCategoria.SelecionarRegistroPorId(categoriaId);
-            if (despesa.categorias.Count == 1)
+            if (despesa.Categorias.Count == 1)
             {
                 ModelState.AddModelError("ExclusaoProibida", "Não é possível existir uma despesa sem uma categoria");
             }
@@ -207,8 +208,8 @@ namespace eAgenda.WebApp.Controllers
             {
                 if(item.Id == despesaId)
                 {
-                    item.categorias.Remove(categoriaId);
-                    item.categoriasTitulo.Remove(categoria.Titulo);
+                    item.Categorias.Remove(categoriaId);
+                    item.CategoriasTitulo.Remove(categoria.Titulo);
                     repositorioDespesa.EditarRegistro(despesaId, item);
                 }
             }
