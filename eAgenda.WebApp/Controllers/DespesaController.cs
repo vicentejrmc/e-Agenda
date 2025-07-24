@@ -160,27 +160,35 @@ namespace eAgenda.WebApp.Controllers
         [HttpPost("excluir/{id:guid}")]
         public IActionResult ExcluirConfirmado(Guid id)
         {
+            var registroSelecionado = repositorioDespesa.SelecionarRegistroPorId(id);
 
-            foreach (var item in repositorioCategoria.SelecionarRegistros())
-            {
-                List<Guid> listaAuxiliar = new List<Guid>();
-                Categoria c = item;
-                foreach (var item2 in c.idDespesas)
-                {
-                    if (item2 == id)
-                    {
-                        listaAuxiliar.Add(item2);
+            if (registroSelecionado == null)
+                return RedirectToAction(nameof(Index));
 
-                    }
-                }
-                foreach (var item2 in listaAuxiliar)
-                {
-                    c.idDespesas.Remove(item2);
-                    repositorioCategoria.EditarRegistro(item.Id, c);
-                }
-            }
+            foreach (var item in registroSelecionado.Categorias.ToList())
+                registroSelecionado.RemoverCategoria(item);
+
             repositorioDespesa.ExcluirRegistro(id);
             return RedirectToAction(nameof(Index));
         }
     }
-}
+
+        public IActionResult Detalhes(Guid id)
+        {
+            var registroSelecionado = repositorioDespesa.SelecionarRegistroPorId(id);
+
+            if (registroSelecionado is null)
+                return RedirectToAction(nameof(Index));
+
+            var detalhesVM = new DetalhesDespesaViewModel(
+                id,
+                registroSelecionado.Descricao,
+                registroSelecionado.DataOcorrencia,
+                registroSelecionado.Valor,
+                registroSelecionado.FormaDoPagamento,
+                registroSelecionado.Categorias
+            );
+
+            return View(detalhesVM);
+        }
+    }
