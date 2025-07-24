@@ -112,39 +112,37 @@ namespace eAgenda.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Editar(Guid id, EditarDespesaViewModel editarVM)
         {
-            var categorias = repositorioCategoria.SelecionarRegistros();
-            
-            foreach (var item in editarVM.CategoriaSelecionadas)
+            var categoriasDisponiveis = repositorioCategoria.SelecionarRegistros();
+
+            if (!ModelState.IsValid)
             {
-                if(!editarVM.CategoriasDisponiveis.Contains(repositorioCategoria.SelecionarRegistroPorId(item).Titulo))
+                foreach (var c in categoriasDisponiveis)
                 {
-                    editarVM.CategoriasDisponiveis.Add(repositorioCategoria.SelecionarRegistroPorId(item).Titulo);
+                    var selecionarVM = new SelectListItem(c.Titulo, c.Id.ToString());
+                    editarVM.CategoriasDisponiveis?.Add(selecionarVM);
                 }
+                return View(editarVM);
             }
 
-            var entidadeEditada = editarVM.ParaEntidade();
-            entidadeEditada.Id = id;
-            repositorioDespesa.EditarRegistro(id, entidadeEditada);
+            var despesaEditada = editarVM.ParaEntidade();
+            var categoriasSelecionadas = editarVM.CategoriaSelecionadas;
 
-                foreach (var item2 in categorias)
+            if (categoriasSelecionadas is not null)
+            {
+                foreach (var idSelecionado in categoriasSelecionadas)
                 {
-                    Categoria categoria = item2;
-                    if (categoria.idDespesas == null) categoria.idDespesas = new List<Guid>();
-                    if (categoria.idDespesas.Contains(entidadeEditada.Id) && !(entidadeEditada.Categorias.Contains(categoria.Id)))
+                    foreach (var categoriaDisponivel in categoriasDisponiveis)
                     {
-                        categoria.idDespesas.Remove(entidadeEditada.Id);
-                        categoria.despesas.Remove(entidadeEditada);
-                        repositorioCategoria.EditarRegistro(categoria.Id, categoria);
-                    }
-                    else if (entidadeEditada.Categorias.Contains(categoria.Id))
-                    {
-                       if(!categoria.idDespesas.Contains(entidadeEditada.Id))
+                        if (categoriaDisponivel.Id.Equals(idSelecionado))
                         {
-                            categoria.idDespesas.Add(entidadeEditada.Id);
-                            repositorioCategoria.EditarRegistro(categoria.Id, categoria);
+                            despesaEditada.RegistarCategoria(categoriaDisponivel); break;
                         }
                     }
                 }
+            }
+
+            repositorioDespesa.EditarRegistro(id, despesaEditada);
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -162,17 +160,17 @@ namespace eAgenda.WebApp.Controllers
         [HttpPost("excluir/{id:guid}")]
         public IActionResult ExcluirConfirmado(Guid id)
         {
-            
+
             foreach (var item in repositorioCategoria.SelecionarRegistros())
             {
                 List<Guid> listaAuxiliar = new List<Guid>();
                 Categoria c = item;
                 foreach (var item2 in c.idDespesas)
-                { 
+                {
                     if (item2 == id)
                     {
-                    listaAuxiliar.Add(item2);
-                    
+                        listaAuxiliar.Add(item2);
+
                     }
                 }
                 foreach (var item2 in listaAuxiliar)
