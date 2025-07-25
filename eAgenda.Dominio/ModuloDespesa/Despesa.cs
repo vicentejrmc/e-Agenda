@@ -10,6 +10,8 @@ namespace eAgenda.Dominio.ModuloDespesa
         public double Valor {  get; set; }
         public FormaDoPagamento FormaDoPagamento { get; set; }
         public List<Categoria> Categorias { get; set; }
+
+
         public Despesa()
         {
             Categorias = new List<Categoria>();
