@@ -1,4 +1,5 @@
 ﻿using eAgenda.Dominio.ModuloCategoria;
+using eAgenda.Dominio.ModuloContato;
 using eAgenda.Dominio.ModuloDespesa;
 using eAgenda.Infraestrutura.Compartilhado;
 using eAgenda.Infraestrutura.ModuloCategoria;
@@ -14,17 +15,17 @@ namespace eAgenda.WebApp.Controllers
     [Route("categorias")]
     public class CategoriaController : Controller
     {
-        private readonly eAgendaDbContext contextoDeDados;
+        private readonly eAgendaDbContext contexto;
         private readonly IRepositorioCategoria repositorioCategoria;
         private readonly IRepositorioDespesa repositorioDespesa;
 
         public CategoriaController(
-            eAgendaDbContext contextoDeDados,
+            eAgendaDbContext contexto,
             IRepositorioCategoria repositorioCategoria,
             IRepositorioDespesa repositorioDespesa
             )
         {
-            this.contextoDeDados = contextoDeDados;
+            this.contexto = contexto;
             this.repositorioCategoria = repositorioCategoria;
             this.repositorioDespesa = repositorioDespesa;
         }
@@ -65,8 +66,19 @@ namespace eAgenda.WebApp.Controllers
                 return View(cadastrarVM);
 
             var entidade = cadastrarVM.ParaEntidade();
+            var transacao = contexto.Database.BeginTransaction();
 
-            repositorioCategoria.CadastrarRegistro(entidade);
+            try
+            {
+                repositorioCategoria.CadastrarRegistro(entidade);
+                contexto.SaveChanges();
+                transacao.Commit();
+            }
+            catch
+            {
+                transacao.Rollback();
+                throw;
+            }
 
             return RedirectToAction(nameof(Index));
         }
@@ -100,8 +112,19 @@ namespace eAgenda.WebApp.Controllers
             }
 
             var entidadeEditada = editarVM.ParaEntidade();
+            var transacao = contexto.Database.BeginTransaction();
 
-            repositorioCategoria.EditarRegistro(id, entidadeEditada);
+            try
+            {
+                repositorioCategoria.EditarRegistro(id, entidadeEditada);
+                contexto.SaveChanges();
+                transacao.Commit();
+            }
+            catch
+            {
+                transacao.Rollback();
+                throw;
+            }
 
             return RedirectToAction(nameof(Index));
         }
@@ -122,7 +145,19 @@ namespace eAgenda.WebApp.Controllers
         [HttpPost("excluir/{id:guid}")]
         public IActionResult Excluir(Guid id, ExcluirCategoriaViewModel excluirVM)
         {
-            repositorioCategoria.ExcluirRegistro(id);
+            var transacao = contexto.Database.BeginTransaction();
+
+            try
+            {
+                repositorioCategoria.ExcluirRegistro(id);
+                contexto.SaveChanges();
+                transacao.Commit();
+            }
+            catch
+            {
+                transacao.Rollback();
+                throw;
+            }
 
             return RedirectToAction(nameof(Index));
         }
