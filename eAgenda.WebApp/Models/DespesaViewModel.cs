@@ -122,7 +122,7 @@ namespace eAgenda.WebApp.Models
         public Guid Id { get; }
         public string Descricao { get; set; }
         public DateTime DataOcorrencia { get; set; }
-        public double Valor { get; set; }
+        public double? Valor { get; set; }
         public FormaDoPagamento FormaDoPagamento { get; set; }
         public List<string> Categorias { get; set; }
 

@@ -1,8 +1,11 @@
 ﻿using eAgenda.Dominio.ModuloCategoria;
+using eAgenda.Dominio.ModuloCompromisso;
+using eAgenda.Dominio.ModuloContato;
 using eAgenda.Dominio.ModuloDespesa;
 using eAgenda.Infraestrutura.Compartilhado;
 using eAgenda.Infraestrutura.ModuloCategoria;
 using eAgenda.Infraestrutura.ModuloDespesa;
+using eAgenda.Infraestrutura.Orm.Compartilhado;
 using eAgenda.WebApp.Extensions;
 using eAgenda.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -15,14 +18,17 @@ namespace eAgenda.WebApp.Controllers
     [Route("despesas")]
     public class DespesaController : Controller
     {
+        private readonly eAgendaDbContext contexto;
         private readonly IRepositorioDespesa repositorioDespesa;
         private readonly IRepositorioCategoria repositorioCategoria;
 
         public DespesaController(
+            eAgendaDbContext contexto,
             IRepositorioDespesa repositorioDespesa,
             IRepositorioCategoria repositorioCategoria
             )
         {
+            this.contexto = contexto;
             this.repositorioDespesa = repositorioDespesa;
             this.repositorioCategoria = repositorioCategoria;
         }
@@ -80,6 +86,20 @@ namespace eAgenda.WebApp.Controllers
                         }
                     }
                 }
+            }
+
+            var transacao = contexto.Database.BeginTransaction();
+
+            try
+            {
+                repositorioDespesa.CadastrarRegistro(despesa);
+                contexto.SaveChanges();
+                transacao.Commit();
+            }
+            catch
+            {
+                transacao.Rollback();
+                throw;
             }
 
             repositorioDespesa.CadastrarRegistro(despesa);
@@ -141,7 +161,19 @@ namespace eAgenda.WebApp.Controllers
                 }
             }
 
-            repositorioDespesa.EditarRegistro(id, despesaEditada);
+            var transacao = contexto.Database.BeginTransaction();
+
+            try
+            {
+                repositorioDespesa.EditarRegistro(id, despesaEditada);
+                contexto.SaveChanges();
+                transacao.Commit();
+            }
+            catch
+            {
+                transacao.Rollback();
+                throw;
+            }
 
             return RedirectToAction(nameof(Index));
         }
@@ -165,10 +197,27 @@ namespace eAgenda.WebApp.Controllers
             if (registroSelecionado == null)
                 return RedirectToAction(nameof(Index));
 
-            foreach (var item in registroSelecionado.Categorias.ToList())
-                registroSelecionado.RemoverCategoria(item);
+            var transacao = contexto.Database.BeginTransaction();
 
-            repositorioDespesa.ExcluirRegistro(id);
+            try
+            {
+                bool excluido = repositorioDespesa.ExcluirRegistro(id);
+
+                if (excluido)
+                {
+                    foreach (var item in registroSelecionado.Categorias.ToList())
+                        registroSelecionado.RemoverCategoria(item);
+                }
+
+                contexto.SaveChanges();
+                transacao.Commit();
+            }
+            catch
+            {
+                transacao.Rollback();
+                throw;
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

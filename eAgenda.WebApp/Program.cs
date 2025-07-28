@@ -7,8 +7,10 @@ using eAgenda.Infraestrutura.Compartilhado;
 using eAgenda.Infraestrutura.ModuloCategoria;
 using eAgenda.Infraestrutura.ModuloDespesa;
 using eAgenda.Infraestrutura.ModuloTarefa;
+using eAgenda.Infraestrutura.Orm.ModuloCategoria;
 using eAgenda.Infraestrutura.Orm.ModuloCompromisso;
 using eAgenda.Infraestrutura.Orm.ModuloContato;
+using eAgenda.Infraestrutura.Orm.ModuloDespesa;
 using eAgenda.Infraestrutura.Orm.ModuloTarefa;
 using eAgenda.WebApp.DependencyInjection;
 
@@ -21,10 +23,10 @@ namespace eAgenda.WebApp
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddScoped<ContextoDeDados>((_) => new ContextoDeDados(true));
-            builder.Services.AddScoped<IRepositorioCategoria, RepositorioCategoriaEmArquivo>();
+            builder.Services.AddScoped<IRepositorioCategoria, RepositorioCategoriaEmOrm>();
             builder.Services.AddScoped<IRepositorioCompromisso, RepositorioCompromissoEmOrm>();
             builder.Services.AddScoped<IRepositorioContato, RepositorioContatoEmOrm>();
-            builder.Services.AddScoped<IRepositorioDespesa, RepositorioDespesaEmArquivo>();
+            builder.Services.AddScoped<IRepositorioDespesa, RepositorioDespesaEmOrm>();
             builder.Services.AddScoped<IRepositorioTarefa, RepositorioTarefaEmOrm>();
 
             builder.Services.AddSerilogConfig(builder.Logging);

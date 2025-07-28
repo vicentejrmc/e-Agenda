@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace eAgenda.Infraestrutura.Orm.Migrations
 {
     /// <inheritdoc />
-    public partial class Add_TBDespesa : Migration
+    public partial class Add_TBCategoria : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,7 +16,7 @@ namespace eAgenda.Infraestrutura.Orm.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Titulo = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Titulo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -24,7 +24,7 @@ namespace eAgenda.Infraestrutura.Orm.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Despesa",
+                name: "Despesas",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -35,7 +35,7 @@ namespace eAgenda.Infraestrutura.Orm.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Despesa", x => x.Id);
+                    table.PrimaryKey("PK_Despesas", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -55,9 +55,9 @@ namespace eAgenda.Infraestrutura.Orm.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CategoriaDespesa_Despesa_DespesasId",
+                        name: "FK_CategoriaDespesa_Despesas_DespesasId",
                         column: x => x.DespesasId,
-                        principalTable: "Despesa",
+                        principalTable: "Despesas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -78,7 +78,7 @@ namespace eAgenda.Infraestrutura.Orm.Migrations
                 name: "Categorias");
 
             migrationBuilder.DropTable(
-                name: "Despesa");
+                name: "Despesas");
         }
     }
 }

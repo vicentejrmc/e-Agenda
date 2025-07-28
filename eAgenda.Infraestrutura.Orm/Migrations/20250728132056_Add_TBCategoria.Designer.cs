@@ -12,8 +12,8 @@ using eAgenda.Infraestrutura.Orm.Compartilhado;
 namespace eAgenda.Infraestrutura.Orm.Migrations
 {
     [DbContext(typeof(eAgendaDbContext))]
-    [Migration("20250725202537_Add_TBDespesa")]
-    partial class Add_TBDespesa
+    [Migration("20250728132056_Add_TBCategoria")]
+    partial class Add_TBCategoria
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,12 +43,12 @@ namespace eAgenda.Infraestrutura.Orm.Migrations
             modelBuilder.Entity("eAgenda.Dominio.ModuloCategoria.Categoria", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Titulo")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -155,7 +155,7 @@ namespace eAgenda.Infraestrutura.Orm.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Despesa");
+                    b.ToTable("Despesas");
                 });
 
             modelBuilder.Entity("eAgenda.Dominio.ModuloTarefa.Item", b =>

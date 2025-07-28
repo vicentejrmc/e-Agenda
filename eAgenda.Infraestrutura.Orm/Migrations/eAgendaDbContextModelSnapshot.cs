@@ -40,12 +40,12 @@ namespace eAgenda.Infraestrutura.Orm.Migrations
             modelBuilder.Entity("eAgenda.Dominio.ModuloCategoria.Categoria", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Titulo")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -152,7 +152,7 @@ namespace eAgenda.Infraestrutura.Orm.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Despesa");
+                    b.ToTable("Despesas");
                 });
 
             modelBuilder.Entity("eAgenda.Dominio.ModuloTarefa.Item", b =>
