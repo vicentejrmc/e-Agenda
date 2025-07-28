@@ -4,8 +4,6 @@ using eAgenda.Dominio.ModuloContato;
 using eAgenda.Dominio.ModuloDespesa;
 using eAgenda.Dominio.ModuloTarefa;
 using eAgenda.Infraestrutura.Compartilhado;
-using eAgenda.Infraestrutura.ModuloCategoria;
-using eAgenda.Infraestrutura.ModuloDespesa;
 using eAgenda.Infraestrutura.ModuloTarefa;
 using eAgenda.Infraestrutura.Orm.ModuloCategoria;
 using eAgenda.Infraestrutura.Orm.ModuloCompromisso;

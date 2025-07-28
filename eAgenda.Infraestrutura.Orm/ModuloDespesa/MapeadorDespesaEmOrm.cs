@@ -25,11 +25,11 @@ namespace eAgenda.Infraestrutura.Orm.ModuloDespesa
                 .IsRequired();
 
             builder.Property(d => d.Valor)
-                .IsRequired()
-                .HasColumnType("decimal(18,2)");
+                .IsRequired();
 
             builder.HasMany(d => d.Categorias)
-                .WithMany(c => c.Despesas);
+                .WithMany(c => c.Despesas)
+                .UsingEntity(j => j.ToTable("DespesaCategoria"));
         }
     }
 }

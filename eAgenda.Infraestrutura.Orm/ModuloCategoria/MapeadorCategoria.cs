@@ -22,7 +22,8 @@ namespace eAgenda.Infraestrutura.Orm.ModuloCategoria
                 .HasMaxLength(100);
 
             builder.HasMany(c => c.Despesas)
-                .WithMany(d => d.Categorias);
+                .WithMany(d => d.Categorias)
+                .UsingEntity(j => j.ToTable("CategoriaDespesa"));
         }
     }
 }
