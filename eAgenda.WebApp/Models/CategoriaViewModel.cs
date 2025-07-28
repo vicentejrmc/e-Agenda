@@ -66,7 +66,7 @@ namespace eAgenda.WebApp.Models
             public string Titulo { get; }       
             public List<DetalhesDespesaViewModel> Despesas { get; set; }
 
-            public double DespesaTotal { get; set; }
+            public decimal DespesaTotal { get; set; }
 
             public DetalhesCategoriaViewModel(Guid id, string titulo, List<Despesa> despesas)
             {

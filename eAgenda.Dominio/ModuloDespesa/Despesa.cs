@@ -7,7 +7,7 @@ namespace eAgenda.Dominio.ModuloDespesa
     {
         public string Descricao {  get; set; }
         public DateTime DataOcorrencia { get; set; }
-        public double Valor {  get; set; }
+        public decimal Valor {  get; set; }
         public FormaDoPagamento FormaDoPagamento { get; set; }
         public List<Categoria> Categorias { get; set; }
 
@@ -16,7 +16,7 @@ namespace eAgenda.Dominio.ModuloDespesa
         {
             Categorias = new List<Categoria>();
         }
-        public Despesa(string descricao, DateTime dataOcorrencia, double valor, FormaDoPagamento formaDoPagamento) : this()
+        public Despesa(string descricao, DateTime dataOcorrencia, decimal valor, FormaDoPagamento formaDoPagamento) : this()
         {
             Id = Guid.NewGuid();
             this.Descricao = descricao;

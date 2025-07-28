@@ -13,27 +13,20 @@ namespace eAgenda.Infraestrutura.Orm.ModuloDespesa
     {
         public void Configure(EntityTypeBuilder<Despesa> builder)
         {
-            builder.Property(d => d.Id)
+           builder.Property(d => d.Id)
                 .ValueGeneratedNever()
                 .IsRequired();
 
             builder.Property(d => d.Descricao)
                 .IsRequired()
-                .HasMaxLength(100);
+                .HasMaxLength(200);
 
             builder.Property(d => d.DataOcorrencia)
                 .IsRequired();
 
             builder.Property(d => d.Valor)
                 .IsRequired()
-                .HasPrecision(18, 2);
-
-            builder.Property(d => d.FormaDoPagamento)
-                .IsRequired()
-                .HasConversion(
-                    v => v.ToString(),
-                    v => (FormaDoPagamento)Enum.Parse(typeof(FormaDoPagamento), v))
-                .HasMaxLength(50);
+                .HasColumnType("decimal(18,2)");
 
             builder.HasMany(d => d.Categorias)
                 .WithMany(c => c.Despesas);

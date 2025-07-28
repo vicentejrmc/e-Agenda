@@ -22,36 +22,6 @@ namespace eAgenda.Infraestrutura.Orm.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CategoriaDespesa", b =>
-                {
-                    b.Property<Guid>("CategoriasId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("DespesasId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("CategoriasId", "DespesasId");
-
-                    b.HasIndex("DespesasId");
-
-                    b.ToTable("CategoriaDespesa");
-                });
-
-            modelBuilder.Entity("eAgenda.Dominio.ModuloCategoria.Categoria", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Titulo")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categorias");
-                });
-
             modelBuilder.Entity("eAgenda.Dominio.ModuloCompromisso.Compromisso", b =>
                 {
                     b.Property<Guid>("Id")
@@ -90,7 +60,7 @@ namespace eAgenda.Infraestrutura.Orm.Migrations
 
                     b.HasIndex("ContatoId");
 
-                    b.ToTable("Compromissos");
+                    b.ToTable("Compromissos", (string)null);
                 });
 
             modelBuilder.Entity("eAgenda.Dominio.ModuloContato.Contato", b =>
@@ -125,34 +95,7 @@ namespace eAgenda.Infraestrutura.Orm.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Contatos");
-                });
-
-            modelBuilder.Entity("eAgenda.Dominio.ModuloDespesa.Despesa", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("DataOcorrencia")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Descricao")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("FormaDoPagamento")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<double>("Valor")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("float(18)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Despesas");
+                    b.ToTable("Contatos", (string)null);
                 });
 
             modelBuilder.Entity("eAgenda.Dominio.ModuloTarefa.Item", b =>
@@ -177,7 +120,7 @@ namespace eAgenda.Infraestrutura.Orm.Migrations
 
                     b.HasIndex("TarefaId");
 
-                    b.ToTable("Item");
+                    b.ToTable("Item", (string)null);
                 });
 
             modelBuilder.Entity("eAgenda.Dominio.ModuloTarefa.Tarefa", b =>
@@ -212,22 +155,7 @@ namespace eAgenda.Infraestrutura.Orm.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tarefas");
-                });
-
-            modelBuilder.Entity("CategoriaDespesa", b =>
-                {
-                    b.HasOne("eAgenda.Dominio.ModuloCategoria.Categoria", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriasId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eAgenda.Dominio.ModuloDespesa.Despesa", null)
-                        .WithMany()
-                        .HasForeignKey("DespesasId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.ToTable("Tarefas", (string)null);
                 });
 
             modelBuilder.Entity("eAgenda.Dominio.ModuloCompromisso.Compromisso", b =>

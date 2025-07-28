@@ -18,8 +18,8 @@ namespace eAgenda.WebApp.Models
         public DateTime DataOcorrencia { get; set; }
 
         [Required(ErrorMessage = "O campo \"Valor\" é obrigatório.")]
-        [Range(0, double.MaxValue, ErrorMessage = "O campo \"Valor\" deve conter um valor numérico positivo.")]
-        public double Valor { get; set; }
+        [Range(0.01, double.MaxValue, ErrorMessage = "O campo \"Valor\" deve ser maior que zero.")]
+        public decimal Valor { get; set; }
 
         [Required(ErrorMessage = "O campo \"Forma de Pagamento\" é obrigatório.")]
         public FormaDoPagamento FormaDoPagamento { get; set; }
@@ -61,7 +61,7 @@ namespace eAgenda.WebApp.Models
             Guid id,
             string descricao,
             DateTime dataOcorrencia,
-            double valor,
+            decimal valor,
             FormaDoPagamento formaDoPagamento,
             List<Categoria> categoriasSelecionadas,
             List<Categoria> categoriasDisponiveis
@@ -122,7 +122,7 @@ namespace eAgenda.WebApp.Models
         public Guid Id { get; }
         public string Descricao { get; set; }
         public DateTime DataOcorrencia { get; set; }
-        public double? Valor { get; set; }
+        public decimal Valor { get; set; }
         public FormaDoPagamento FormaDoPagamento { get; set; }
         public List<string> Categorias { get; set; }
 
@@ -130,7 +130,7 @@ namespace eAgenda.WebApp.Models
             Guid id,
             string descricao,
             DateTime dataOcorrencia,
-            double valor,
+            decimal valor,
             FormaDoPagamento formaDoPagamento,
             List<Categoria> categorias
             )
@@ -154,9 +154,9 @@ namespace eAgenda.WebApp.Models
     {
         public Guid Id { get; set; }
         public string Descricao { get; }
-        public double Valor { get; set; }
+        public decimal Valor { get; set; }
 
-        public SelecionarDespesaViewModel(Guid id, string descricao, double valor)
+        public SelecionarDespesaViewModel(Guid id, string descricao, decimal valor)
         {
             Id = id;
             Descricao = descricao;
